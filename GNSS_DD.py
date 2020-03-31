@@ -226,16 +226,16 @@ if __name__ == "__main__":
     We are assuming tha
     """
 
+    print(l)
+
     # Calculate the vector of single differences
     sl = s.dot(l)
-    print(sl)
 
     # Calculate the vector of double differences
     Dsl = D.dot(sl)
     print(Dsl)
 
     wavelength = G10[1] / G10[0]
-    print(wavelength)
 
     # Constructing the Design Matrix
     design = np.array([
@@ -270,12 +270,16 @@ if __name__ == "__main__":
 
     ])
 
-    print(design)
 
-    """
-    Assuming the 'raw' phase observations moved to l.r terms to the left hand side before differenceing 
-    and hence referring the range term to the distance between the Rx ARP and the SV phase center 
-    (lets assume were using the broadcast ephemiris orbit.
-    """
+    # Weight matrices
+    
 
-    print("Script end")
+
+
+
+
+
+
+
+
+
