@@ -1,6 +1,5 @@
-import math
+from math import sqrt, cos
 import numpy as np
-import tkinter
 
 """
 The data contains 3 epochs of phase and pseudorage observations measured on a calibration baseline in valencia, spain.
@@ -78,7 +77,7 @@ l1c_standard_deviation_s = 0.003
 
 
 def variance(s, e):
-    a = s * s / math.cos(e)
+    a = s * s / cos(e)
     return a
 
 
