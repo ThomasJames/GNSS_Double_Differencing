@@ -238,18 +238,37 @@ if __name__ == "__main__":
     print(wavelength)
 
     # Constructing the Design Matrix
-    design = np.array([[x_differential(pillar_1A_base, G10, G24, wavelength),
-                        y_differential(pillar_1A_base, G10, G24, wavelength),
-                        z_differential(pillar_1A_base, G10, G24, wavelength),
-                        1, 0, 0, 0, 0, 0, 0],
-                       [x_differential(pillar_1A_base, G10, G24, wavelength),
-                        y_differential(pillar_1A_base, G10, G24, wavelength),
-                        z_differential(pillar_1A_base, G10, G24, wavelength),
-                        0, 1, 0, 0, 0, 0, 0],
-                       [x_differential(pillar_1A_base, G10, G24, wavelength),
-                        y_differential(pillar_1A_base, G10, G24, wavelength),
-                        z_differential(pillar_1A_base, G10, G24, wavelength),
-                        0, 0, 0, 0, 0, 0, 0]])
+    design = np.array([
+
+    [x_differential(pillar_1A_base, G10, G24, wavelength),
+     y_differential(pillar_1A_base, G10, G24, wavelength),
+     z_differential(pillar_1A_base, G10, G24, wavelength), 1, 0, 0, 0, 0, 0, 0],
+
+    [x_differential(pillar_1A_base, G12, G24, wavelength),
+     y_differential(pillar_1A_base, G12, G24, wavelength),
+     z_differential(pillar_1A_base, G12, G24, wavelength), 0, 1, 0, 0, 0, 0, 0],
+
+    [x_differential(pillar_1A_base, G13, G24, wavelength),
+     y_differential(pillar_1A_base, G13, G24, wavelength),
+     z_differential(pillar_1A_base, G13, G24, wavelength), 0, 0, 1, 0, 0, 0, 0],
+
+    [x_differential(pillar_1A_base, G15, G24, wavelength),
+     y_differential(pillar_1A_base, G15, G24, wavelength),
+     z_differential(pillar_1A_base, G15, G24, wavelength), 0, 0, 0, 1, 0, 0, 0],
+
+    [x_differential(pillar_1A_base, G17, G24, wavelength),
+     y_differential(pillar_1A_base, G17, G24, wavelength),
+     z_differential(pillar_1A_base, G17, G24, wavelength), 0, 0, 0, 0, 1, 0, 0],
+
+    [x_differential(pillar_1A_base, G18, G24, wavelength),
+     y_differential(pillar_1A_base, G18, G24, wavelength),
+     z_differential(pillar_1A_base, G18, G24, wavelength), 0, 0, 0, 0, 0, 1, 0],
+
+    [x_differential(pillar_1A_base, G19, G24, wavelength),
+     y_differential(pillar_1A_base, G19, G24, wavelength),
+     z_differential(pillar_1A_base, G19, G24, wavelength), 0, 0, 0, 0, 0, 0, 1],
+
+    ])
 
     print(design)
 
