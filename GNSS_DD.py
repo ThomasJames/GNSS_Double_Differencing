@@ -26,7 +26,7 @@ D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
               [1, 0, 0, 0, 0, 0, 0, -1]])
 
 
-def x_differential(reference_station, satelite_corresponding, satelite_reference, wavelenth):
+def x_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
     # Extract Coordinates
     X_3A = reference_station[0]
@@ -41,7 +41,7 @@ def x_differential(reference_station, satelite_corresponding, satelite_reference
     Y_s_ref = satelite_reference[1]
     Z_s_ref = satelite_reference[2]
 
-    result = 1 / wavelenth * \
+    result = 1 / wavelength * \
              (
                      (X_3A - X_s) /
                      (math.sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (X_s - X_3A) ** 2 + (Z_s - Z_3A) ** 2))
@@ -53,7 +53,10 @@ def x_differential(reference_station, satelite_corresponding, satelite_reference
     return float(result)
 
 
-def y_differential(reference_station, satelite_corresponding, satelite_reference, wavelenth):
+def y_differential(reference_station,
+                   satelite_corresponding,
+                   satelite_reference,
+                   wavelength):
 
     # Arrange Variables
 
@@ -70,7 +73,7 @@ def y_differential(reference_station, satelite_corresponding, satelite_reference
     Z_s_ref = satelite_reference[2]
 
     # Calculate
-    result = 1 / wavelenth * \
+    result = 1 / wavelength * \
              (
                      (Y_3A - Y_s) /
                      (math.sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (X_s - X_3A) ** 2 + (Z_s - Z_3A) ** 2))
@@ -82,7 +85,11 @@ def y_differential(reference_station, satelite_corresponding, satelite_reference
     return float(result)
 
 
-def z_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
+def z_differential(reference_station,
+                   satelite_corresponding,
+                   satelite_reference,
+                   wavelength):
+
     # Arrange variables
     X_3A = reference_station[0]
     Y_3A = reference_station[1]
