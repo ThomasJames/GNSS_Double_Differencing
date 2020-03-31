@@ -1,6 +1,9 @@
 from Data import *
 
 """
+
+GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
+
 Try to get your answer close to the figures for 3A. The nominal coordinates given mean you do not need to iterate the 
 least squares solution, you should converge on the answer with on round of matrix inversion
 """
@@ -26,7 +29,7 @@ D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
 
 def x_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
-    # Extract Coordinates
+    # Condense Coordinates
     X_3A = reference_station[0]
     Y_3A = reference_station[1]
     Z_3A = reference_station[2]
@@ -56,7 +59,7 @@ def y_differential(reference_station,
                    satelite_reference,
                    wavelength):
 
-    # Arrange Variables
+    # Condense Variables
 
     X_3A = reference_station[0]
     Y_3A = reference_station[1]
@@ -88,7 +91,7 @@ def z_differential(reference_station,
                    satelite_reference,
                    wavelength):
 
-    # Arrange variables
+    # Condense variables
     X_3A = reference_station[0]
     Y_3A = reference_station[1]
     Z_3A = reference_station[2]
@@ -116,20 +119,19 @@ def b_vector(base_range_ref,
              base_range_corresponding,
              rover_range_corresponding,
              rover_range_ref,
-             abmiguity,
+             PA,
              wavelength):
 
-    # Arrange variables
+    # Condense variables
     brf = base_range_ref[0]
     brc = base_range_corresponding[0]
-    rrr = rover_range_corresponding[0]
+    rrr = rover_range_ref[0]
     rrc = rover_range_corresponding[0]
     wl = wavelength
 
+    result = 1 / wl * (brf - rrr - brc + rrc) - PA
 
-    # result = 1 / wl * (brf - rrr - brc + rrc)
-
-    # return result
+    return result
 
 
 if __name__ == "__main__":

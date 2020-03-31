@@ -93,19 +93,19 @@ G24 is a reference satelite - and has the highest
 # Phase ambiguities for each epoch and each phase measurement:
 
 before_ambiguity_resolution = np.array([[4929605.364], [-29123.817], [4033603.867]])
-(G24toG10_before) = 12.564
-(G24toG12_before) = 34.873
-(G24toG13_before) = -3.838
-(G24toG15_before) = -4.170
-(G24toG17_before) = 1.538
-(G24toG18_before) = 11.324
-(G24toG19_before) = 34.352
+G24toG10_before = 12.564
+G24toG12_before = 34.873
+G24toG13_before = -3.838
+G24toG15_before = -4.170
+G24toG17_before = 1.538
+G24toG18_before = 11.324
+G24toG19_before = 34.352
 
 after_ambiguity_resolution = np.array([[4929605.542], [-29123.828], [4033603.932]])
-(G24toG10_after) = int(12.000)
-(G24toG12_after) = int(35.000)
-(G24toG13_after) = int(-4.000)
-(G24toG15_after) = int(-4.000)
-(G24toG17_after) = int(1.000)
-(G24toG18_after) = int(11.000)
-(G24toG19_after) = int(34.000)
+G24toG10_after = int(12.000)
+G24toG12_after = int(35.000)
+G24toG13_after = int(-4.000)
+G24toG15_after = int(-4.000)
+G24toG17_after = int(1.000)
+G24toG18_after = int(11.000)
+G24toG19_after = int(34.000)
