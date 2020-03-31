@@ -120,16 +120,16 @@ def b_vector(base_range_ref,
              rover_range_corresponding,
              rover_range_ref,
              PA,
-             wavelength):
+             WL,
+             obs):
 
     # Condense variables
     brf = base_range_ref[0]
     brc = base_range_corresponding[0]
     rrr = rover_range_ref[0]
     rrc = rover_range_corresponding[0]
-    wl = wavelength
 
-    result = 1 / wl * (brf - rrr - brc + rrc) - PA
+    result = obs - 1 / WL * (brf - rrr - brc + rrc) - PA
 
     return result
 
@@ -163,7 +163,7 @@ if __name__ == "__main__":
     wavelength = G10[1] / G10[0]
 
     # Constructing the Design Matrix
-    design = np.array([
+    A = np.array([
 
     [x_differential(pillar_1A_base, G10, G24, wavelength),
      y_differential(pillar_1A_base, G10, G24, wavelength),
@@ -195,13 +195,18 @@ if __name__ == "__main__":
 
     ])
 
-    """
-    b - vector 
-    AKA - Observed - Computed (O-C)
+    print("The A matrix: ", A)
+
+
+
+
     
-    
-    
-    """
+
+
+
+
+
+
 
 
 
