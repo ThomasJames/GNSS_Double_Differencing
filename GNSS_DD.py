@@ -27,6 +27,7 @@ D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
 
 
 def x_differential(reference_station, satelite_corresponding, satelite_reference, wavelenth):
+
     # Extract Coordinates
     X_3A = reference_station[0]
     Y_3A = reference_station[1]
@@ -53,7 +54,9 @@ def x_differential(reference_station, satelite_corresponding, satelite_reference
 
 
 def y_differential(reference_station, satelite_corresponding, satelite_reference, wavelenth):
-    # Extract Coordinates
+
+    # Arrange Variables
+
     X_3A = reference_station[0]
     Y_3A = reference_station[1]
     Z_3A = reference_station[2]
@@ -66,6 +69,7 @@ def y_differential(reference_station, satelite_corresponding, satelite_reference
     Y_s_ref = satelite_reference[1]
     Z_s_ref = satelite_reference[2]
 
+    # Calculate
     result = 1 / wavelenth * \
              (
                      (Y_3A - Y_s) /
@@ -78,8 +82,8 @@ def y_differential(reference_station, satelite_corresponding, satelite_reference
     return float(result)
 
 
-def z_differential(reference_station, satelite_corresponding, satelite_reference, wavelenth):
-    # Extract Coordinates
+def z_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
+    # Arrange variables
     X_3A = reference_station[0]
     Y_3A = reference_station[1]
     Z_3A = reference_station[2]
@@ -92,7 +96,7 @@ def z_differential(reference_station, satelite_corresponding, satelite_reference
     Y_s_ref = satelite_reference[1]
     Z_s_ref = satelite_reference[2]
 
-    result = 1 / wavelenth * \
+    result = 1 / wavelength * \
              (
                      (Z_3A - Z_s) /
                      (math.sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (X_s - X_3A) ** 2 + (Z_s - Z_3A) ** 2))
@@ -103,29 +107,51 @@ def z_differential(reference_station, satelite_corresponding, satelite_reference
              )
     return float(result)
 
+def b_vector(base_range_ref,
+             base_range_corresponding,
+             rover_range_corresponding,
+             rover_range_ref,
+             abmiguity,
+             wavelength):
+
+    # Arrange variables
+    brf = base_range_ref[0]
+    brc = base_range_corresponding[0]
+    rrr = rover_range_corresponding[0]
+    rrc = rover_range_corresponding[0]
+    wl = wavelength
+
+
+    # result = 1 / wl * (brf - rrr - brc + rrc)
+
+    # return result
+
 
 if __name__ == "__main__":
-    print("Script start")
-
-    """
-    Typical observation rates might be every second / 5s / 10s / 30s
+    """    
+    We will carry out the double differencing with respect to one satellite.
+    We use the one with the highest elevation, as this satellite will pick up the least noise:
+    1. Short atmospheric path length. 
+    2. Maximum reduction of multipath.
+    
+    Typical observation rates might be every second / 5s / 10s / 30s.
     2 stations 
     8 satellites 
     60 seconds per minute 
     If the A to B was tracked for 10 minutes: 
     2 x 8 x 60 x 10 = 9600
     9600 measurements
-    We are assuming tha
     """
 
-    print(l)
+    print("vector of observations: ", l)
+
+
 
     # Calculate the vector of single differences
     sl = s.dot(l)
 
     # Calculate the vector of double differences
     Dsl = D.dot(sl)
-    print(Dsl)
 
     wavelength = G10[1] / G10[0]
 
@@ -161,6 +187,14 @@ if __name__ == "__main__":
      z_differential(pillar_1A_base, G19, G24, wavelength), 0, 0, 0, 0, 0, 0, 1],
 
     ])
+
+    """
+    b - vector 
+    AKA - Observed - Computed (O-C)
+    
+    
+    
+    """
 
 
 

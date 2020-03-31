@@ -9,8 +9,8 @@ The reciever on pillar 1A is treated as the reference reciever.
 """
 
 # X, Y, Z ECEF coordinates for the phase center of the recievers
-pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])  # Refernence reciever
-pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])
+pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])   # Refernence reciever
+pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])  # Monument
 
 """
 ECEF coordinates (m) of the satelite phase centers when they transmitted the signals measured at each epoch.
