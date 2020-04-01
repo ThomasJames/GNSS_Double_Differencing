@@ -235,6 +235,12 @@ if __name__ == "__main__":
     x_hat = calculate_x_hat(A, Wd, b)
     print("x_hat: ", x_hat)
 
+    X = pillar_3A_rover[0] + x_hat[0]
+    Y = pillar_3A_rover[1] + x_hat[1]
+    Z = pillar_3A_rover[2] + x_hat[2]
+
+    print(X, Y , Z)
+
 
 
 
