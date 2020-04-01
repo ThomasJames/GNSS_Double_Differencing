@@ -9,18 +9,10 @@ least squares solution, you should converge on the answer with on round of matri
 
 def x_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
-    # Condense Coordinates
-    X_3A = reference_station[0]
-    Y_3A = reference_station[1]
-    Z_3A = reference_station[2]
-
-    X_s = satelite_corresponding[0]
-    Y_s = satelite_corresponding[1]
-    Z_s = satelite_corresponding[2]
-
-    X_s_ref = satelite_reference[0]
-    Y_s_ref = satelite_reference[1]
-    Z_s_ref = satelite_reference[2]
+    # Condense Variables
+    X_3A = reference_station[0], Y_3A = reference_station[1], Z_3A = reference_station[2]
+    X_s = satelite_corresponding[0], Y_s = satelite_corresponding[1], Z_s = satelite_corresponding[2]
+    X_s_ref = satelite_reference[0], Y_s_ref = satelite_reference[1], Z_s_ref = satelite_reference[2]
 
     result = 1 / wavelength * \
              (
@@ -33,24 +25,12 @@ def x_differential(reference_station, satelite_corresponding, satelite_reference
     return float(result)
 
 
-def y_differential(reference_station,
-                   satelite_corresponding,
-                   satelite_reference,
-                   wavelength):
+def y_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
     # Condense Variables
-
-    X_3A = reference_station[0]
-    Y_3A = reference_station[1]
-    Z_3A = reference_station[2]
-
-    X_s = satelite_corresponding[0]
-    Y_s = satelite_corresponding[1]
-    Z_s = satelite_corresponding[2]
-
-    X_s_ref = satelite_reference[0]
-    Y_s_ref = satelite_reference[1]
-    Z_s_ref = satelite_reference[2]
+    X_3A = reference_station[0], Y_3A = reference_station[1], Z_3A = reference_station[2]
+    X_s = satelite_corresponding[0], Y_s = satelite_corresponding[1], Z_s = satelite_corresponding[2]
+    X_s_ref = satelite_reference[0], Y_s_ref = satelite_reference[1], Z_s_ref = satelite_reference[2]
 
     # Calculate
     result = 1 / wavelength * \
@@ -64,23 +44,12 @@ def y_differential(reference_station,
     return float(result)
 
 
-def z_differential(reference_station,
-                   satelite_corresponding,
-                   satelite_reference,
-                   wavelength):
+def z_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
-    # Condense variables
-    X_3A = reference_station[0]
-    Y_3A = reference_station[1]
-    Z_3A = reference_station[2]
-
-    X_s = satelite_corresponding[0]
-    Y_s = satelite_corresponding[1]
-    Z_s = satelite_corresponding[2]
-
-    X_s_ref = satelite_reference[0]
-    Y_s_ref = satelite_reference[1]
-    Z_s_ref = satelite_reference[2]
+    # Condense Variables
+    X_3A = reference_station[0], Y_3A = reference_station[1], Z_3A = reference_station[2]
+    X_s = satelite_corresponding[0], Y_s = satelite_corresponding[1], Z_s = satelite_corresponding[2]
+    X_s_ref = satelite_reference[0], Y_s_ref = satelite_reference[1], Z_s_ref = satelite_reference[2]
 
     result = 1 / wavelength * \
              (
@@ -103,40 +72,28 @@ Wl: defined
 
 
 """
-def b_vector(
-        base_range_ref,
-        base_range_corresponding,
-        rover_range_ref,
-        rover_range_corresponding,
-        N,
-        wl,
-        obs):
+def b_vector( base_range_ref,
+              base_range_corresponding,
+              rover_range_ref,
+              rover_range_corresponding,
+              N,
+              wl,
+              obs):
 
     # Condense variables
-    brf = base_range_ref[0]
-    brc = base_range_corresponding[0]
-    rrr = rover_range_ref[0]
-    rrc = rover_range_corresponding[0]
+    brf = base_range_ref[0], brc = base_range_corresponding[0]
+    rrr = rover_range_ref[0], rrc = rover_range_corresponding[0]
 
     result = obs - (1 / wl * (brf - rrr - brc + rrc) - N)
-
     return result
-
 
 def Cd_calculator(D, S, Cl):
-
     result = (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))
     return result
-
-
 
 def calculate_x_hat(A, W, b):
     result = ((linalg.inv((transpose(A).dot(W)).dot(A))).dot(transpose(A).dot(W))).dot(b)
     return result
-
-
-
-
 
 
 if __name__ == "__main__":
