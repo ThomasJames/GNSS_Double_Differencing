@@ -25,11 +25,10 @@ def x_differential(reference_station, satelite_corresponding, satelite_reference
     result = 1 / wavelength * \
              (
                      (X_3A - X_s) /
-                     (sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (X_s - X_3A) ** 2 + (Z_s - Z_3A) ** 2))
+                     (sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (Z_s - Z_3A) ** 2))
                      -
                      (X_3A - X_s_ref) /
-                     (sqrt(X_s_ref - X_3A) ** 2 + (Y_s_ref - Y_3A) ** 2 + (X_s_ref - X_3A) ** 2 +
-                      (Z_s_ref - Z_3A) ** 2)
+                     (sqrt(X_s_ref - X_3A) ** 2 + (Y_s_ref - Y_3A) ** 2 + (Z_s_ref - Z_3A) ** 2)
              )
     return float(result)
 
@@ -57,11 +56,10 @@ def y_differential(reference_station,
     result = 1 / wavelength * \
              (
                      (Y_3A - Y_s) /
-                     (sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (X_s - X_3A) ** 2 + (Z_s - Z_3A) ** 2))
+                     (sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (Z_s - Z_3A) ** 2))
                      -
                      (Y_3A - Y_s_ref) /
-                     (sqrt(X_s_ref - X_3A) ** 2 + (Y_s_ref - Y_3A) ** 2 + (X_s_ref - X_3A) ** 2 +
-                      (Z_s_ref - Z_3A) ** 2)
+                     (sqrt(X_s_ref - X_3A) ** 2 + (Y_s_ref - Y_3A) ** 2 + (Z_s_ref - Z_3A) ** 2)
              )
     return float(result)
 
@@ -90,8 +88,7 @@ def z_differential(reference_station,
                      (sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (X_s - X_3A) ** 2 + (Z_s - Z_3A) ** 2))
                      -
                      (Z_3A - Z_s_ref) /
-                     (sqrt(X_s_ref - X_3A) ** 2 + (Y_s_ref - Y_3A) ** 2 + (X_s_ref - X_3A) ** 2 +
-                      (Z_s_ref - Z_3A) ** 2)
+                     (sqrt(X_s_ref - X_3A) ** 2 + (Y_s_ref - Y_3A) ** 2 + (Z_s_ref - Z_3A) ** 2)
              )
     return float(result)
 
@@ -117,6 +114,12 @@ def b_vector(
     result = obs - 1 / wl * (brf - rrr - brc + rrc) - pa
 
     return result
+
+def calculate_cov(D, S, Cl, ST, DT):
+
+
+
+
 
 if __name__ == "__main__":
     """    
