@@ -10,9 +10,9 @@ least squares solution, you should converge on the answer with on round of matri
 def x_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
     # Condense Variables
-    X_3A = reference_station[0], Y_3A = reference_station[1], Z_3A = reference_station[2]
-    X_s = satelite_corresponding[0], Y_s = satelite_corresponding[1], Z_s = satelite_corresponding[2]
-    X_s_ref = satelite_reference[0], Y_s_ref = satelite_reference[1], Z_s_ref = satelite_reference[2]
+    X_3A, Y_3A, Z_3A = reference_station[0], reference_station[1], reference_station[2]
+    X_s, Y_s, Z_s = satelite_corresponding[0], satelite_corresponding[1], satelite_corresponding[2]
+    X_s_ref, Y_s_ref, Z_s_ref = satelite_reference[0], satelite_reference[1], satelite_reference[2]
 
     result = 1 / wavelength * \
              (
@@ -28,9 +28,10 @@ def x_differential(reference_station, satelite_corresponding, satelite_reference
 def y_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
     # Condense Variables
-    X_3A = reference_station[0], Y_3A = reference_station[1], Z_3A = reference_station[2]
-    X_s = satelite_corresponding[0], Y_s = satelite_corresponding[1], Z_s = satelite_corresponding[2]
-    X_s_ref = satelite_reference[0], Y_s_ref = satelite_reference[1], Z_s_ref = satelite_reference[2]
+    # Condense Variables
+    X_3A, Y_3A, Z_3A = reference_station[0], reference_station[1], reference_station[2]
+    X_s, Y_s, Z_s = satelite_corresponding[0], satelite_corresponding[1], satelite_corresponding[2]
+    X_s_ref, Y_s_ref, Z_s_ref = satelite_reference[0], satelite_reference[1], satelite_reference[2]
 
     # Calculate
     result = 1 / wavelength * \
@@ -47,9 +48,10 @@ def y_differential(reference_station, satelite_corresponding, satelite_reference
 def z_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
     # Condense Variables
-    X_3A = reference_station[0], Y_3A = reference_station[1], Z_3A = reference_station[2]
-    X_s = satelite_corresponding[0], Y_s = satelite_corresponding[1], Z_s = satelite_corresponding[2]
-    X_s_ref = satelite_reference[0], Y_s_ref = satelite_reference[1], Z_s_ref = satelite_reference[2]
+    # Condense Variables
+    X_3A, Y_3A, Z_3A = reference_station[0], reference_station[1], reference_station[2]
+    X_s, Y_s, Z_s = satelite_corresponding[0], satelite_corresponding[1], satelite_corresponding[2]
+    X_s_ref, Y_s_ref, Z_s_ref = satelite_reference[0], satelite_reference[1], satelite_reference[2]
 
     result = 1 / wavelength * \
              (
@@ -81,8 +83,10 @@ def b_vector( base_range_ref,
               obs):
 
     # Condense variables
-    brf = base_range_ref[0], brc = base_range_corresponding[0]
-    rrr = rover_range_ref[0], rrc = rover_range_corresponding[0]
+    brf = base_range_ref[0]
+    brc = base_range_corresponding[0]
+    rrr = rover_range_ref[0]
+    rrc = rover_range_corresponding[0]
 
     result = obs - (1 / wl * (brf - rrr - brc + rrc) - N)
     return result
@@ -181,6 +185,10 @@ if __name__ == "__main__":
     print("cl dimensions: ", cl.shape)
     print("  ")
 
+
+    plt.imshow(cl)
+    plt.show()
+
     Cd = (Cd_calculator(D, S, cl))
     print(Cd)
     print(Cd.shape)
@@ -189,6 +197,10 @@ if __name__ == "__main__":
     Wd = linalg.inv(Cd)
     print("Weight Matrix d", Wd)
 
+
+    sns.heatmap(Wd, annot=True, fmt="d")
+    plt.show()
+
     x_hat = calculate_x_hat(A, Wd, b)
     print("x_hat: ", x_hat)
 
@@ -196,7 +208,7 @@ if __name__ == "__main__":
     Y = pillar_3A_rover[1] + x_hat[1]
     Z = pillar_3A_rover[2] + x_hat[2]
 
-    print(X, Y , Z)
+    print(X, Y, Z)
 
 
 

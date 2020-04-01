@@ -1,5 +1,7 @@
 from math import sqrt, cos
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 from numpy import transpose, linalg
 
 """
