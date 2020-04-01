@@ -95,13 +95,20 @@ def z_differential(reference_station,
 
 """
 b_vector function
+
+
+pa: Phase ambiguity 
+obs: G24 to G10 after ambiguity resolution 
+Wl: defined 
+
+
 """
 def b_vector(
         base_range_ref,
         base_range_corresponding,
-        rover_range_corresponding,
         rover_range_ref,
-        pa,
+        rover_range_corresponding,
+        N,
         wl,
         obs):
 
@@ -111,7 +118,7 @@ def b_vector(
     rrr = rover_range_ref[0]
     rrc = rover_range_corresponding[0]
 
-    result = obs - 1 / wl * (brf - rrr - brc + rrc) - pa
+    result = obs - (1 / wl * (brf - rrr - brc + rrc) - N)
 
     return result
 
@@ -161,47 +168,60 @@ if __name__ == "__main__":
     # Constructing the Design Matrix
     A = np.array([
 
-    [x_differential(pillar_1A_base, G10, G24, wavelength),
-     y_differential(pillar_1A_base, G10, G24, wavelength),
-     z_differential(pillar_1A_base, G10, G24, wavelength), 1, 0, 0, 0, 0, 0, 0],
+    [x_differential(pillar_1A_base, G10, G24, wl),
+     y_differential(pillar_1A_base, G10, G24, wl),
+     z_differential(pillar_1A_base, G10, G24, wl), 1, 0, 0, 0, 0, 0, 0],
 
-    [x_differential(pillar_1A_base, G12, G24, wavelength),
-     y_differential(pillar_1A_base, G12, G24, wavelength),
-     z_differential(pillar_1A_base, G12, G24, wavelength), 0, 1, 0, 0, 0, 0, 0],
+    [x_differential(pillar_1A_base, G12, G24, wl),
+     y_differential(pillar_1A_base, G12, G24, wl),
+     z_differential(pillar_1A_base, G12, G24, wl), 0, 1, 0, 0, 0, 0, 0],
 
-    [x_differential(pillar_1A_base, G13, G24, wavelength),
-     y_differential(pillar_1A_base, G13, G24, wavelength),
-     z_differential(pillar_1A_base, G13, G24, wavelength), 0, 0, 1, 0, 0, 0, 0],
+    [x_differential(pillar_1A_base, G13, G24, wl),
+     y_differential(pillar_1A_base, G13, G24, wl),
+     z_differential(pillar_1A_base, G13, G24, wl), 0, 0, 1, 0, 0, 0, 0],
 
-    [x_differential(pillar_1A_base, G15, G24, wavelength),
-     y_differential(pillar_1A_base, G15, G24, wavelength),
-     z_differential(pillar_1A_base, G15, G24, wavelength), 0, 0, 0, 1, 0, 0, 0],
+    [x_differential(pillar_1A_base, G15, G24, wl),
+     y_differential(pillar_1A_base, G15, G24, wl),
+     z_differential(pillar_1A_base, G15, G24, wl), 0, 0, 0, 1, 0, 0, 0],
 
-    [x_differential(pillar_1A_base, G17, G24, wavelength),
-     y_differential(pillar_1A_base, G17, G24, wavelength),
-     z_differential(pillar_1A_base, G17, G24, wavelength), 0, 0, 0, 0, 1, 0, 0],
+    [x_differential(pillar_1A_base, G17, G24, wl),
+     y_differential(pillar_1A_base, G17, G24, wl),
+     z_differential(pillar_1A_base, G17, G24, wl), 0, 0, 0, 0, 1, 0, 0],
 
-    [x_differential(pillar_1A_base, G18, G24, wavelength),
-     y_differential(pillar_1A_base, G18, G24, wavelength),
-     z_differential(pillar_1A_base, G18, G24, wavelength), 0, 0, 0, 0, 0, 1, 0],
+    [x_differential(pillar_1A_base, G18, G24, wl),
+     y_differential(pillar_1A_base, G18, G24, wl),
+     z_differential(pillar_1A_base, G18, G24, wl), 0, 0, 0, 0, 0, 1, 0],
 
-    [x_differential(pillar_1A_base, G19, G24, wavelength),
-     y_differential(pillar_1A_base, G19, G24, wavelength),
-     z_differential(pillar_1A_base, G19, G24, wavelength), 0, 0, 0, 0, 0, 0, 1],
+    [x_differential(pillar_1A_base, G19, G24, wl),
+     y_differential(pillar_1A_base, G19, G24, wl),
+     z_differential(pillar_1A_base, G19, G24, wl), 0, 0, 0, 0, 0, 0, 1],
     ])
 
+    b = [
+        [b_vector(G24_base_obs, G10_base_obs, G24_rover_obs, G10_rover_obs,  G24toG10_before, wl, G24toG10_after)],
+        [b_vector(G24_base_obs, G12_base_obs, G24_rover_obs, G12_rover_obs,  G24toG12_before, wl, G24toG12_after)],
+        [b_vector(G24_base_obs, G13_base_obs, G24_rover_obs, G13_rover_obs,  G24toG13_before, wl, G24toG13_after)],
+        [b_vector(G24_base_obs, G15_base_obs, G24_rover_obs, G15_rover_obs,  G24toG15_before, wl, G24toG15_after)],
+        [b_vector(G24_base_obs, G17_base_obs, G24_rover_obs, G17_rover_obs,  G24toG17_before, wl, G24toG17_after)],
+        [b_vector(G24_base_obs, G18_base_obs, G24_rover_obs, G18_rover_obs,  G24toG18_before, wl, G24toG18_after)],
+        [b_vector(G24_base_obs, G19_base_obs, G24_rover_obs, G19_rover_obs,  G24toG19_before, wl, G24toG19_after)],
+    ]
+
+    print("b :", b)
+    print("b dimensions: ", b)
+
     print("The A matrix: ", A)
+    print("A dimensions", A.shape)
     print("  ")
 
     cl = l1c_variance * np.eye(16 , 16)
     print("The covariance matrix is: ", cl) # Exists and is known
     print("  ")
-
-    print("D:", D.shape)
+    print("D dimensions: ", D.shape)
     print("  ")
-    print("S:", S.shape)
+    print("S dimensions: ", S.shape)
     print("  ")
-    print("cl: ", cl.shape)
+    print("cl dimensions: ", cl.shape)
     print("  ")
 
     Cd = (Cd_calculator(D, S, cl))
@@ -212,8 +232,8 @@ if __name__ == "__main__":
     Wd = linalg.inv(Cd)
     print("Weight Matrix d", Wd)
 
-    calculate_x_hat(A, Wd, b)
-
+    x_hat = calculate_x_hat(A, Wd, b)
+    print("x_hat: ", x_hat)
 
 
 

@@ -143,7 +143,7 @@ f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)
 c = 299792458.0
 f = 1575.42
 
-wavelength = c / f
+wl = c / f
 
 
 
