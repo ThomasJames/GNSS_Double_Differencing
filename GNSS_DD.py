@@ -123,8 +123,8 @@ def Cd_calculator(D, S, Cl):
 
 
 
-def calculate_x_hat(AT, W, b):
-    result = []
+def calculate_x_hat(A, W, b):
+    result = ((linalg.inv((transpose(A).dot(W)).dot(A))).dot(transpose(A).dot(W))).dot(b)
     return result
 
 
@@ -211,6 +211,9 @@ if __name__ == "__main__":
 
     Wd = linalg.inv(Cd)
     print("Weight Matrix d", Wd)
+
+    calculate_x_hat(A, Wd, b)
+
 
 
 
