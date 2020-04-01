@@ -7,9 +7,11 @@ The sensors used are geodetic quality recievers using choke ring antennas.
 The reciever on pillar 1A is treated as the reference reciever.
 """
 
-# X, Y, Z ECEF coordinates for the phase center of the recievers
-pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])   # Refernence reciever
+# X, Y, Z ECEF coordinates for the phase center of the receiver
+pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])   # Reference receiver
 pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])  # Monument
+
+distance_between_receivers = 94.4  # Measured in meters / Approximate
 
 """
 ECEF coordinates (m) of the satelite phase centers when they transmitted the signals measured at each epoch.
@@ -109,3 +111,21 @@ G24toG15_after = int(-4.000)
 G24toG17_after = int(1.000)
 G24toG18_after = int(11.000)
 G24toG19_after = int(34.000)
+
+# 16 x 8:  Differencing matrix
+s = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1]])
+
+D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
+              [1, 0, -1, 0, 0, 0, 0, 0],
+              [1, 0, 0, -1, 0, 0, 0, 0],
+              [1, 0, 0, 0, -1, 0, 0, 0],
+              [1, 0, 0, 0, 0, -1, 0, 0],
+              [1, 0, 0, 0, 0, 0, -1, 0],
+              [1, 0, 0, 0, 0, 0, 0, -1]])

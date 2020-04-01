@@ -1,31 +1,11 @@
 from Data import *
 
 """
-
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
 
 Try to get your answer close to the figures for 3A. The nominal coordinates given mean you do not need to iterate the 
 least squares solution, you should converge on the answer with on round of matrix inversion
 """
-
-# 16 x 8:  Differencing matrix
-s = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1]])
-
-D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
-              [1, 0, -1, 0, 0, 0, 0, 0],
-              [1, 0, 0, -1, 0, 0, 0, 0],
-              [1, 0, 0, 0, -1, 0, 0, 0],
-              [1, 0, 0, 0, 0, -1, 0, 0],
-              [1, 0, 0, 0, 0, 0, -1, 0],
-              [1, 0, 0, 0, 0, 0, 0, -1]])
-
 
 def x_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
@@ -115,13 +95,18 @@ def z_differential(reference_station,
              )
     return float(result)
 
-def b_vector(base_range_ref,
-             base_range_corresponding,
-             rover_range_corresponding,
-             rover_range_ref,
-             PA,
-             WL,
-             obs):
+
+"""
+b_vector function
+"""
+def b_vector(
+        base_range_ref,
+        base_range_corresponding,
+        rover_range_corresponding,
+        rover_range_ref,
+        pa,
+        wl,
+        obs):
 
     # Condense variables
     brf = base_range_ref[0]
@@ -129,10 +114,9 @@ def b_vector(base_range_ref,
     rrr = rover_range_ref[0]
     rrc = rover_range_corresponding[0]
 
-    result = obs - 1 / WL * (brf - rrr - brc + rrc) - PA
+    result = obs - 1 / wl * (brf - rrr - brc + rrc) - pa
 
     return result
-
 
 if __name__ == "__main__":
     """    
@@ -151,6 +135,7 @@ if __name__ == "__main__":
     """
 
     print("vector of observations: ", l)
+    print("  ")
 
 
 
@@ -196,6 +181,20 @@ if __name__ == "__main__":
     ])
 
     print("The A matrix: ", A)
+    print("  ")
+
+
+    cov = l1c_variance * np.eye(7, 7)
+    print("The covariance matrix is: ", cov) # Exists and is known
+    print("  ")
+
+    # We require the weight matrix of the double difference observations
+    # Gausses propagation of error law y = Qx
+
+
+
+
+
 
 
 
