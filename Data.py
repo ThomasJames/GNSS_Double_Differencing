@@ -1,6 +1,6 @@
 from math import sqrt, cos
 import numpy as np
-from numpy import transpose
+from numpy import transpose, linalg
 
 """
 The data contains 3 epochs of phase and pseudorage observations measured on a calibration baseline in valencia, spain.
@@ -114,7 +114,7 @@ G24toG18_after = int(11.000)
 G24toG19_after = int(34.000)
 
 # 16 x 8:  Differencing matrix
-s = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+S = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -130,3 +130,24 @@ D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
               [1, 0, 0, 0, 0, -1, 0, 0],
               [1, 0, 0, 0, 0, 0, -1, 0],
               [1, 0, 0, 0, 0, 0, 0, -1]])
+
+
+
+"""
+How to compute the signal wavelength:
+λ=𝑐/𝑓
+c = speed of light in vacuum (299792458.0 ms-1)
+f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)
+"""
+
+c = 299792458.0
+f = 1575.42
+
+wavelength = c / f
+
+
+
+
+
+
+

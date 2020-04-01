@@ -115,7 +115,8 @@ def b_vector(
 
     return result
 
-def Cd(D, S, Cl):
+
+def Cd_calculator(D, S, Cl):
 
     result = (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))
     return result
@@ -150,15 +151,12 @@ if __name__ == "__main__":
     print("vector of observations: ", l)
     print("  ")
 
-
-
     # Calculate the vector of single differences
-    sl = s.dot(l)
+    sl = S.dot(l)
 
     # Calculate the vector of double differences
     Dsl = D.dot(sl)
 
-    wavelength = G10[1] / G10[0]
 
     # Constructing the Design Matrix
     A = np.array([
@@ -190,19 +188,31 @@ if __name__ == "__main__":
     [x_differential(pillar_1A_base, G19, G24, wavelength),
      y_differential(pillar_1A_base, G19, G24, wavelength),
      z_differential(pillar_1A_base, G19, G24, wavelength), 0, 0, 0, 0, 0, 0, 1],
-
     ])
 
     print("The A matrix: ", A)
     print("  ")
 
-
-    cov = l1c_variance * np.eye(7, 7)
-    print("The covariance matrix is: ", cov) # Exists and is known
+    cl = l1c_variance * np.eye(16 , 16)
+    print("The covariance matrix is: ", cl) # Exists and is known
     print("  ")
 
-    # We require the weight matrix of the double difference observations
-    # Gausses propagation of error law y = Qx
+    print("D:", D.shape)
+    print("  ")
+    print("S:", S.shape)
+    print("  ")
+    print("cl: ", cl.shape)
+    print("  ")
+
+    Cd = (Cd_calculator(D, S, cl))
+    print(Cd)
+    print(Cd.shape)
+    print(" ")
+
+    Wd = linalg.inv(Cd)
+    print("Weight Matrix d", Wd)
+
+
 
 
 
