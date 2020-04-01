@@ -115,7 +115,17 @@ def b_vector(
 
     return result
 
-def calculate_cov(D, S, Cl, ST, DT):
+def Cd(D, S, Cl):
+
+    result = (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))
+    return result
+
+
+
+def calculate_x_hat(AT, W, b):
+    result = []
+    return result
+
 
 
 

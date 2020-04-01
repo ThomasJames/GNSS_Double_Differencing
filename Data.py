@@ -1,5 +1,6 @@
 from math import sqrt, cos
 import numpy as np
+from numpy import transpose
 
 """
 The data contains 3 epochs of phase and pseudorage observations measured on a calibration baseline in valencia, spain.
