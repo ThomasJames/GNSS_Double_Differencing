@@ -46,7 +46,7 @@ NOTE: All data used in computations is derived from data from Data.py: Only data
 
 ## Method 
 
-Satellite G24 has the highest elevation of 71 degrees azimuth. This satellite is used as the reference satellite.
+Satellite G24 has the highest elevation of 71 degrees. This satellite is used as the reference satellite.
 
 #### Step 1:
 
