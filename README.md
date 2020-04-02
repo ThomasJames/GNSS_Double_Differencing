@@ -54,6 +54,10 @@ Form a 'l' vector is formed using containing the
 
 A differencing matrix 's' is formed to calculate the single differences of 
 
+```math
+SE = \frac{\sigma}{\sqrt{n}}
+```
+
 ![](https://latex.codecogs.com/gif.latex?l%20%3D%20%5B%20%5Cphi%20%5E%7BG24%7D%20_%7B1A%7D%20%5Cphi%20%5E%7BG24%7D%20_%7B3A%7D%20%5Cphi%20%5E%7BG19%7D%20_%7B1A%7D%20%5Cphi%20%5E%7BG19%7D%20_%7B3A%7D%20%5Cphi%20%5E%7BG18%7D%20_%7B1A%7D%20%5Cphi%20%5E%7BG18%7D%20_%7B3A%7D%20%5Cphi%20%5E%7BG17%7D%20_%7B1A%7D%20%5Cphi%20%5E%7BG17%7D%20_%7B3A%7D%20%5Cphi%20%5E%7BG15%7D%20_%7B1A%7D%20%5Cphi%20%5E%7BG15%7D%20_%7B3A%7D%20%5Cphi%20%5E%7BG13%7D%20_%7B1A%7D%20%5Cphi%20%5E%7BG13%7D%20_%7B3A%7D%20%5Cphi%20%5E%7BG12%7D%20_%7B1A%7D%20%5Cphi%20%5E%7BG12%7D%20_%7B3A%7D%20%5Cphi%20%5E%7BG10%7D%20_%7B1A%7D%20%5Cphi%20%5E%7BG10%7D%20_%7B3A%7D%5D%20%5ET)
 
 
