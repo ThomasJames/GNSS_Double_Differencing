@@ -1,4 +1,4 @@
-# GNSS_Double_Differencing
+# GNSS Double Differencing
 
 Double Differencing: Main method of high precision commercial positioning. This method requires two high grade GNSS receivers. In this case a reference, and a (static or kinematic) rover receiver.  
 
@@ -24,10 +24,6 @@ Use double differenced phase measurements, from the first epoch of data only (20
 
 ![Diagram aid](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/DD_Diagram_aid.png)
 
-## Data
-
-Original text file for data: ``` https://github.com/ThomasJames/GNSS_Data_(text).txt``` 
-Data has been organised into .py file: ``` https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py```   
 
 ## Prerequisites 
 
@@ -40,4 +36,13 @@ pip install numpy
 pip install matplotlib
 pip install seaborn 
 ```
+
+## Data
+
+Original text file for data: ``` https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/DD_Diagram_aid.pdf``` 
+Data has been organised into .py file: ``` https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py```   
+
+## Method 
+
+
 
