@@ -62,5 +62,5 @@ Single differences need to be derived:
 
 Single differences were determined using a 8 x 16 differencing matrix D: 
 
-
+![](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Images/Single_differences_result.png)
 
