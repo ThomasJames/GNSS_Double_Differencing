@@ -63,14 +63,17 @@ G19_rover_obs = [22181785.598, 116566080.299]
 G24_rover_obs = [20436682.002, 107395502.123]
 
 # At the first epoch we have 16 raw phase observations in cycles.
-l = np.transpose([G10_base_obs[1], G10_rover_obs[1],
-                  G12_base_obs[1], G12_rover_obs[1],
-                  G13_base_obs[1], G13_rover_obs[1],
-                  G15_base_obs[1], G15_rover_obs[1],
-                  G17_base_obs[1], G17_rover_obs[1],
-                  G18_base_obs[1], G18_rover_obs[1],
-                  G19_base_obs[1], G19_rover_obs[1],
-                  G24_base_obs[1], G24_rover_obs[1]])
+
+l = np.transpose([
+    G24_base_obs[1], G24_rover_obs[1],
+    G19_base_obs[1], G19_rover_obs[1],
+    G18_base_obs[1], G18_rover_obs[1],
+    G17_base_obs[1], G17_rover_obs[1],
+    G15_base_obs[1], G15_rover_obs[1],
+    G13_base_obs[1], G13_rover_obs[1],
+    G12_base_obs[1], G12_rover_obs[1],
+    G10_base_obs[1], G10_rover_obs[1]
+])
 
 """
 Standard Deviations
