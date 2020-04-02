@@ -41,8 +41,19 @@ pip install seaborn
 
 Original text file for data: ``` https://github.com/ThomasJames/GNSS_Data_(text).txt``` 
 Data has been organised into .py file: ``` https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py```   
+NOTE: All data used in computations is derived from data from Data.py: Only data from the epoch ``` 2016 11 15 22 19 5```  is used.
+
 
 ## Method 
 
+Satellite G24 has the highest elevation of 71 degrees azimuth. This satellite is used as the reference satellite.
+
+#### Step 1:
+
+Form a 'l' vector is formed using containing the 
+
+A differencing matrix 's' is formed to calculate the single differences of 
+
+![equation](http://latex.codecogs.com/gif.latex?O_t%3D%5Ctext%20%7B%20Onset%20event%20at%20time%20bin%20%7D%20t)
 
 
