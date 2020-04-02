@@ -22,7 +22,7 @@ Use the following nominal coordinates for the phase centre of the sensor on pill
 Use double differenced phase measurements, from the first epoch of data only (2016 11 15 22 19
 5), to compute the precise coordinates of the pillar 3A sensor phase centre
 
-![Image description](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/DD_Diagram_aid.pdf)
+![Diagram aid](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/DD_Diagram_aid.png)
 
 ## Data
 
