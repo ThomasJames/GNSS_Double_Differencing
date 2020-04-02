@@ -41,8 +41,7 @@ pip install seaborn
 
 ## Data
 
-Original text file for [data](https://github.com/ThomasJames/GNSS_Data_(text).txt)
-Data has been organised into [python](https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py). 
+The original [text file](https://github.com/ThomasJames/GNSS_Data_(text).txt) is in this repository, however the data has been organised into [python](https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py) variables. 
 
 ## Method 
 
