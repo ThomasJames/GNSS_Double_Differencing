@@ -58,7 +58,7 @@ Initial l vector was formed
 
 Single differences need to be derived:
 
-
+![](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Images/Single_Differences.png)
 
 Single differences were determined using a 8 x 16 differencing matrix D: 
 
