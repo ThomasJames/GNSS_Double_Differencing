@@ -64,7 +64,8 @@ Result:
 
 Double differences were formed where G24 is treated as a reference satellite 
 
-![](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Images/Double_differences.png)
+![](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Images/Double_differences.png
+
 
 
 
