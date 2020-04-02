@@ -37,7 +37,7 @@ pip install matplotlib
 pip install seaborn 
 ```
 
-![Functions & Computations] (https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Computations.py)
+[Functions & Computations](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Computations.py)
 
 ## Data
 
