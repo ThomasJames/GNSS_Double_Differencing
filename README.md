@@ -5,7 +5,7 @@ Double Differencing: Main method of high precision commercial positioning. This 
 ## Data
 
 Original text file for data: ``` https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/DD_Diagram_aid.pdf``` 
-
+Data has been organised into .py file: ``` https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py```   
 
 ## Prerequisites 
 
