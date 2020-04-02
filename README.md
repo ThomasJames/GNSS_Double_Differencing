@@ -39,7 +39,7 @@ pip install seaborn
 
 ## Data
 
-Original text file for data: ``` https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/DD_Diagram_aid.pdf``` 
+Original text file for data: ``` https://github.com/ThomasJames/GNSS_Data_(text).txt``` 
 Data has been organised into .py file: ``` https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py```   
 
 ## Method 
