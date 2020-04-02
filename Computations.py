@@ -1,5 +1,7 @@
 from Data import *
 
+a = 1
+
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
 
@@ -63,16 +65,11 @@ def z_differential(reference_station, satelite_corresponding, satelite_reference
              )
     return float(result)
 
-
 """
 b_vector function
-
-
 pa: Phase ambiguity 
 obs: G24 to G10 after ambiguity resolution 
 Wl: defined 
-
-
 """
 def b_vector( base_range_ref,
               base_range_corresponding,
@@ -101,20 +98,7 @@ def calculate_x_hat(A, W, b):
 
 
 if __name__ == "__main__":
-    """    
-    We will carry out the double differencing with respect to one satellite.
-    We use the one with the highest elevation, as this satellite will pick up the least noise:
-    1. Short atmospheric path length. 
-    2. Maximum reduction of multipath.
-    
-    Typical observation rates might be every second / 5s / 10s / 30s.
-    2 stations 
-    8 satellites 
-    60 seconds per minute 
-    If the A to B was tracked for 10 minutes: 
-    2 x 8 x 60 x 10 = 9600
-    9600 measurements
-    """
+
 
     print("vector of observations: ", l)
     print("  ")
@@ -220,7 +204,6 @@ if __name__ == "__main__":
 
 
 
-    
 
 
 
@@ -232,7 +215,11 @@ if __name__ == "__main__":
 
 
 
-    
+
+
+
+
+
 
 
 
