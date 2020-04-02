@@ -54,13 +54,15 @@ Initial l vector was formed
 
 ![](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Images/l.png)
 
-
-
 Single differences need to be derived:
 
 ![](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Images/Single_Differences.png)
 
-Single differences were determined using a 8 x 16 differencing matrix D: 
+Result:
 
 ![](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Images/Single_differences_result.png)
+
+Double differences were formed where G24 is treated as a reference satellite 
+
+
 
