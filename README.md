@@ -52,7 +52,7 @@ Satellite G24 has the highest elevation of 71 degrees azimuth. This satellite is
 
 Initial l vector was formed 
 
-![](https://github.com/ThomasJames/Matrix_Images/I.png)
+![](https://github.com/ThomasJames/Matrix_Images/i.png)
 
 Single differences need to be derived:
 
