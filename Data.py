@@ -119,6 +119,15 @@ G24toG17_after = int(1.000)
 G24toG18_after = int(11.000)
 G24toG19_after = int(34.000)
 
+G24toG10_noise = G24toG10_before - G24toG10_after
+G24toG12_noise = G24toG12_before - G24toG12_after
+G24toG13_noise = G24toG13_before - G24toG13_after
+G24toG15_noise = G24toG15_before - G24toG15_after
+G24toG17_noise = G24toG17_before - G24toG17_after
+G24toG18_noise = G24toG18_before - G24toG18_after
+G24toG19_noise = G24toG19_before - G24toG19_after
+
+
 # 16 x 8:  Differencing matrix
 S = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

@@ -96,6 +96,15 @@ def calculate_x_hat(A, W, b):
     result = ((linalg.inv((transpose(A).dot(W)).dot(A))).dot(transpose(A).dot(W))).dot(b)
     return result
 
+def calculate_measured(wavelength, br, rr, bc, rc, pa, noise):
+    cbr = br[1]
+    crr = rr[1]
+    cbc = bc[1]
+    crc = rc[1]
+
+    result = (1 / wavelength * (cbr - crr - cbc + crc)) + pa + noise
+    return result
+    
 
 if __name__ == "__main__":
 
@@ -115,47 +124,67 @@ if __name__ == "__main__":
     # Constructing the Design Matrix
     A = np.array([
 
-    [x_differential(pillar_1A_base, G10, G24, wl),
-     y_differential(pillar_1A_base, G10, G24, wl),
-     z_differential(pillar_1A_base, G10, G24, wl), 1, 0, 0, 0, 0, 0, 0],
+    [x_differential(pillar_1A_base, G19, G24, wl),
+     y_differential(pillar_1A_base, G19, G24, wl),
+     z_differential(pillar_1A_base, G19, G24, wl), 1, 0, 0, 0, 0, 0, 0],
 
-    [x_differential(pillar_1A_base, G12, G24, wl),
-     y_differential(pillar_1A_base, G12, G24, wl),
-     z_differential(pillar_1A_base, G12, G24, wl), 0, 1, 0, 0, 0, 0, 0],
+    [x_differential(pillar_1A_base, G18, G24, wl),
+     y_differential(pillar_1A_base, G18, G24, wl),
+     z_differential(pillar_1A_base, G18, G24, wl), 0, 1, 0, 0, 0, 0, 0],
 
-    [x_differential(pillar_1A_base, G13, G24, wl),
-     y_differential(pillar_1A_base, G13, G24, wl),
-     z_differential(pillar_1A_base, G13, G24, wl), 0, 0, 1, 0, 0, 0, 0],
+    [x_differential(pillar_1A_base, G17, G24, wl),
+     y_differential(pillar_1A_base, G17, G24, wl),
+     z_differential(pillar_1A_base, G17, G24, wl), 0, 0, 1, 0, 0, 0, 0],
 
     [x_differential(pillar_1A_base, G15, G24, wl),
      y_differential(pillar_1A_base, G15, G24, wl),
      z_differential(pillar_1A_base, G15, G24, wl), 0, 0, 0, 1, 0, 0, 0],
 
-    [x_differential(pillar_1A_base, G17, G24, wl),
-     y_differential(pillar_1A_base, G17, G24, wl),
-     z_differential(pillar_1A_base, G17, G24, wl), 0, 0, 0, 0, 1, 0, 0],
+    [x_differential(pillar_1A_base, G13, G24, wl),
+     y_differential(pillar_1A_base, G13, G24, wl),
+     z_differential(pillar_1A_base, G13, G24, wl), 0, 0, 0, 0, 1, 0, 0],
 
-    [x_differential(pillar_1A_base, G18, G24, wl),
-     y_differential(pillar_1A_base, G18, G24, wl),
-     z_differential(pillar_1A_base, G18, G24, wl), 0, 0, 0, 0, 0, 1, 0],
+    [x_differential(pillar_1A_base, G12, G24, wl),
+     y_differential(pillar_1A_base, G12, G24, wl),
+     z_differential(pillar_1A_base, G12, G24, wl), 0, 0, 0, 0, 0, 1, 0],
 
-    [x_differential(pillar_1A_base, G19, G24, wl),
-     y_differential(pillar_1A_base, G19, G24, wl),
-     z_differential(pillar_1A_base, G19, G24, wl), 0, 0, 0, 0, 0, 0, 1],
+    [x_differential(pillar_1A_base, G10, G24, wl),
+     y_differential(pillar_1A_base, G10, G24, wl),
+     z_differential(pillar_1A_base, G10, G24, wl), 0, 0, 0, 0, 0, 0, 1],
     ])
 
+    # Calculate the observations
+    G24toG10_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G19_base_obs,
+                                           G19_rover_obs, G24toG19_after, G24toG19_noise)
+    G24toG12_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G18_base_obs,
+                                           G18_rover_obs, G24toG18_after, G24toG18_noise)
+    G24toG13_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G17_base_obs,
+                                           G17_rover_obs, G24toG17_after, G24toG17_noise)
+    G24toG15_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G15_base_obs,
+                                           G15_rover_obs, G24toG15_after, G24toG15_noise)
+    G24toG17_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G13_base_obs,
+                                           G13_rover_obs, G24toG13_after, G24toG13_noise)
+    G24toG18_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G12_base_obs,
+                                           G12_rover_obs, G24toG12_after, G24toG12_noise)
+    G24toG19_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G10_base_obs,
+                                           G10_rover_obs, G24toG10_after, G24toG10_noise)
+
+
+
+
     b = [
-        [b_vector(G24_base_obs, G10_base_obs, G24_rover_obs, G10_rover_obs,  G24toG10_before, wl, G24toG10_after)],
-        [b_vector(G24_base_obs, G12_base_obs, G24_rover_obs, G12_rover_obs,  G24toG12_before, wl, G24toG12_after)],
-        [b_vector(G24_base_obs, G13_base_obs, G24_rover_obs, G13_rover_obs,  G24toG13_before, wl, G24toG13_after)],
-        [b_vector(G24_base_obs, G15_base_obs, G24_rover_obs, G15_rover_obs,  G24toG15_before, wl, G24toG15_after)],
-        [b_vector(G24_base_obs, G17_base_obs, G24_rover_obs, G17_rover_obs,  G24toG17_before, wl, G24toG17_after)],
-        [b_vector(G24_base_obs, G18_base_obs, G24_rover_obs, G18_rover_obs,  G24toG18_before, wl, G24toG18_after)],
-        [b_vector(G24_base_obs, G19_base_obs, G24_rover_obs, G19_rover_obs,  G24toG19_before, wl, G24toG19_after)],
+        [b_vector(G24_base_obs, G19_base_obs, G24_rover_obs, G19_rover_obs,  G24toG19_before, wl, G24toG19_measured)],
+        [b_vector(G24_base_obs, G18_base_obs, G24_rover_obs, G18_rover_obs,  G24toG18_before, wl, G24toG18_measured)],
+        [b_vector(G24_base_obs, G17_base_obs, G24_rover_obs, G17_rover_obs,  G24toG17_before, wl, G24toG17_measured)],
+        [b_vector(G24_base_obs, G15_base_obs, G24_rover_obs, G15_rover_obs,  G24toG15_before, wl, G24toG15_measured)],
+        [b_vector(G24_base_obs, G13_base_obs, G24_rover_obs, G13_rover_obs,  G24toG13_before, wl, G24toG13_measured)],
+        [b_vector(G24_base_obs, G12_base_obs, G24_rover_obs, G12_rover_obs,  G24toG12_before, wl, G24toG12_measured)],
+        [b_vector(G24_base_obs, G10_base_obs, G24_rover_obs, G10_rover_obs,  G24toG10_before, wl, G24toG10_measured)],
     ]
 
+
     print("b :", b)
-    print("b dimensions: ", b)
+    print("b dimensions: ", b.shape)
 
     print("The A matrix: ", A)
     print("A dimensions", A.shape)
