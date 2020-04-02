@@ -106,9 +106,11 @@ if __name__ == "__main__":
     # Calculate the vector of single differences
     sl = S.dot(l)
 
+    print("sl:", sl)
+
     # Calculate the vector of double differences
     Dsl = D.dot(sl)
-
+    print("Dsl: ", Dsl)
 
     # Constructing the Design Matrix
     A = np.array([
