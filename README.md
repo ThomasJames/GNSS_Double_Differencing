@@ -49,7 +49,7 @@ Satellite G24 has the highest elevation of 71 degrees. This satellite is used as
 
 #### Step 1:
 
-Initial l vector was formed 
+Initial l vector of observations was formed 
 
 ![](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Images/l.png)
 
