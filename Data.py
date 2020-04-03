@@ -158,32 +158,10 @@ f = 1575.42
 wl = c / f
 
 
-# Finding the elevations
+def elevation_calculator(ECtoSat_Z, ECtoSat_X, EctoRec_Z, EctoRec_X, SattoRec_range):
 
-# def range_calculator(ECtoSat_Z, ECtoSat_X, EctoRec_Z, EctoRec_X, SattoRec_range):
-#     EC_sat_range = sqrt((ECtoSat_X ** 2) + (ECtoSat_Z ** 2))
-#     EctoRec_range = sqrt((EctoRec_X ** 2) + (EctoRec_Z ** 2))
-#     SattoRec_range = SattoRec_range
-#
-#     a = EC_sat_range
-#     b = EctoRec_range
-#     c = SattoRec_range
-#
-#     return [a, b, c]
-#
-# range_a, range_b, range_c = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
-#
-# def angle(a, b, c):
-#     return degrees(acos((c ** 2 - b ** 2 - a ** 2) / (-2.0 * a * b)))
-#
-# angB = angle(range_b, range_c, range_a)
-# elevation = abs(angB-180)
-#
-# print("angle of elevation:", elevation)
-
-def range_calculator(ECtoSat_Z, ECtoSat_X, EctoRec_Z, EctoRec_X, SattoRec_range):
     EC_sat_range = sqrt((ECtoSat_X ** 2) + (ECtoSat_Z ** 2))
-    EctoRec_range = sqrt((EctoRec_X ** 2) + (EctoRec_Z ** 2))
+    EctoRec_range = sqrt((EctoRec_X) ** 2 + (EctoRec_Z ** 2))
     SattoRec_range = SattoRec_range
 
     c = EC_sat_range
@@ -192,14 +170,35 @@ def range_calculator(ECtoSat_Z, ECtoSat_X, EctoRec_Z, EctoRec_X, SattoRec_range)
 
     angB = degrees(acos((c ** 2 - b ** 2 - a ** 2) / (-2.0 * a * b)))
 
-    elevation = abs(angB - 180)
+    elevation = abs(angB - 90)
     return elevation
 
-elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
-elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
-elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
-elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
-elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
-elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
+G24_elevation = (elevation_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G24_base_obs[0]))
+G19_elevation = (elevation_calculator(G19[2], G19[0], pillar_1A_base[2], pillar_1A_base[0], G19_base_obs[0]))
+G17_elevation = (elevation_calculator(G17[2], G17[0], pillar_1A_base[2], pillar_1A_base[0], G17_base_obs[0]))
+G15_elevation = (elevation_calculator(G15[2], G15[0], pillar_1A_base[2], pillar_1A_base[0], G15_base_obs[0]))
+G13_elevation = (elevation_calculator(G13[2], G13[0], pillar_1A_base[2], pillar_1A_base[0], G13_base_obs[0]))
+G12_elevation = (elevation_calculator(G12[2], G12[0], pillar_1A_base[2], pillar_1A_base[0], G12_base_obs[0]))
+G10_elevation = (elevation_calculator(G10[2], G10[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
 
+print("G24 angle of elevation:", G24_elevation)
+print("G19 angle of elevation:", G19_elevation)
+print("G18 angle of elevation:")
+print("G17 angle of elevation:", G17_elevation)
+print("G15 angle of elevation:", G15_elevation)
+print("G13 angle of elevation:", G13_elevation)
+print("G12 angle of elevation:", G12_elevation)
+print("G10 angle of elevation:", G10_elevation)
+
+print(" ")
+print(" ")
+
+print("G24 angle of elevation (for plot):", G24_elevation + (315 - 180))
+print("G19 angle of elevation (for plot):", G19_elevation + (315 - 180))
+
+print("G17 angle of elevation (for plot):", G17_elevation + (315 - 180))
+print("G15 angle of elevation (for plot):", G15_elevation + (315 - 180))
+print("G13 angle of elevation (for plot):", G13_elevation + (315 - 180))
+print("G12 angle of elevation (for plot):", G12_elevation + (315 - 180))
+print("G10 angle of elevation (for plot):", G10_elevation + (315 - 180))
 
