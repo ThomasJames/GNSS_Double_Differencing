@@ -1,4 +1,4 @@
-from math import sqrt, cos
+from math import sqrt, cos, sin, degrees, acos
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -12,7 +12,7 @@ The reciever on pillar 1A is treated as the reference reciever.
 """
 
 # X, Y, Z ECEF coordinates for the phase center of the receiver
-pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])   # Reference receiver
+pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])  # Reference receiver
 pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])  # Monument
 
 distance_between_receivers = 94.4  # Measured in meters / Approximate
@@ -127,7 +127,6 @@ G24toG17_noise = G24toG17_before - G24toG17_after
 G24toG18_noise = G24toG18_before - G24toG18_after
 G24toG19_noise = G24toG19_before - G24toG19_after
 
-
 # 16 x 8:  Differencing matrix
 S = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -146,8 +145,6 @@ D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
               [1, 0, 0, 0, 0, 0, -1, 0],
               [1, 0, 0, 0, 0, 0, 0, -1]])
 
-
-
 """
 How to compute the signal wavelength:
 λ=𝑐/𝑓
@@ -161,5 +158,48 @@ f = 1575.42
 wl = c / f
 
 
+# Finding the elevations
+
+# def range_calculator(ECtoSat_Z, ECtoSat_X, EctoRec_Z, EctoRec_X, SattoRec_range):
+#     EC_sat_range = sqrt((ECtoSat_X ** 2) + (ECtoSat_Z ** 2))
+#     EctoRec_range = sqrt((EctoRec_X ** 2) + (EctoRec_Z ** 2))
+#     SattoRec_range = SattoRec_range
+#
+#     a = EC_sat_range
+#     b = EctoRec_range
+#     c = SattoRec_range
+#
+#     return [a, b, c]
+#
+# range_a, range_b, range_c = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
+#
+# def angle(a, b, c):
+#     return degrees(acos((c ** 2 - b ** 2 - a ** 2) / (-2.0 * a * b)))
+#
+# angB = angle(range_b, range_c, range_a)
+# elevation = abs(angB-180)
+#
+# print("angle of elevation:", elevation)
+
+def range_calculator(ECtoSat_Z, ECtoSat_X, EctoRec_Z, EctoRec_X, SattoRec_range):
+    EC_sat_range = sqrt((ECtoSat_X ** 2) + (ECtoSat_Z ** 2))
+    EctoRec_range = sqrt((EctoRec_X ** 2) + (EctoRec_Z ** 2))
+    SattoRec_range = SattoRec_range
+
+    c = EC_sat_range
+    b = EctoRec_range
+    a = SattoRec_range
+
+    angB = degrees(acos((c ** 2 - b ** 2 - a ** 2) / (-2.0 * a * b)))
+
+    elevation = abs(angB - 180)
+    return elevation
+
+elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
+elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
+elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
+elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
+elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
+elevation_G23 = (range_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
 
 

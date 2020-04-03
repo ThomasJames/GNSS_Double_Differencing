@@ -153,6 +153,11 @@ if __name__ == "__main__":
      z_differential(pillar_1A_base, G10, G24, wl), 0, 0, 0, 0, 0, 0, 1],
     ])
 
+    # print("A :", A)
+    print("A shape:", A.shape)
+    print("AT shape: ", transpose(A).shape)
+    # print("A inverse shape", (np.linalg.inv(A)).shape)
+
     # Calculate the observations
     G24toG10_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G19_base_obs,
                                            G19_rover_obs, G24toG19_after, G24toG19_noise)
@@ -172,7 +177,7 @@ if __name__ == "__main__":
 
 
 
-    b = [
+    b = np.array([
         [b_vector(G24_base_obs, G19_base_obs, G24_rover_obs, G19_rover_obs,  G24toG19_before, wl, G24toG19_measured)],
         [b_vector(G24_base_obs, G18_base_obs, G24_rover_obs, G18_rover_obs,  G24toG18_before, wl, G24toG18_measured)],
         [b_vector(G24_base_obs, G17_base_obs, G24_rover_obs, G17_rover_obs,  G24toG17_before, wl, G24toG17_measured)],
@@ -180,18 +185,18 @@ if __name__ == "__main__":
         [b_vector(G24_base_obs, G13_base_obs, G24_rover_obs, G13_rover_obs,  G24toG13_before, wl, G24toG13_measured)],
         [b_vector(G24_base_obs, G12_base_obs, G24_rover_obs, G12_rover_obs,  G24toG12_before, wl, G24toG12_measured)],
         [b_vector(G24_base_obs, G10_base_obs, G24_rover_obs, G10_rover_obs,  G24toG10_before, wl, G24toG10_measured)],
-    ]
+    ])
 
 
     print("b :", b)
     print("b dimensions: ", b.shape)
 
-    print("The A matrix: ", A)
+    # print("The A matrix: ", A)
     print("A dimensions", A.shape)
     print("  ")
 
     cl = l1c_variance * np.eye(16 , 16)
-    print("The covariance matrix is: ", cl) # Exists and is known
+    # print("The covariance matrix is: ", cl) # Exists and is known
     print("  ")
     print("D dimensions: ", D.shape)
     print("  ")
@@ -205,19 +210,21 @@ if __name__ == "__main__":
     plt.show()
 
     Cd = (Cd_calculator(D, S, cl))
-    print(Cd)
+    # print(Cd)
     print(Cd.shape)
     print(" ")
 
     Wd = linalg.inv(Cd)
     print("Weight Matrix d", Wd)
+    print("Weight shape: ", Wd.shape)
+    print("Weight T shape: ", (transpose(Wd)).shape)
 
 
     sns.heatmap(Wd, annot=True, fmt="d")
     plt.show()
 
     x_hat = calculate_x_hat(A, Wd, b)
-    print("x_hat: ", x_hat)
+    # print("x_hat: ", x_hat)
 
     X = pillar_3A_rover[0] + x_hat[0]
     Y = pillar_3A_rover[1] + x_hat[1]
