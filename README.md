@@ -37,12 +37,11 @@ pip install matplotlib
 pip install seaborn 
 ```
 
+[Functions & Computations](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Computations.py)
+
 ## Data
 
-Original text file for data: ``` https://github.com/ThomasJames/GNSS_Data_(text).txt``` 
-Data has been organised into .py file: ``` https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py```   
-NOTE: All data used in computations is derived from data from Data.py: Only data from the epoch ``` 2016 11 15 22 19 5```  is used.
-
+The original [text file](https://github.com/ThomasJames/GNSS_Data_(text).txt) is in this repository, however the data has been organised into [python](https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py) variables. 
 
 ## Method 
 
@@ -50,7 +49,7 @@ Satellite G24 has the highest elevation of 71 degrees. This satellite is used as
 
 #### Step 1:
 
-Initial l vector was formed 
+Initial l vector of observations was formed 
 
 ![](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Images/l.png)
 
