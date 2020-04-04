@@ -47,6 +47,9 @@ The original [text file](https://github.com/ThomasJames/GNSS_Data_(text).txt) is
 
 Satellite G24 has the highest elevation of 71 degrees. This satellite is used as the reference satellite.
 
+It is important to initially calculate the elevation angles of each satelite. The error of a satellite is inversely proportial to elevation with respect to a local horizon. Low elevation satellites produce less reliable results, and this needs to be taken into account when formulating a weight matrix.
+
+
 #### Step 1:
 
 Initial l vector of observations was formed 
