@@ -78,6 +78,18 @@ It is important to initially calculate the elevation angles of each satelite. Th
 ### Wd (Weight) Matrix 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Wd_Matrix.png" width="500">
 
+### ATWA Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/ATWA_Matrix.png" width="500">
+
+### (ATWA)^-1 Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Inverse_ATWA.png" width="500">
+
+
+
+
+
+
+
 
 
 
