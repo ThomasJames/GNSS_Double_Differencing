@@ -154,24 +154,35 @@ if __name__ == "__main__":
     plt.savefig("Matrix_Output/cl_Matrix.png")
     plt.show()
 
-
-
-
-
-
-
-
+    # Calculate the Cd matrix
     Cd = (Cd_calculator(D, S, cl))
-    # print(Cd)
-    print(Cd.shape)
-    print(" ")
-    print(Cd)
-    ax = sns.heatmap(Cd, annot=True)
-    plt.title("Cd matrix")
+
+    # Output the cl matrix
+    sns.heatmap(Cd,
+                annot=True,
+                cbar=False,
+                xticklabels=False,
+                yticklabels=False,
+                cmap='Pastel1')
+
+    plt.title('Cd Matrix')
+    plt.savefig("Matrix_Output/Cd_Matrix.png")
     plt.show()
 
+    # Calculate the Wd matrix
+    Wd = linalg.inv(Cd)
 
+    # Output the cl matrix
+    sns.heatmap(Wd,
+                annot=True,
+                cbar=False,
+                xticklabels=False,
+                yticklabels=False,
+                cmap='Pastel1')
 
+    plt.title('Wd Matrix')
+    plt.savefig("Matrix_Output/Wd_Matrix.png")
+    plt.show()
 
 
 
@@ -278,23 +289,6 @@ if __name__ == "__main__":
 
 
 
-    Wd = linalg.inv(Cd)
-    print("Weight Matrix d", Wd)
-    print("Weight shape: ", Wd.shape)
-    print("Weight T shape: ", (transpose(Wd)).shape)
-
-
-    sns.heatmap(Wd, annot=True, fmt="d")
-    plt.show()
-
-    x_hat = calculate_x_hat(A, Wd, b)
-    # print("x_hat: ", x_hat)
-
-    X = pillar_3A_rover[0] + x_hat[0]
-    Y = pillar_3A_rover[1] + x_hat[1]
-    Z = pillar_3A_rover[2] + x_hat[2]
-
-    print(X, Y, Z)
 
 
 
