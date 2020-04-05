@@ -172,7 +172,7 @@ if __name__ == "__main__":
     # Calculate the Wd matrix
     Wd = linalg.inv(Cd)
 
-    # Output the cl matrix
+    # Output the Wd matrix
     sns.heatmap(Wd,
                 annot=True,
                 cbar=False,
@@ -185,47 +185,55 @@ if __name__ == "__main__":
     plt.show()
 
 
-
-
-
-
-
     # Constructing the Design Matrix
     A = np.array([
 
     [x_differential(pillar_1A_base, G19, G24, wl),
      y_differential(pillar_1A_base, G19, G24, wl),
-     z_differential(pillar_1A_base, G19, G24, wl), 1, 0, 0, 0, 0, 0, 0],
+     z_differential(pillar_1A_base, G19, G24, wl)],
 
     [x_differential(pillar_1A_base, G18, G24, wl),
      y_differential(pillar_1A_base, G18, G24, wl),
-     z_differential(pillar_1A_base, G18, G24, wl), 0, 1, 0, 0, 0, 0, 0],
+     z_differential(pillar_1A_base, G18, G24, wl)],
 
     [x_differential(pillar_1A_base, G17, G24, wl),
      y_differential(pillar_1A_base, G17, G24, wl),
-     z_differential(pillar_1A_base, G17, G24, wl), 0, 0, 1, 0, 0, 0, 0],
+     z_differential(pillar_1A_base, G17, G24, wl)],
 
     [x_differential(pillar_1A_base, G15, G24, wl),
      y_differential(pillar_1A_base, G15, G24, wl),
-     z_differential(pillar_1A_base, G15, G24, wl), 0, 0, 0, 1, 0, 0, 0],
+     z_differential(pillar_1A_base, G15, G24, wl)],
 
     [x_differential(pillar_1A_base, G13, G24, wl),
      y_differential(pillar_1A_base, G13, G24, wl),
-     z_differential(pillar_1A_base, G13, G24, wl), 0, 0, 0, 0, 1, 0, 0],
+     z_differential(pillar_1A_base, G13, G24, wl)],
 
     [x_differential(pillar_1A_base, G12, G24, wl),
      y_differential(pillar_1A_base, G12, G24, wl),
-     z_differential(pillar_1A_base, G12, G24, wl), 0, 0, 0, 0, 0, 1, 0],
+     z_differential(pillar_1A_base, G12, G24, wl)],
 
     [x_differential(pillar_1A_base, G10, G24, wl),
      y_differential(pillar_1A_base, G10, G24, wl),
-     z_differential(pillar_1A_base, G10, G24, wl), 0, 0, 0, 0, 0, 0, 1],
+     z_differential(pillar_1A_base, G10, G24, wl)],
     ])
 
-    # print("A :", A)
-    print("A shape:", A.shape)
-    print("AT shape: ", transpose(A).shape)
-    # print("A inverse shape", (np.linalg.inv(A)).shape)
+    # Output the A matrix
+    sns.heatmap(A,
+                annot=True,
+                cbar=False,
+                xticklabels=False,
+                yticklabels=False,
+                cmap='Pastel1')
+
+    plt.title('A Matrix')
+    plt.savefig("Matrix_Output/A_Matrix.png")
+    plt.show()
+
+
+
+
+
+
 
     # Calculate the observations
     G24toG10_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G19_base_obs,
@@ -242,8 +250,6 @@ if __name__ == "__main__":
                                            G12_rover_obs, G24toG12_after, G24toG12_noise)
     G24toG19_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G10_base_obs,
                                            G10_rover_obs, G24toG10_after, G24toG10_noise)
-
-
 
 
     b = np.array([
@@ -263,6 +269,8 @@ if __name__ == "__main__":
     # print("The A matrix: ", A)
     print("A dimensions", A.shape)
     print("  ")
+
+
 
 
 
