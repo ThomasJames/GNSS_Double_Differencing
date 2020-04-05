@@ -1,8 +1,6 @@
 from Data import *
 import seaborn as sns
 
-a = 1
-
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
 
@@ -10,12 +8,11 @@ Try to get your answer close to the figures for 3A. The nominal coordinates give
 least squares solution, you should converge on the answer with on round of matrix inversion
 """
 
-def x_diff(reference_station, satelite_corresponding, satelite_reference, wavelength):
+def x_diff(ref_station, sat_corresponding, sat_reference, wavelength):
 
-    # Condense Variables
-    X_3A, Y_3A, Z_3A = reference_station[0], reference_station[1], reference_station[2]
-    X_s, Y_s, Z_s = satelite_corresponding[0], satelite_corresponding[1], satelite_corresponding[2]
-    X_s_ref, Y_s_ref, Z_s_ref = satelite_reference[0], satelite_reference[1], satelite_reference[2]
+    X_3A, Y_3A, Z_3A = ref_station[0], ref_station[1], ref_station[2]
+    X_s, Y_s, Z_s = sat_corresponding[0], sat_corresponding[1], sat_corresponding[2]
+    X_s_ref, Y_s_ref, Z_s_ref = sat_reference[0], sat_reference[1], sat_reference[2]
 
     result = 1 / wavelength * \
              (
@@ -28,13 +25,11 @@ def x_diff(reference_station, satelite_corresponding, satelite_reference, wavele
     return float(result)
 
 
-def y_diff(reference_station, satelite_corresponding, satelite_reference, wavelength):
+def y_diff(ref_station, sat_corresponding, sat_reference, wavelength):
 
-    # Condense Variables
-    # Condense Variables
-    X_3A, Y_3A, Z_3A = reference_station[0], reference_station[1], reference_station[2]
-    X_s, Y_s, Z_s = satelite_corresponding[0], satelite_corresponding[1], satelite_corresponding[2]
-    X_s_ref, Y_s_ref, Z_s_ref = satelite_reference[0], satelite_reference[1], satelite_reference[2]
+    X_3A, Y_3A, Z_3A = ref_station[0], ref_station[1], ref_station[2]
+    X_s, Y_s, Z_s = sat_corresponding[0], sat_corresponding[1], sat_corresponding[2]
+    X_s_ref, Y_s_ref, Z_s_ref = sat_reference[0], sat_reference[1], sat_reference[2]
 
     # Calculate
     result = 1 / wavelength * \
@@ -48,13 +43,13 @@ def y_diff(reference_station, satelite_corresponding, satelite_reference, wavele
     return float(result)
 
 
-def z_diff(reference_station, satelite_corresponding, satelite_reference, wavelength):
+def z_diff(ref_station, sat_corresponding, sat_reference, wavelength):
 
     # Condense Variables
     # Condense Variables
-    X_3A, Y_3A, Z_3A = reference_station[0], reference_station[1], reference_station[2]
-    X_s, Y_s, Z_s = satelite_corresponding[0], satelite_corresponding[1], satelite_corresponding[2]
-    X_s_ref, Y_s_ref, Z_s_ref = satelite_reference[0], satelite_reference[1], satelite_reference[2]
+    X_3A, Y_3A, Z_3A = ref_station[0], ref_station[1], ref_station[2]
+    X_s, Y_s, Z_s = sat_corresponding[0], sat_corresponding[1], sat_corresponding[2]
+    X_s_ref, Y_s_ref, Z_s_ref = sat_reference[0], sat_reference[1], sat_reference[2]
 
     result = 1 / wavelength * \
              (
@@ -107,7 +102,7 @@ def calculate_measured(wavelength, br, rr, bc, rc, pa, noise):
 
     result = (1 / wavelength * (cbr - crr - cbc + crc)) + pa + noise
     return result
-    
+
 
 if __name__ == "__main__":
 
@@ -118,7 +113,7 @@ if __name__ == "__main__":
                 xticklabels=False,
                 yticklabels=False,
                 cmap='Pastel1')
-    plt.title('D Matrix')
+    plt.title('D (Differencing matrix) Matrix')
     plt.savefig("Matrix_Output/D_Matrix.png")
     plt.show()
 
@@ -129,7 +124,7 @@ if __name__ == "__main__":
                 xticklabels=False,
                 yticklabels=False,
                 cmap='Pastel1')
-    plt.title('S Matrix')
+    plt.title('S (Double differencing) Matrix')
     plt.savefig("Matrix_Output/S_Matrix.png")
     plt.show()
 
@@ -150,7 +145,7 @@ if __name__ == "__main__":
                 yticklabels=False,
                 cmap='Pastel1')
 
-    plt.title('cl Matrix')
+    plt.title('cl (Covariance matrix of the observation vector) Matrix')
     plt.savefig("Matrix_Output/cl_Matrix.png")
     plt.show()
 
@@ -165,7 +160,7 @@ if __name__ == "__main__":
                 yticklabels=False,
                 cmap='Pastel1')
 
-    plt.title('Cd Matrix')
+    plt.title('Cd (Covariance matrix) Matrix')
     plt.savefig("Matrix_Output/Cd_Matrix.png")
     plt.show()
 
@@ -180,7 +175,7 @@ if __name__ == "__main__":
                 yticklabels=False,
                 cmap='Pastel1')
 
-    plt.title('Wd Matrix')
+    plt.title('Wd (Weight) Matrix')
     plt.savefig("Matrix_Output/Wd_Matrix.png")
     plt.show()
 
@@ -204,7 +199,7 @@ if __name__ == "__main__":
                 yticklabels=False,
                 cmap='Pastel1')
 
-    plt.title('A Matrix')
+    plt.title('A (Design) Matrix')
     plt.savefig("Matrix_Output/A_Matrix.png")
     plt.show()
 
