@@ -232,7 +232,7 @@ if __name__ == "__main__":
                 yticklabels=False,
                 cmap='Pastel1')
 
-    plt.title('ATWA^-1 Matrix')
+    plt.title('(ATWA)^-1 Matrix')
     plt.savefig("Matrix_Output/Inverse_ATWA.png")
     plt.show()
 
