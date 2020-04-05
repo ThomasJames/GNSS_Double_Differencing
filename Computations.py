@@ -126,7 +126,7 @@ if __name__ == "__main__":
     # print("The covariance matrix is: ", cl) # Exists and is known
     print("  ")
     print("D dimensions: ", D.shape)
-    plt.imshow(D)
+    plt.imshow(D, cmap="inferno", alpha=0.5)
     plt.title('D Matrix')
     plt.show()
 
@@ -134,13 +134,17 @@ if __name__ == "__main__":
     print("  ")
     print("S dimensions: ", S.shape)
     print("  ")
+    plt.imshow(S, cmap="inferno", alpha=0.5)
+    plt.title('S Matrix')
+    plt.show()
+
 
     # Calculate the covariance matrix of the observation vector l
     cl = variances * np.eye(8, 8)
     print("cl", cl)
     print("cl dimensions: ", cl.shape)
     print("  ")
-    plt.imshow(cl)
+    plt.imshow(cl, cmap="inferno", alpha=0.5)
     plt.title('Cov l')
     plt.show()
 
@@ -148,7 +152,7 @@ if __name__ == "__main__":
     # print(Cd)
     print(Cd.shape)
     print(" ")
-    plt.imshow(Cd)
+    plt.imshow(Cd, cmap="inferno", alpha=0.5)
     plt.title('Cov d')
     plt.show()
 
