@@ -103,6 +103,9 @@ def calculate_measured(wavelength, br, rr, bc, rc, pa, noise):
     result = (1 / wavelength * (cbr - crr - cbc + crc)) + pa + noise
     return result
 
+def ATWA(A, W):
+    return ((transpose(A)).dot(W)).dot(A)
+
 
 if __name__ == "__main__":
 
@@ -201,6 +204,41 @@ if __name__ == "__main__":
     plt.title('A (Design) Matrix')
     plt.savefig("Matrix_Output/A_Matrix.png")
     plt.show()
+
+    # Calculate A^TWA
+    atwa = ATWA(A, Wd)
+    print(atwa)
+
+    # Output the A matrix
+    sns.heatmap(atwa,
+                annot=True,
+                cbar=False,
+                xticklabels=False,
+                yticklabels=False,
+                cmap='Pastel1')
+
+    plt.title('ATWA Matrix')
+    plt.savefig("Matrix_Output/ATWA_Matrix.png")
+    plt.show()
+
+    # Calculate inverse A^T WA
+    inveseATWA = linalg.inv(atwa)
+
+    # Output the ATWA^-1 matrix
+    sns.heatmap(inveseATWA,
+                annot=True,
+                cbar=False,
+                xticklabels=False,
+                yticklabels=False,
+                cmap='Pastel1')
+
+    plt.title('ATWA^-1 Matrix')
+    plt.savefig("Matrix_Output/Inverse_ATWA.png")
+    plt.show()
+
+
+
+
 
     # Calculate the observations
     G24toG10_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G19_base_obs,
