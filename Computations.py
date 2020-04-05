@@ -1,4 +1,5 @@
 from Data import *
+import seaborn as sns
 
 a = 1
 
@@ -91,7 +92,7 @@ def b_vector( base_range_ref,
 def Cd_calculator(D, S, Cl):
     result = (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))
 
-    result = (((D.dot(S)).dot(Cl)).dot.transpose(S)).dot(transpose(D))
+    # result = (((D.dot(S)).dot(Cl)).dot((transpose(S)).dot(transpose(D))
     return result
 
 def calculate_x_hat(A, W, b):
@@ -110,51 +111,66 @@ def calculate_measured(wavelength, br, rr, bc, rc, pa, noise):
 
 if __name__ == "__main__":
 
+    # Output the D matrix
+    sns.heatmap(D,
+                annot=True,
+                cbar=False,
+                xticklabels=False,
+                yticklabels=False,
+                cmap='Pastel1')
+    plt.title('D Matrix')
+    plt.savefig("Matrix_Output/D_Matrix.png")
+    plt.show()
 
-    print("vector of observations: ", l)
-    print("  ")
+    # Output the S matrix
+    sns.heatmap(S,
+                annot=True,
+                cbar=False,
+                xticklabels=False,
+                yticklabels=False,
+                cmap='Pastel1')
+    plt.title('S Matrix')
+    plt.savefig("Matrix_Output/S_Matrix.png")
+    plt.show()
 
     # Calculate the vector of single differences
     sl = S.dot(l)
 
-    print("sl:", sl)
-
     # Calculate the vector of double differences
     Dsl = D.dot(sl)
-    print("Dsl: ", Dsl)
-
-    # print("The covariance matrix is: ", cl) # Exists and is known
-    print("  ")
-    print("D dimensions: ", D.shape)
-    plt.imshow(D, cmap="inferno", alpha=0.5)
-    plt.title('D Matrix')
-    plt.show()
-
-
-    print("  ")
-    print("S dimensions: ", S.shape)
-    print("  ")
-    plt.imshow(S, cmap="inferno", alpha=0.5)
-    plt.title('S Matrix')
-    plt.show()
-
 
     # Calculate the covariance matrix of the observation vector l
-    cl = variances * np.eye(8, 8)
-    print("cl", cl)
-    print("cl dimensions: ", cl.shape)
-    print("  ")
-    plt.imshow(cl, cmap="inferno", alpha=0.5)
-    plt.title('Cov l')
+    cl = variances * np.eye(16, 16)
+
+    # Output the cl matrix
+    sns.heatmap(cl,
+                annot=True,
+                cbar=False,
+                xticklabels=False,
+                yticklabels=False,
+                cmap='Pastel1')
+
+    plt.title('cl Matrix')
+    plt.savefig("Matrix_Output/cl_Matrix.png")
     plt.show()
+
+
+
+
+
+
+
 
     Cd = (Cd_calculator(D, S, cl))
     # print(Cd)
     print(Cd.shape)
     print(" ")
-    plt.imshow(Cd, cmap="inferno", alpha=0.5)
-    plt.title('Cov d')
+    print(Cd)
+    ax = sns.heatmap(Cd, annot=True)
+    plt.title("Cd matrix")
     plt.show()
+
+
 
 
 

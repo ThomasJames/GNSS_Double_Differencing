@@ -199,14 +199,14 @@ G18_variance = variance(l1_SD, G18_elevation)
 
 # Vector of variances
 variances = np.array([
-[G24_variance],
-[G19_variance],
-[G17_variance],
-[G15_variance],
-[G13_variance],
-[G12_variance],
-[G10_variance],
-[G18_variance],
+[G24_variance], [G24_variance],
+[G19_variance], [G19_variance],
+[G17_variance], [G17_variance],
+[G15_variance], [G15_variance],
+[G13_variance], [G13_variance],
+[G12_variance], [G12_variance],
+[G10_variance], [G10_variance],
+[G18_variance], [G18_variance]
 ])
 
 
