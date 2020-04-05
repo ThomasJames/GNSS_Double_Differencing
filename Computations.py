@@ -240,6 +240,10 @@ if __name__ == "__main__":
     X_hat = calculate_x_hat(A, Wd, b)
     print(X_hat)
 
+    X_post = pillar_3A_rover - X_hat
+
+    print(X_post)
+
 
 
 
