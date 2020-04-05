@@ -179,7 +179,6 @@ if __name__ == "__main__":
     plt.savefig("Matrix_Output/Wd_Matrix.png")
     plt.show()
 
-
     # Constructing the Design Matrix
     A = np.array([
     [x_diff(pillar_1A_base, G19, G24, wl), y_diff(pillar_1A_base, G19, G24, wl), z_diff(pillar_1A_base, G19, G24, wl)],
@@ -203,8 +202,6 @@ if __name__ == "__main__":
     plt.savefig("Matrix_Output/A_Matrix.png")
     plt.show()
 
-
-
     # Calculate the observations
     G24toG10_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G19_base_obs,
                                            G19_rover_obs, G24toG19_after, G24toG19_noise)
@@ -220,7 +217,6 @@ if __name__ == "__main__":
                                            G12_rover_obs, G24toG12_after, G24toG12_noise)
     G24toG19_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G10_base_obs,
                                            G10_rover_obs, G24toG10_after, G24toG10_noise)
-
 
     b = np.array([
         [b_vector(G24_base_obs, G19_base_obs, G24_rover_obs, G19_rover_obs,  G24toG19_before, wl, G24toG19_measured)],
