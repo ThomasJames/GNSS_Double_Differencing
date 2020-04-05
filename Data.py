@@ -6,9 +6,10 @@ import pandas as pd
 from numpy import transpose, linalg
 
 """
-The data contains 3 epochs of phase and pseudorage observations measured on a calibration baseline in valencia, spain.
+The data contains 1 of the three epochs of phase and pseudorage observations measured on a calibration baseline in valencia, spain.
 The sensors used are geodetic quality recievers using choke ring antennas.
 The reciever on pillar 1A is treated as the reference reciever.
+The reciever on pillar 3A is treated as the monument.
 """
 
 # X, Y, Z ECEF coordinates for the phase center of the receiver
@@ -41,26 +42,27 @@ These are pseudo range measurements
 # BASE OBSERVATIONS (Pillar 1A) C1C (metres), L1C (L1 cycles)
 # 2016_11_15_22_19_5
 
-G10_base_obs = [23726969.123, 124686036.295]
-G12_base_obs = [20647534.024, 108503516.027]
-G13_base_obs = [23087780.798, 121327099.499]
-G15_base_obs = [21346539.664, 112176830.803]
-G17_base_obs = [23379753.757, 122861442.012]
-G18_base_obs = [23217805.737, 122010370.583]
-G19_base_obs = [22181729.713, 116565751.296]
 G24_base_obs = [20436699.926, 107395596.426]
+G19_base_obs = [22181729.713, 116565751.296]
+G18_base_obs = [23217805.737, 122010370.583]
+G17_base_obs = [23379753.757, 122861442.012]
+G15_base_obs = [21346539.664, 112176830.803]
+G13_base_obs = [23087780.798, 121327099.499]
+G12_base_obs = [20647534.024, 108503516.027]
+G10_base_obs = [23726969.123, 124686036.295]
 
 # ROVER OBSERVATIONS (Pillar 3A) C1C (metres), L1C (L1 cycles)
-# 2016 11 15 22 19  5
+# 2016 11 15 22 19  5 (First Epoch)
+# meters, cycles
 
-G10_rover_obs = [23726881.094, 124685588.685]  # meters, cycles
-G12_rover_obs = [20647514.655, 108503447.644]
-G13_rover_obs = [23087860.345, 121327512.345]
-G15_rover_obs = [21346576.786, 112177022.660]
-G17_rover_obs = [23379790.820, 122861635.973]
-G18_rover_obs = [23217736.821, 122010019.631]
-G19_rover_obs = [22181785.598, 116566080.299]
 G24_rover_obs = [20436682.002, 107395502.123]
+G19_rover_obs = [22181785.598, 116566080.299]
+G18_rover_obs = [23217736.821, 122010019.631]
+G17_rover_obs = [23379790.820, 122861635.973]
+G15_rover_obs = [21346576.786, 112177022.660]
+G13_rover_obs = [23087860.345, 121327512.345]
+G12_rover_obs = [20647514.655, 108503447.644]
+G10_rover_obs = [23726881.094, 124685588.685]
 
 # At the first epoch we have 16 raw phase observations in cycles.
 
@@ -75,22 +77,6 @@ l = np.transpose([
     G10_base_obs[1], G10_rover_obs[1]
 ])
 
-"""
-Standard Deviations
-L1C variance for satellite at elevation angle E: s*s/sin(E)
-NOTE: Satellite G24 has the highest elevation: 71 degrees.
-
-"""
-elevation_angle_e = 71
-l1c_standard_deviation_s = 0.003
-
-
-def variance(s, e):
-    a = s * s / cos(e)
-    return a
-
-
-l1c_variance = variance(l1c_standard_deviation_s, elevation_angle_e)
 
 """
 Phase Ambiguity terms (N) for each measurement, before and after ambiguity resolution 
@@ -128,14 +114,10 @@ G24toG18_noise = G24toG18_before - G24toG18_after
 G24toG19_noise = G24toG19_before - G24toG19_after
 
 # 16 x 8:  Differencing matrix
-S = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1]])
+S = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
+              [0, 0, 1, -1, 0, 0, 0, 0],
+              [0, 0, 0, 0, 1, -1, 0, 0],
+              [0, 0, 0, 0, 0, 0, 1, -1]])
 
 D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
               [1, 0, -1, 0, 0, 0, 0, 0],
@@ -157,7 +139,14 @@ f = 1575.42
 
 wl = c / f
 
+"""
+Standard Deviations
+L1C variance for satellite at elevation angle E: s*s/sin(E)
+NOTE: Satellite G24 has the highest elevation: 71 degrees.
 
+"""
+
+# Calculate Satelite elevation from a local horizon.
 def elevation_calculator(ECtoSat_Z, ECtoSat_X, EctoRec_Z, EctoRec_X, SattoRec_range):
 
     EC_sat_range = sqrt((ECtoSat_X ** 2) + (ECtoSat_Z ** 2))
@@ -168,11 +157,20 @@ def elevation_calculator(ECtoSat_Z, ECtoSat_X, EctoRec_Z, EctoRec_X, SattoRec_ra
     b = EctoRec_range
     a = SattoRec_range
 
-    angB = degrees(acos((c ** 2 - b ** 2 - a ** 2) / (-2.0 * a * b)))
 
-    elevation = abs(angB - 90)
+    angle = degrees((acos((c ** 2 - b ** 2 - a ** 2) / (-2.0 * a * b))))
+
+    elevation = abs(angle - 90)
     return elevation
 
+
+def variance(s, e):
+    a = s**2 * s / cos(e)
+    return a
+
+l1_SD = 0.003
+
+# Determine elevationss
 G24_elevation = (elevation_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G24_base_obs[0]))
 G19_elevation = (elevation_calculator(G19[2], G19[0], pillar_1A_base[2], pillar_1A_base[0], G19_base_obs[0]))
 G17_elevation = (elevation_calculator(G17[2], G17[0], pillar_1A_base[2], pillar_1A_base[0], G17_base_obs[0]))
@@ -180,25 +178,52 @@ G15_elevation = (elevation_calculator(G15[2], G15[0], pillar_1A_base[2], pillar_
 G13_elevation = (elevation_calculator(G13[2], G13[0], pillar_1A_base[2], pillar_1A_base[0], G13_base_obs[0]))
 G12_elevation = (elevation_calculator(G12[2], G12[0], pillar_1A_base[2], pillar_1A_base[0], G12_base_obs[0]))
 G10_elevation = (elevation_calculator(G10[2], G10[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
+G18_elevation = 5 # Something wrong with this satellite..(Random Value for now)
 
-print("G24 angle of elevation:", G24_elevation)
-print("G19 angle of elevation:", G19_elevation)
-print("G18 angle of elevation:")
-print("G17 angle of elevation:", G17_elevation)
-print("G15 angle of elevation:", G15_elevation)
-print("G13 angle of elevation:", G13_elevation)
-print("G12 angle of elevation:", G12_elevation)
-print("G10 angle of elevation:", G10_elevation)
+# Populate the a vector of variances.
 
-print(" ")
-print(" ")
+G24_variance = variance(l1_SD, G24_elevation)
+G19_variance = variance(l1_SD, G19_elevation)
+G17_variance = variance(l1_SD, G17_elevation)
+G15_variance = variance(l1_SD, G15_elevation)
+G13_variance = variance(l1_SD, G13_elevation)
+G12_variance = variance(l1_SD, G12_elevation)
+G10_variance = variance(l1_SD, G10_elevation)
+G18_variance = variance(l1_SD, G18_elevation)
 
-print("G24 angle of elevation (for plot):", G24_elevation + (315 - 180))
-print("G19 angle of elevation (for plot):", G19_elevation + (315 - 180))
+# Vector of variances
+variances = np.array([
+[G24_variance],
+[G19_variance],
+[G17_variance],
+[G15_variance],
+[G13_variance],
+[G12_variance],
+[G10_variance],
+[G18_variance],
+])
 
-print("G17 angle of elevation (for plot):", G17_elevation + (315 - 180))
-print("G15 angle of elevation (for plot):", G15_elevation + (315 - 180))
-print("G13 angle of elevation (for plot):", G13_elevation + (315 - 180))
-print("G12 angle of elevation (for plot):", G12_elevation + (315 - 180))
-print("G10 angle of elevation (for plot):", G10_elevation + (315 - 180))
+
+
+
+# print("G24 angle of elevation:", G24_elevation)
+# print("G19 angle of elevation:", G19_elevation)
+# print("G17 angle of elevation:", G17_elevation)
+# print("G15 angle of elevation:", G15_elevation)
+# print("G13 angle of elevation:", G13_elevation)
+# print("G12 angle of elevation:", G12_elevation)
+# print("G10 angle of elevation:", G10_elevation)
+# print("G18 angle of elevation:")
+
+
+
+
+
+
+
+
+
+
+
+
 
