@@ -40,7 +40,9 @@ You can find the computations [here](https://github.com/ThomasJames/GNSS_Double_
 
 ### Clone this repository:
 
-```$ git clone https://github.com/ThomasJames/GNSS_Double_Differencing```
+```
+$ git clone https://github.com/ThomasJames/GNSS_Double_Differencing
+```
 
 
 ## Data
