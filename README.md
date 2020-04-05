@@ -38,9 +38,15 @@ pip install seaborn
 
 You can find the computations [here](https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Computations.py)
 
+### Clone this repository:
+
+```
+$ git clone https://github.com/ThomasJames/GNSS_Double_Differencing
+```
+
 ## Data
 
-The original [text file](https://github.com/ThomasJames/GNSS_Data_(text).txt) is in this repository, however the data has been organised into [python](https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py) variables. 
+The original [text file](https://github.com/ThomasJames/GNSS_Data_(text).txt) is in this repository, however the data has been organised and processed into [python](https://github.com/ThomasJames/GNSS_Double_Differencing/Data.py) variables. 
 
 ## Method 
 
