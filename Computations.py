@@ -10,7 +10,7 @@ Try to get your answer close to the figures for 3A. The nominal coordinates give
 least squares solution, you should converge on the answer with on round of matrix inversion
 """
 
-def x_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
+def x_diff(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
     # Condense Variables
     X_3A, Y_3A, Z_3A = reference_station[0], reference_station[1], reference_station[2]
@@ -28,7 +28,7 @@ def x_differential(reference_station, satelite_corresponding, satelite_reference
     return float(result)
 
 
-def y_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
+def y_diff(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
     # Condense Variables
     # Condense Variables
@@ -48,7 +48,7 @@ def y_differential(reference_station, satelite_corresponding, satelite_reference
     return float(result)
 
 
-def z_differential(reference_station, satelite_corresponding, satelite_reference, wavelength):
+def z_diff(reference_station, satelite_corresponding, satelite_reference, wavelength):
 
     # Condense Variables
     # Condense Variables
@@ -187,34 +187,13 @@ if __name__ == "__main__":
 
     # Constructing the Design Matrix
     A = np.array([
-
-    [x_differential(pillar_1A_base, G19, G24, wl),
-     y_differential(pillar_1A_base, G19, G24, wl),
-     z_differential(pillar_1A_base, G19, G24, wl)],
-
-    [x_differential(pillar_1A_base, G18, G24, wl),
-     y_differential(pillar_1A_base, G18, G24, wl),
-     z_differential(pillar_1A_base, G18, G24, wl)],
-
-    [x_differential(pillar_1A_base, G17, G24, wl),
-     y_differential(pillar_1A_base, G17, G24, wl),
-     z_differential(pillar_1A_base, G17, G24, wl)],
-
-    [x_differential(pillar_1A_base, G15, G24, wl),
-     y_differential(pillar_1A_base, G15, G24, wl),
-     z_differential(pillar_1A_base, G15, G24, wl)],
-
-    [x_differential(pillar_1A_base, G13, G24, wl),
-     y_differential(pillar_1A_base, G13, G24, wl),
-     z_differential(pillar_1A_base, G13, G24, wl)],
-
-    [x_differential(pillar_1A_base, G12, G24, wl),
-     y_differential(pillar_1A_base, G12, G24, wl),
-     z_differential(pillar_1A_base, G12, G24, wl)],
-
-    [x_differential(pillar_1A_base, G10, G24, wl),
-     y_differential(pillar_1A_base, G10, G24, wl),
-     z_differential(pillar_1A_base, G10, G24, wl)],
+    [x_diff(pillar_1A_base, G19, G24, wl), y_diff(pillar_1A_base, G19, G24, wl), z_diff(pillar_1A_base, G19, G24, wl)],
+    [x_diff(pillar_1A_base, G18, G24, wl), y_diff(pillar_1A_base, G18, G24, wl), z_diff(pillar_1A_base, G18, G24, wl)],
+    [x_diff(pillar_1A_base, G17, G24, wl), y_diff(pillar_1A_base, G17, G24, wl), z_diff(pillar_1A_base, G17, G24, wl)],
+    [x_diff(pillar_1A_base, G15, G24, wl), y_diff(pillar_1A_base, G15, G24, wl), z_diff(pillar_1A_base, G15, G24, wl)],
+    [x_diff(pillar_1A_base, G13, G24, wl), y_diff(pillar_1A_base, G13, G24, wl), z_diff(pillar_1A_base, G13, G24, wl)],
+    [x_diff(pillar_1A_base, G12, G24, wl), y_diff(pillar_1A_base, G12, G24, wl), z_diff(pillar_1A_base, G12, G24, wl)],
+    [x_diff(pillar_1A_base, G10, G24, wl), y_diff(pillar_1A_base, G10, G24, wl), z_diff(pillar_1A_base, G10, G24, wl)],
     ])
 
     # Output the A matrix
@@ -228,10 +207,6 @@ if __name__ == "__main__":
     plt.title('A Matrix')
     plt.savefig("Matrix_Output/A_Matrix.png")
     plt.show()
-
-
-
-
 
 
 
@@ -262,13 +237,8 @@ if __name__ == "__main__":
         [b_vector(G24_base_obs, G10_base_obs, G24_rover_obs, G10_rover_obs,  G24toG10_before, wl, G24toG10_measured)],
     ])
 
-
-    print("b :", b)
-    print("b dimensions: ", b.shape)
-
-    # print("The A matrix: ", A)
-    print("A dimensions", A.shape)
-    print("  ")
+    X_hat = calculate_x_hat(A, Wd, b)
+    print(X_hat)
 
 
 
