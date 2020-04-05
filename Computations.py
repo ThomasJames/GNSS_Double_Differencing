@@ -90,6 +90,8 @@ def b_vector( base_range_ref,
 
 def Cd_calculator(D, S, Cl):
     result = (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))
+
+    result = (((D.dot(S)).dot(Cl)).dot.transpose(S)).dot(transpose(D))
     return result
 
 def calculate_x_hat(A, W, b):
@@ -120,7 +122,43 @@ if __name__ == "__main__":
     # Calculate the vector of double differences
     Dsl = D.dot(sl)
     print("Dsl: ", Dsl)
-                                 
+
+    # print("The covariance matrix is: ", cl) # Exists and is known
+    print("  ")
+    print("D dimensions: ", D.shape)
+    plt.imshow(D)
+    plt.title('D Matrix')
+    plt.show()
+
+
+    print("  ")
+    print("S dimensions: ", S.shape)
+    print("  ")
+
+    # Calculate the covariance matrix of the observation vector l
+    cl = variances * np.eye(8, 8)
+    print("cl", cl)
+    print("cl dimensions: ", cl.shape)
+    print("  ")
+    plt.imshow(cl)
+    plt.title('Cov l')
+    plt.show()
+
+    Cd = (Cd_calculator(D, S, cl))
+    # print(Cd)
+    print(Cd.shape)
+    print(" ")
+    plt.imshow(Cd)
+    plt.title('Cov d')
+    plt.show()
+
+
+
+
+
+
+
+
     # Constructing the Design Matrix
     A = np.array([
 
@@ -196,29 +234,29 @@ if __name__ == "__main__":
     print("  ")
 
 
-    # print("The covariance matrix is: ", cl) # Exists and is known
-    print("  ")
-    print("D dimensions: ", D.shape)
-    print("  ")
-    print("S dimensions: ", S.shape)
-    print("  ")
 
-    # Calculate the covariance matrix of the observation vector l
-    cl = variances * np.eye(8 , 8)
-    print("cl", cl)
-    print("cl dimensions: ", cl.shape)
-    print("  ")
-    plt.imshow(cl)
-    plt.title('Cov l')
-    plt.show()
 
-    Cd = (Cd_calculator(D, S, cl))
-    # print(Cd)
-    print(Cd.shape)
-    print(" ")
-    plt.imshow(Cd)
-    plt.title('Cov d')
-    plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     Wd = linalg.inv(Cd)
     print("Weight Matrix d", Wd)
