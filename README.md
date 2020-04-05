@@ -51,23 +51,24 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 ## Matrices:
 
-### A Matrix
+### A (Design) Matrix
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/A_Matrix.png" width="500">
 
-### S Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/S_Matrix.png" width="500">
-
-### D Matrix 
+### D (Single differencing) Matrix 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/D_Matrix.png" width="500">
 
-### Cd Matrix 
+### S (Double differencing) Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/S_Matrix.png" width="500">
+
+### Cl (Observations covariance) Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/cl_Matrix.png" width="500">
+
+### Cd (Covariance) Matrix 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Cd_Matrix.png" width="500">
 
-### Wd Matrix 
+### Wd (Weight) Matrix 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Wd_Matrix.png" width="500">
 
-### Cl Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/cl_Matrix.png" width="500">
 
 
 
