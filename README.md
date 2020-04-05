@@ -49,6 +49,28 @@ Satellite G24 has the highest elevation of 71 degrees. This satellite is used as
 It is important to initially calculate the elevation angles of each satelite. The error of a satellite is inversely proportial to elevation with respect to a local horizon. Low elevation satellites produce less reliable results, and this needs to be taken into account when formulating a weight matrix.
 
 
+## Matrices:
+
+### A Matrix
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/A_Matrix.png" width="500">
+
+### S Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/S_Matrix.png" width="500">
+
+### D Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/D_Matrix.png" width="500">
+
+### Cd Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Cd_Matrix.png" width="500">
+
+### Wd Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Wd_Matrix.png" width="500">
+
+### Cl Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/cl_Matrix.png" width="500">
+
+
+
 
 
 
