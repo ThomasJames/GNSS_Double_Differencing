@@ -207,7 +207,6 @@ if __name__ == "__main__":
 
     # Calculate A^TWA
     atwa = ATWA(A, Wd)
-    print(atwa)
 
     # Output the A matrix
     sns.heatmap(atwa,
@@ -267,11 +266,15 @@ if __name__ == "__main__":
     ])
 
     X_hat = calculate_x_hat(A, Wd, b)
-    print(X_hat)
-
     X_post = pillar_3A_rover - X_hat
 
-    print(X_post)
+    print('X: ', X_post[0])
+    print('Y: ', X_post[0])
+    print('X: ', X_post[0])
+
+
+
+
 
 
 

@@ -153,21 +153,19 @@ NOTE: Satellite G24 has the highest elevation: 71 degrees.
 """
 
 # Calculate Satelite elevation from a local horizon.
-def elevation_calculator(ECtoSat_Z, ECtoSat_X, EctoRec_Z, EctoRec_X, SattoRec_range):
+def elevation_calculator(rec_XYZ, sat_XYZ, obs):
 
-    EC_sat_range = sqrt((ECtoSat_X ** 2) + (ECtoSat_Z ** 2))
-    EctoRec_range = sqrt((EctoRec_X) ** 2 + (EctoRec_Z ** 2))
-    SattoRec_range = SattoRec_range
+    r_rv = sqrt(abs(rec_XYZ[0]**2) + abs(rec_XYZ[1]**2))
+    re = sqrt(abs(r_rv**2) + abs(rec_XYZ[2]))
+    s_rv = sqrt(sat_XYZ[0]**2 + sat_XYZ[1]**2)
+    se = sqrt(s_rv**2 + sat_XYZ[2])
+    # Calculate subtending angle between receiver, center of the earth and the satellite.
+    theta = ((acos(((se ** 2) + (re ** 2) - (rec_XYZ[2] ** 2))/(2 * se * re))))
+    print("Earth center vector = radians: ", theta, "degrees: ", degrees(theta) )
+    cos_el = (sin(theta)) / sqrt((1 + ((re/obs[0])**2) * (-2 * (re/obs[0])) * cos(theta)))
+    el = degrees((acos(cos_el)))
+    return (el - 90)
 
-    c = EC_sat_range
-    b = EctoRec_range
-    a = SattoRec_range
-
-
-    angle = degrees((acos((c ** 2 - b ** 2 - a ** 2) / (-2.0 * a * b))))
-
-    elevation = abs(angle - 90)
-    return elevation
 
 
 def variance(s, e):
@@ -177,17 +175,26 @@ def variance(s, e):
 l1_SD = 0.003
 
 # Determine elevationss
-G24_elevation = (elevation_calculator(G24[2], G24[0], pillar_1A_base[2], pillar_1A_base[0], G24_base_obs[0]))
-G19_elevation = (elevation_calculator(G19[2], G19[0], pillar_1A_base[2], pillar_1A_base[0], G19_base_obs[0]))
-G17_elevation = (elevation_calculator(G17[2], G17[0], pillar_1A_base[2], pillar_1A_base[0], G17_base_obs[0]))
-G15_elevation = (elevation_calculator(G15[2], G15[0], pillar_1A_base[2], pillar_1A_base[0], G15_base_obs[0]))
-G13_elevation = (elevation_calculator(G13[2], G13[0], pillar_1A_base[2], pillar_1A_base[0], G13_base_obs[0]))
-G12_elevation = (elevation_calculator(G12[2], G12[0], pillar_1A_base[2], pillar_1A_base[0], G12_base_obs[0]))
-G10_elevation = (elevation_calculator(G10[2], G10[0], pillar_1A_base[2], pillar_1A_base[0], G10_base_obs[0]))
-G18_elevation = 5 # Something wrong with this satellite..(Random Value for now)
+G24_elevation = elevation_calculator(pillar_3A_rover, G24, G24_rover_obs)
+G19_elevation = elevation_calculator(pillar_3A_rover, G19, G19_rover_obs)
+# G17_elevation = elevation_calculator(pillar_3A_rover, G17, G17_rover_obs)
+G15_elevation = elevation_calculator(pillar_3A_rover, G15, G15_rover_obs)
+G13_elevation = elevation_calculator(pillar_3A_rover, G13, G13_rover_obs)
+G12_evation = elevation_calculator(pillar_3A_rover, G12, G12_rover_obs)
+G10_elevation = elevation_calculator(pillar_3A_rover, G10, G10_rover_obs)
+G18_elevation = elevation_calculator(pillar_3A_rover, G18, G18_rover_obs)
+
+print("G24 angle of elevation:", G24_elevation)
+print("G19 angle of elevation:", G19_elevation)
+# print("G17 angle of elevation:", G17_elevation)
+print("G15 angle of elevation:", G15_elevation)
+print("G13 angle of elevation:", G13_elevation)
+print("G12 angle of elevation:", G12_elevation)
+print("G10 angle of elevation:", G10_elevation)
+print("G18 angle of elevation:", G18_elevation)
+
 
 # Populate the a vector of variances.
-
 G24_variance = variance(l1_SD, G24_elevation)
 G19_variance = variance(l1_SD, G19_elevation)
 G17_variance = variance(l1_SD, G17_elevation)
@@ -212,14 +219,14 @@ variances = np.array([
 
 
 
-# print("G24 angle of elevation:", G24_elevation)
-# print("G19 angle of elevation:", G19_elevation)
-# print("G17 angle of elevation:", G17_elevation)
-# print("G15 angle of elevation:", G15_elevation)
-# print("G13 angle of elevation:", G13_elevation)
-# print("G12 angle of elevation:", G12_elevation)
-# print("G10 angle of elevation:", G10_elevation)
-# print("G18 angle of elevation:")
+
+
+
+
+
+
+
+
 
 
 
