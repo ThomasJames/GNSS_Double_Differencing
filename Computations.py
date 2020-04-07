@@ -106,30 +106,22 @@ def calculate_measured(wavelength, br, rr, bc, rc, pa, noise):
 def ATWA(A, W):
     return ((transpose(A)).dot(W)).dot(A)
 
+def matrix_plotter(matrix, title):
+    sns.heatmap(matrix,
+                annot=True,
+                cbar=False,
+                xticklabels=False,
+                yticklabels=False,
+                cmap='Pastel1')
+    plt.title(str(title))
+    plt.savefig("Matrix_Output/" + str(title) + ".png")
+
 
 if __name__ == "__main__":
 
     # Output the D matrix
-    sns.heatmap(D,
-                annot=True,
-                cbar=False,
-                xticklabels=False,
-                yticklabels=False,
-                cmap='Pastel1')
-    plt.title('D (Differencing matrix) Matrix')
-    plt.savefig("Matrix_Output/D_Matrix.png")
-    plt.show()
-
-    # Output the S matrix
-    sns.heatmap(S,
-                annot=True,
-                cbar=False,
-                xticklabels=False,
-                yticklabels=False,
-                cmap='Pastel1')
-    plt.title('S (Double differencing) Matrix')
-    plt.savefig("Matrix_Output/S_Matrix.png")
-    plt.show()
+    matrix_plotter(D, "D_Matrix")
+    matrix_plotter(S, "S_Matrix")
 
     # Calculate the vector of single differences
     sl = S.dot(l)
@@ -141,46 +133,19 @@ if __name__ == "__main__":
     cl = variances * np.eye(16, 16)
 
     # Output the cl matrix
-    sns.heatmap(cl,
-                annot=True,
-                cbar=False,
-                xticklabels=False,
-                yticklabels=False,
-                cmap='Pastel1')
-
-    plt.title('cl (Covariance matrix of the observation vector) Matrix')
-    plt.savefig("Matrix_Output/cl_Matrix.png")
-    plt.show()
+    matrix_plotter(cl, "cl_matrix")
 
     # Calculate the Cd matrix
     Cd = (Cd_calculator(D, S, cl))
 
     # Output the cl matrix
-    sns.heatmap(Cd,
-                annot=True,
-                cbar=False,
-                xticklabels=False,
-                yticklabels=False,
-                cmap='Pastel1')
-
-    plt.title('Cd (Covariance matrix) Matrix')
-    plt.savefig("Matrix_Output/Cd_Matrix.png")
-    plt.show()
+    matrix_plotter(Cd, "Cd_Matrix")
 
     # Calculate the Wd matrix
     Wd = linalg.inv(Cd)
 
     # Output the Wd matrix
-    sns.heatmap(Wd,
-                annot=True,
-                cbar=False,
-                xticklabels=False,
-                yticklabels=False,
-                cmap='Pastel1')
-
-    plt.title('Wd (Weight) Matrix')
-    plt.savefig("Matrix_Output/Wd_Matrix.png")
-    plt.show()
+    matrix_plotter(Wd, "Wd_Matrix")
 
     # Constructing the Design Matrix
     A = np.array([
@@ -194,47 +159,19 @@ if __name__ == "__main__":
     ])
 
     # Output the A matrix
-    sns.heatmap(A,
-                annot=True,
-                cbar=False,
-                xticklabels=False,
-                yticklabels=False,
-                cmap='Pastel1')
-
-    plt.title('A (Design) Matrix')
-    plt.savefig("Matrix_Output/A_Matrix.png")
-    plt.show()
+    matrix_plotter(A, "A_Matrix")
 
     # Calculate A^TWA
     atwa = ATWA(A, Wd)
 
-    # Output the A matrix
-    sns.heatmap(atwa,
-                annot=True,
-                cbar=False,
-                xticklabels=False,
-                yticklabels=False,
-                cmap='Pastel1')
-
-    plt.title('ATWA Matrix')
-    plt.savefig("Matrix_Output/ATWA_Matrix.png")
-    plt.show()
+    # Output the atwa matrix
+    matrix_plotter(atwa, "ATWA_Matrix")
 
     # Calculate inverse A^T WA
-    inveseATWA = linalg.inv(atwa)
+    inverse_ATWA = linalg.inv(atwa)
 
     # Output the ATWA^-1 matrix
-    sns.heatmap(inveseATWA,
-                annot=True,
-                cbar=False,
-                xticklabels=False,
-                yticklabels=False,
-                cmap='Pastel1')
-
-    plt.title('(ATWA)^-1 Matrix')
-    plt.savefig("Matrix_Output/Inverse_ATWA.png")
-    plt.show()
-
+    matrix_plotter(inverse_ATWA, '(ATWA)^-1_Matrix')
 
 
 

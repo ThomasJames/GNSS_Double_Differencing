@@ -175,18 +175,18 @@ def variance(s, e):
 l1_SD = 0.003
 
 # Determine elevationss
-G24_elevation = elevation_calculator(pillar_3A_rover, G24, G24_rover_obs)
-G19_elevation = elevation_calculator(pillar_3A_rover, G19, G19_rover_obs)
-# G17_elevation = elevation_calculator(pillar_3A_rover, G17, G17_rover_obs)
-G15_elevation = elevation_calculator(pillar_3A_rover, G15, G15_rover_obs)
-G13_elevation = elevation_calculator(pillar_3A_rover, G13, G13_rover_obs)
-G12_evation = elevation_calculator(pillar_3A_rover, G12, G12_rover_obs)
-G10_elevation = elevation_calculator(pillar_3A_rover, G10, G10_rover_obs)
-G18_elevation = elevation_calculator(pillar_3A_rover, G18, G18_rover_obs)
+G24_elevation = 3 #elevation_calculator(pillar_3A_rover, G24, G24_rover_obs)
+G19_elevation = 3 #elevation_calculator(pillar_3A_rover, G19, G19_rover_obs)
+G17_elevation = 3 #elevation_calculator(pillar_3A_rover, G17, G17_rover_obs)
+G15_elevation = 3 #elevation_calculator(pillar_3A_rover, G15, G15_rover_obs)
+G13_elevation = 3 #elevation_calculator(pillar_3A_rover, G13, G13_rover_obs)
+G12_elevation = 3 #elevation_calculator(pillar_3A_rover, G12, G12_rover_obs)
+G10_elevation = 3 #elevation_calculator(pillar_3A_rover, G10, G10_rover_obs)
+G18_elevation = 3 #elevation_calculator(pillar_3A_rover, G18, G18_rover_obs)
 
 print("G24 angle of elevation:", G24_elevation)
 print("G19 angle of elevation:", G19_elevation)
-# print("G17 angle of elevation:", G17_elevation)
+print("G17 angle of elevation:", G17_elevation)
 print("G15 angle of elevation:", G15_elevation)
 print("G13 angle of elevation:", G13_elevation)
 print("G12 angle of elevation:", G12_elevation)
