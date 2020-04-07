@@ -1,4 +1,4 @@
-# GNSS Double Differencing
+# 📡 GNSS Double Differencing  📡
 
 Double Differencing: Main method of high precision commercial positioning. This method requires two high grade GNSS receivers. In this case a reference, and a (static or kinematic) rover receiver.  
 
