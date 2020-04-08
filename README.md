@@ -58,6 +58,7 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 <script src="https://gist.github.com/ThomasJames/d9e1cf13bdb58f8181fe2f1c901a8cfe.js"></script>
 
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satelite_Elevation.png" width="600">
 
 ## Matrices:
