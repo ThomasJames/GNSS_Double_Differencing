@@ -4,7 +4,7 @@ from numpy import transpose, linalg
 import matplotlib.pyplot as plt
 import seaborn as sns
 from Plotter_Class import HeatMap
-from Design_Matrix_Computation import PartialDiffCalc
+from Matrix_Computation_Classes import PartialDiffCalc
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
