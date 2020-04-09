@@ -3,6 +3,7 @@ import numpy as np
 from numpy import transpose, linalg
 import matplotlib.pyplot as plt
 import seaborn as sns
+from Plotter_Class import HeatMap
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -277,16 +278,6 @@ def calculate_measured(wavelength, br, rr, bc, rc, pa, noise):
 def ATWA(A, W):
     return ((transpose(A)).dot(W)).dot(A)
 
-def matrix_plotter(matrix, title):
-    sns.heatmap(matrix,
-                annot=True,
-                cbar=False,
-                xticklabels=False,
-                yticklabels=False,
-                cmap='Pastel1')
-    plt.title(str(title))
-    plt.savefig("Matrix_Output/" + str(title) + ".png")
-
 
 if __name__ == "__main__":
 
@@ -332,7 +323,12 @@ if __name__ == "__main__":
     ])
 
     # Output the D matrix
-    matrix_plotter(D, "D_Matrix")
+    D_out = HeatMap(matrix=D, title="D_matrix")
+    D_out.output_png()
+
+    S_out = HeatMap(matrix=S, title="S_matrix")
+
+
     matrix_plotter(S, "S_Matrix")
 
     # Calculate the vector of single differences
@@ -345,19 +341,22 @@ if __name__ == "__main__":
     cl = variances * np.eye(16, 16)
 
     # Output the cl matrix
-    matrix_plotter(cl, "cl_matrix")
+    cl_out = HeatMap(matrix=cl, title="cl_Matrix")
+    cl_out.output_png()
 
     # Calculate the Cd matrix
     Cd = (Cd_calculator(D, S, cl))
 
     # Output the cl matrix
-    matrix_plotter(Cd, "Cd_Matrix")
+    cd_out = HeatMap(matrix=Cd, title="Cd_Matrix")
+    cd_out.output_png()
 
     # Calculate the Wd matrix
     Wd = linalg.inv(Cd)
 
     # Output the Wd matrix
-    matrix_plotter(Wd, "Wd_Matrix")
+    Wd_out = HeatMap(matrix=Wd, title="Wd_Matrix")
+    Wd_out.output_png()
 
     # Constructing the Design Matrix
     A = np.array([
@@ -371,20 +370,22 @@ if __name__ == "__main__":
     ])
 
     # Output the A matrix
-    matrix_plotter(A, "A_Matrix")
+    A_out = HeatMap(matrix=A, title="A_Matrix")
+    A_out.output_png()
 
     # Calculate A^TWA
     atwa = ATWA(A, Wd)
 
     # Output the atwa matrix
-    matrix_plotter(atwa, "ATWA_Matrix")
+    atwa_out = HeatMap(matrix=atwa, title="ATWA_Matrix")
+    atwa_out.output_png()
 
     # Calculate inverse A^T WA
     inverse_ATWA = linalg.inv(atwa)
 
     # Output the ATWA^-1 matrix
-    matrix_plotter(inverse_ATWA, '(ATWA)^-1_Matrix')
-
+    inverse_ATWA_out = HeatMap(matrix=inverse_ATWA, title="inverse_ATWA_Matrix")
+    inverse_ATWA_out.output_png()
 
 
 
