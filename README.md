@@ -56,7 +56,10 @@ Satellite G24 has the highest elevation of 71 degrees. This satellite is used as
 
 It is important to initially calculate the elevation angles of each satelite. The error of a satellite is inversely proportial to elevation with respect to a local horizon. Low elevation satellites produce less reliable results, and this needs to be taken into account when formulating a weight matrix.
 
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satelite_Elevation.png" width="600">
+
+
 
 ## Matrices:
 
