@@ -4,6 +4,7 @@ from numpy import transpose, linalg
 import matplotlib.pyplot as plt
 import seaborn as sns
 from Plotter_Class import HeatMap
+from Design_Matrix_Computation import PartialDiffCalc
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -171,67 +172,12 @@ def elevation_calculator(rec_XYZ, sat_XYZ, obs):
     el = degrees((acos(cos_el)))
     return (el - 90)
 
-
-
 def variance(s, e):
     a = s**2 * s / cos(e)
     return a
 
 l1_SD = 0.003
 
-
-def x_diff(ref_station, sat_corresponding, sat_reference, wavelength):
-
-    X_3A, Y_3A, Z_3A = ref_station[0], ref_station[1], ref_station[2]
-    X_s, Y_s, Z_s = sat_corresponding[0], sat_corresponding[1], sat_corresponding[2]
-    X_s_ref, Y_s_ref, Z_s_ref = sat_reference[0], sat_reference[1], sat_reference[2]
-
-    result = 1 / wavelength * \
-             (
-                     (X_3A - X_s) /
-                     (sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (Z_s - Z_3A) ** 2))
-                     -
-                     (X_3A - X_s_ref) /
-                     (sqrt(X_s_ref - X_3A) ** 2 + (Y_s_ref - Y_3A) ** 2 + (Z_s_ref - Z_3A) ** 2)
-             )
-    return float(result)
-
-
-def y_diff(ref_station, sat_corresponding, sat_reference, wavelength):
-
-    X_3A, Y_3A, Z_3A = ref_station[0], ref_station[1], ref_station[2]
-    X_s, Y_s, Z_s = sat_corresponding[0], sat_corresponding[1], sat_corresponding[2]
-    X_s_ref, Y_s_ref, Z_s_ref = sat_reference[0], sat_reference[1], sat_reference[2]
-
-    # Calculate
-    result = 1 / wavelength * \
-             (
-                     (Y_3A - Y_s) /
-                     (sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (Z_s - Z_3A) ** 2))
-                     -
-                     (Y_3A - Y_s_ref) /
-                     (sqrt(X_s_ref - X_3A) ** 2 + (Y_s_ref - Y_3A) ** 2 + (Z_s_ref - Z_3A) ** 2)
-             )
-    return float(result)
-
-
-def z_diff(ref_station, sat_corresponding, sat_reference, wavelength):
-
-    # Condense Variables
-    # Condense Variables
-    X_3A, Y_3A, Z_3A = ref_station[0], ref_station[1], ref_station[2]
-    X_s, Y_s, Z_s = sat_corresponding[0], sat_corresponding[1], sat_corresponding[2]
-    X_s_ref, Y_s_ref, Z_s_ref = sat_reference[0], sat_reference[1], sat_reference[2]
-
-    result = 1 / wavelength * \
-             (
-                     (Z_3A - Z_s) /
-                     (sqrt((X_s - X_3A) ** 2 + (Y_s - Y_3A) ** 2 + (X_s - X_3A) ** 2 + (Z_s - Z_3A) ** 2))
-                     -
-                     (Z_3A - Z_s_ref) /
-                     (sqrt(X_s_ref - X_3A) ** 2 + (Y_s_ref - Y_3A) ** 2 + (Z_s_ref - Z_3A) ** 2)
-             )
-    return float(result)
 
 """
 b_vector function
@@ -328,9 +274,6 @@ if __name__ == "__main__":
 
     S_out = HeatMap(matrix=S, title="S_matrix")
 
-
-    matrix_plotter(S, "S_Matrix")
-
     # Calculate the vector of single differences
     sl = S.dot(l)
 
@@ -358,15 +301,29 @@ if __name__ == "__main__":
     Wd_out = HeatMap(matrix=Wd, title="Wd_Matrix")
     Wd_out.output_png()
 
-    # Constructing the Design Matrix
+    """
+    Constructing the A matrix
+
+    """
+
+    one = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G19, sat_ref= G24, wavelength= wl)
+    two = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G18, sat_ref= G24, wavelength= wl)
+    three = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G17, sat_ref= G24, wavelength= wl)
+    four = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G15, sat_ref= G24, wavelength= wl)
+    five = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G13, sat_ref= G24, wavelength= wl)
+    six = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G12, sat_ref= G24, wavelength= wl)
+    seven = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G10, sat_ref= G24, wavelength= wl)
+
+
+
     A = np.array([
-    [x_diff(pillar_1A_base, G19, G24, wl), y_diff(pillar_1A_base, G19, G24, wl), z_diff(pillar_1A_base, G19, G24, wl)],
-    [x_diff(pillar_1A_base, G18, G24, wl), y_diff(pillar_1A_base, G18, G24, wl), z_diff(pillar_1A_base, G18, G24, wl)],
-    [x_diff(pillar_1A_base, G17, G24, wl), y_diff(pillar_1A_base, G17, G24, wl), z_diff(pillar_1A_base, G17, G24, wl)],
-    [x_diff(pillar_1A_base, G15, G24, wl), y_diff(pillar_1A_base, G15, G24, wl), z_diff(pillar_1A_base, G15, G24, wl)],
-    [x_diff(pillar_1A_base, G13, G24, wl), y_diff(pillar_1A_base, G13, G24, wl), z_diff(pillar_1A_base, G13, G24, wl)],
-    [x_diff(pillar_1A_base, G12, G24, wl), y_diff(pillar_1A_base, G12, G24, wl), z_diff(pillar_1A_base, G12, G24, wl)],
-    [x_diff(pillar_1A_base, G10, G24, wl), y_diff(pillar_1A_base, G10, G24, wl), z_diff(pillar_1A_base, G10, G24, wl)],
+    [one.x_diff(), one.y_diff(), one.z_diff()],
+    [two.x_diff(), two.y_diff(), two.z_diff()],
+    [three.x_diff(), three.y_diff(), three.z_diff()],
+    [four.x_diff(), four.y_diff(), four.z_diff()],
+    [five.x_diff(), five.y_diff(), five.z_diff()],
+    [six.x_diff(), six.y_diff(), six.z_diff()],
+    [seven.x_diff(), seven.y_diff(), seven.z_diff()],
     ])
 
     # Output the A matrix
