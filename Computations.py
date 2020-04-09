@@ -82,7 +82,6 @@ l = np.transpose([
     G10_base_obs[1], G10_rover_obs[1]
 ])
 
-
 """
 Phase Ambiguity terms (N) for each measurement, before and after ambiguity resolution 
 Use integer terms in computations
@@ -138,7 +137,6 @@ D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
               [1, 0, 0, 0, 0, 0, -1, 0],
               [1, 0, 0, 0, 0, 0, 0, -1]])
 
-
 """
 How to compute the signal wavelength:
 λ=𝑐/𝑓
@@ -158,26 +156,27 @@ NOTE: Satellite G24 has the highest elevation: 71 degrees.
 
 """
 
+
 # Calculate Satelite elevation from a local horizon.
 def elevation_calculator(rec_XYZ, sat_XYZ, obs):
-
-    r_rv = sqrt(abs(rec_XYZ[0]**2) + abs(rec_XYZ[1]**2))
-    re = sqrt(abs(r_rv**2) + abs(rec_XYZ[2]))
-    s_rv = sqrt(sat_XYZ[0]**2 + sat_XYZ[1]**2)
-    se = sqrt(s_rv**2 + sat_XYZ[2])
+    r_rv = sqrt(abs(rec_XYZ[0] ** 2) + abs(rec_XYZ[1] ** 2))
+    re = sqrt(abs(r_rv ** 2) + abs(rec_XYZ[2]))
+    s_rv = sqrt(sat_XYZ[0] ** 2 + sat_XYZ[1] ** 2)
+    se = sqrt(s_rv ** 2 + sat_XYZ[2])
     # Calculate subtending angle between receiver, center of the earth and the satellite.
-    theta = ((acos(((se ** 2) + (re ** 2) - (rec_XYZ[2] ** 2))/(2 * se * re))))
-    print("Earth center vector = radians: ", theta, "degrees: ", degrees(theta) )
-    cos_el = (sin(theta)) / sqrt((1 + ((re/obs[0])**2) * (-2 * (re/obs[0])) * cos(theta)))
+    theta = ((acos(((se ** 2) + (re ** 2) - (rec_XYZ[2] ** 2)) / (2 * se * re))))
+    print("Earth center vector = radians: ", theta, "degrees: ", degrees(theta))
+    cos_el = (sin(theta)) / sqrt((1 + ((re / obs[0]) ** 2) * (-2 * (re / obs[0])) * cos(theta)))
     el = degrees((acos(cos_el)))
     return (el - 90)
 
+
 def variance(s, e):
-    a = s**2 * s / cos(e)
+    a = s ** 2 * s / cos(e)
     return a
 
-l1_SD = 0.003
 
+l1_SD = 0.003
 
 """
 b_vector function
@@ -185,14 +184,15 @@ pa: Phase ambiguity
 obs: G24 to G10 after ambiguity resolution 
 Wl: defined 
 """
-def b_vector( base_range_ref,
-              base_range_corresponding,
-              rover_range_ref,
-              rover_range_corresponding,
-              N,
-              wl,
-              obs):
 
+
+def b_vector(base_range_ref,
+             base_range_corresponding,
+             rover_range_ref,
+             rover_range_corresponding,
+             N,
+             wl,
+             obs):
     # Condense variables
     brf = base_range_ref[0]
     brc = base_range_corresponding[0]
@@ -202,15 +202,18 @@ def b_vector( base_range_ref,
     result = obs - (1 / wl * (brf - rrr - brc + rrc) - N)
     return result
 
+
 def Cd_calculator(D, S, Cl):
     result = (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))
 
     # result = (((D.dot(S)).dot(Cl)).dot((transpose(S)).dot(transpose(D))
     return result
 
+
 def calculate_x_hat(A, W, b):
     result = ((linalg.inv((transpose(A).dot(W)).dot(A))).dot(transpose(A).dot(W))).dot(b)
     return result
+
 
 def calculate_measured(wavelength, br, rr, bc, rc, pa, noise):
     cbr = br[1]
@@ -221,12 +224,12 @@ def calculate_measured(wavelength, br, rr, bc, rc, pa, noise):
     result = (1 / wavelength * (cbr - crr - cbc + crc)) + pa + noise
     return result
 
+
 def ATWA(A, W):
     return ((transpose(A)).dot(W)).dot(A)
 
 
 if __name__ == "__main__":
-
     # Determine elevationss
     G24_elevation = 3  # elevation_calculator(pillar_3A_rover, G24, G24_rover_obs)
     G19_elevation = 3  # elevation_calculator(pillar_3A_rover, G19, G19_rover_obs)
@@ -306,24 +309,22 @@ if __name__ == "__main__":
 
     """
 
-    one = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G19, sat_ref= G24, wavelength= wl)
-    two = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G18, sat_ref= G24, wavelength= wl)
-    three = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G17, sat_ref= G24, wavelength= wl)
-    four = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G15, sat_ref= G24, wavelength= wl)
-    five = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G13, sat_ref= G24, wavelength= wl)
-    six = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G12, sat_ref= G24, wavelength= wl)
-    seven = PartialDiffCalc(ref_station= pillar_1A_base, corresponding_sat= G10, sat_ref= G24, wavelength= wl)
-
-
+    one = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G19, sat_ref=G24, wavelength=wl)
+    two = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G18, sat_ref=G24, wavelength=wl)
+    three = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G17, sat_ref=G24, wavelength=wl)
+    four = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G15, sat_ref=G24, wavelength=wl)
+    five = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G13, sat_ref=G24, wavelength=wl)
+    six = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G12, sat_ref=G24, wavelength=wl)
+    seven = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G10, sat_ref=G24, wavelength=wl)
 
     A = np.array([
-    [one.x_diff(), one.y_diff(), one.z_diff()],
-    [two.x_diff(), two.y_diff(), two.z_diff()],
-    [three.x_diff(), three.y_diff(), three.z_diff()],
-    [four.x_diff(), four.y_diff(), four.z_diff()],
-    [five.x_diff(), five.y_diff(), five.z_diff()],
-    [six.x_diff(), six.y_diff(), six.z_diff()],
-    [seven.x_diff(), seven.y_diff(), seven.z_diff()],
+        [one.x_diff(), one.y_diff(), one.z_diff()],
+        [two.x_diff(), two.y_diff(), two.z_diff()],
+        [three.x_diff(), three.y_diff(), three.z_diff()],
+        [four.x_diff(), four.y_diff(), four.z_diff()],
+        [five.x_diff(), five.y_diff(), five.z_diff()],
+        [six.x_diff(), six.y_diff(), six.z_diff()],
+        [seven.x_diff(), seven.y_diff(), seven.z_diff()],
     ])
 
     # Output the A matrix
@@ -341,10 +342,8 @@ if __name__ == "__main__":
     inverse_ATWA = linalg.inv(atwa)
 
     # Output the ATWA^-1 matrix
-    inverse_ATWA_out = HeatMap(matrix=inverse_ATWA, title="inverse_ATWA_Matrix")
+    inverse_ATWA_out = HeatMap(matrix=inverse_ATWA, title="(ATWA)^-1)_Matrix")
     inverse_ATWA_out.output_png()
-
-
 
     # Calculate the observations
     G24toG10_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G19_base_obs,
@@ -363,13 +362,13 @@ if __name__ == "__main__":
                                            G10_rover_obs, G24toG10_after, G24toG10_noise)
 
     b = np.array([
-        [b_vector(G24_base_obs, G19_base_obs, G24_rover_obs, G19_rover_obs,  G24toG19_before, wl, G24toG19_measured)],
-        [b_vector(G24_base_obs, G18_base_obs, G24_rover_obs, G18_rover_obs,  G24toG18_before, wl, G24toG18_measured)],
-        [b_vector(G24_base_obs, G17_base_obs, G24_rover_obs, G17_rover_obs,  G24toG17_before, wl, G24toG17_measured)],
-        [b_vector(G24_base_obs, G15_base_obs, G24_rover_obs, G15_rover_obs,  G24toG15_before, wl, G24toG15_measured)],
-        [b_vector(G24_base_obs, G13_base_obs, G24_rover_obs, G13_rover_obs,  G24toG13_before, wl, G24toG13_measured)],
-        [b_vector(G24_base_obs, G12_base_obs, G24_rover_obs, G12_rover_obs,  G24toG12_before, wl, G24toG12_measured)],
-        [b_vector(G24_base_obs, G10_base_obs, G24_rover_obs, G10_rover_obs,  G24toG10_before, wl, G24toG10_measured)],
+        [b_vector(G24_base_obs, G19_base_obs, G24_rover_obs, G19_rover_obs, G24toG19_before, wl, G24toG19_measured)],
+        [b_vector(G24_base_obs, G18_base_obs, G24_rover_obs, G18_rover_obs, G24toG18_before, wl, G24toG18_measured)],
+        [b_vector(G24_base_obs, G17_base_obs, G24_rover_obs, G17_rover_obs, G24toG17_before, wl, G24toG17_measured)],
+        [b_vector(G24_base_obs, G15_base_obs, G24_rover_obs, G15_rover_obs, G24toG15_before, wl, G24toG15_measured)],
+        [b_vector(G24_base_obs, G13_base_obs, G24_rover_obs, G13_rover_obs, G24toG13_before, wl, G24toG13_measured)],
+        [b_vector(G24_base_obs, G12_base_obs, G24_rover_obs, G12_rover_obs, G24toG12_before, wl, G24toG12_measured)],
+        [b_vector(G24_base_obs, G10_base_obs, G24_rover_obs, G10_rover_obs, G24toG10_before, wl, G24toG10_measured)],
     ])
 
     X_hat = calculate_x_hat(A, Wd, b)
