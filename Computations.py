@@ -1,10 +1,7 @@
 from math import sqrt, cos, sin, degrees, acos
 import numpy as np
 from numpy import transpose, linalg
-import matplotlib.pyplot as plt
-import seaborn as sns
-from Plotter_Class import HeatMap
-from Matrix_Computation_Classes import PartialDiffCalc
+from Matrix_Computation_Classes import DD, MatrixOperations, HeatMap
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -43,6 +40,12 @@ Use double differenced phase measurements, from the first epoch of data only 201
 TO compute the precise coordinates of the pillar 3A sensor phase center. 
 These are pseudo range measurements 
 """
+
+print("b: G24G10 observed measurement",
+      1 / 190293.67279836486 * (20436699.926 - 20436682.002 - 23726969.123 + 23726881.094) + 12.564)
+G24G10observed = 1 / 190293.67279836486 * (20436699.926 - 20436682.002 - 23726969.123 + 23726881.094) + 12.564
+
+print(G24G10observed - (1 / 190293.67279836486 * (20436699.926 - 20436682.002 - 23726969.123 + 23726881.094) + 12))
 
 # BASE OBSERVATIONS (Pillar 1A) C1C (metres), L1C (L1 cycles)
 # 2016_11_15_22_19_5
@@ -90,32 +93,32 @@ G24 is a reference satelite - and has the highest
 """
 
 # Phase ambiguities for each epoch and each phase measurement:
-
 before_ambiguity_resolution = np.array([[4929605.364], [-29123.817], [4033603.867]])
-G24toG10_before = 12.564
-G24toG12_before = 34.873
-G24toG13_before = -3.838
-G24toG15_before = -4.170
-G24toG17_before = 1.538
-G24toG18_before = 11.324
 G24toG19_before = 34.352
+G24toG18_before = 11.324
+G24toG17_before = 1.538
+G24toG15_before = -4.170
+G24toG13_before = -3.838
+G24toG12_before = 34.873
+G24toG10_before = 12.564
 
 after_ambiguity_resolution = np.array([[4929605.542], [-29123.828], [4033603.932]])
-G24toG10_after = int(12.000)
-G24toG12_after = int(35.000)
-G24toG13_after = int(-4.000)
-G24toG15_after = int(-4.000)
-G24toG17_after = int(1.000)
-G24toG18_after = int(11.000)
-G24toG19_after = int(34.000)
+G24toG19_after = 34.000
+G24toG18_after = 11.000
+G24toG17_after = 1.000
+G24toG15_after = -4.000
+G24toG13_after = -4.000
+G24toG12_after = 35.000
+G24toG10_after = 12.000
 
-G24toG10_noise = G24toG10_before - G24toG10_after
-G24toG12_noise = G24toG12_before - G24toG12_after
-G24toG13_noise = G24toG13_before - G24toG13_after
-G24toG15_noise = G24toG15_before - G24toG15_after
-G24toG17_noise = G24toG17_before - G24toG17_after
-G24toG18_noise = G24toG18_before - G24toG18_after
+# Calculate the noise of each measurement.
 G24toG19_noise = G24toG19_before - G24toG19_after
+G24toG18_noise = G24toG18_before - G24toG18_after
+G24toG17_noise = G24toG17_before - G24toG17_after
+G24toG15_noise = G24toG15_before - G24toG15_after
+G24toG13_noise = G24toG13_before - G24toG13_after
+G24toG12_noise = G24toG12_before - G24toG12_after
+G24toG10_noise = G24toG10_before - G24toG10_after
 
 # 16 x 8:  Differencing matrix
 S = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -148,6 +151,7 @@ c = 299792458.0
 f = 1575.42
 
 wl = c / f
+print("wavelength: ", wl)
 
 """
 Standard Deviations
@@ -178,50 +182,27 @@ def variance(s, e):
 
 l1_SD = 0.003
 
-"""
-b_vector function
-pa: Phase ambiguity 
-obs: G24 to G10 after ambiguity resolution 
-Wl: defined 
-"""
 
 
-def b_vector(base_range_ref,
-             base_range_corresponding,
-             rover_range_ref,
-             rover_range_corresponding,
-             N,
-             wl,
-             obs):
-    # Condense variables
-    brf = base_range_ref[0]
-    brc = base_range_corresponding[0]
-    rrr = rover_range_ref[0]
-    rrc = rover_range_corresponding[0]
 
-    result = obs - (1 / wl * (brf - rrr - brc + rrc) - N)
-    return result
+
+def cal_b_vector(wl, brrs, rrrs, brcs, rrcs, N, e):
+    # observed
+    o = 1 / wl * (brrs - rrrs - brcs + rrcs) + N + e
+
+    # Computed
+    c = 1 / wl * (brrs - rrrs - brcs + rrcs) + N
+    return o - c
 
 
 def Cd_calculator(D, S, Cl):
     result = (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))
 
-    # result = (((D.dot(S)).dot(Cl)).dot((transpose(S)).dot(transpose(D))
     return result
 
 
 def calculate_x_hat(A, W, b):
     result = ((linalg.inv((transpose(A).dot(W)).dot(A))).dot(transpose(A).dot(W))).dot(b)
-    return result
-
-
-def calculate_measured(wavelength, br, rr, bc, rc, pa, noise):
-    cbr = br[1]
-    crr = rr[1]
-    cbc = bc[1]
-    crc = rc[1]
-
-    result = (1 / wavelength * (cbr - crr - cbc + crc)) + pa + noise
     return result
 
 
@@ -240,14 +221,14 @@ if __name__ == "__main__":
     G10_elevation = 3  # elevation_calculator(pillar_3A_rover, G10, G10_rover_obs)
     G18_elevation = 3  # elevation_calculator(pillar_3A_rover, G18, G18_rover_obs)
 
-    print("G24 angle of elevation:", G24_elevation)
-    print("G19 angle of elevation:", G19_elevation)
-    print("G17 angle of elevation:", G17_elevation)
-    print("G15 angle of elevation:", G15_elevation)
-    print("G13 angle of elevation:", G13_elevation)
-    print("G12 angle of elevation:", G12_elevation)
-    print("G10 angle of elevation:", G10_elevation)
-    print("G18 angle of elevation:", G18_elevation)
+    # print("G24 angle of elevation:", G24_elevation)
+    # print("G19 angle of elevation:", G19_elevation)
+    # print("G17 angle of elevation:", G17_elevation)
+    # print("G15 angle of elevation:", G15_elevation)
+    # print("G13 angle of elevation:", G13_elevation)
+    # print("G12 angle of elevation:", G12_elevation)
+    # print("G10 angle of elevation:", G10_elevation)
+    # print("G18 angle of elevation:", G18_elevation)
 
     # Populate the a vector of variances.
     G24_variance = variance(l1_SD, G24_elevation)
@@ -304,76 +285,76 @@ if __name__ == "__main__":
     Wd_out = HeatMap(matrix=Wd, title="Wd_Matrix")
     Wd_out.output_png()
 
+
+    # Populate DD class.
+    G24G19 = DD(wl=wl, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G19_base_obs[0], rrcs=G19_rover_obs[0], N=G24toG19_before, e=G24toG19_noise, ref_station=pillar_1A_base, corresponding_sat=G19, sat_ref=G24)
+    G24G18 = DD(wl=wl, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G18_base_obs[0], rrcs=G18_rover_obs[0], N=G24toG18_before, e=G24toG18_noise, ref_station=pillar_1A_base, corresponding_sat=G18, sat_ref=G24)
+    G24G17 = DD(wl=wl, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G17_base_obs[0], rrcs=G17_rover_obs[0], N=G24toG17_before, e=G24toG17_noise, ref_station=pillar_1A_base, corresponding_sat=G17, sat_ref=G24)
+    G24G15 = DD(wl=wl, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G15_base_obs[0], rrcs=G15_rover_obs[0], N=G24toG15_before, e=G24toG15_noise, ref_station=pillar_1A_base, corresponding_sat=G15, sat_ref=G24)
+    G24G13 = DD(wl=wl, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G13_base_obs[0], rrcs=G13_rover_obs[0], N=G24toG13_before, e=G24toG13_noise, ref_station=pillar_1A_base, corresponding_sat=G13, sat_ref=G24)
+    G24G12 = DD(wl=wl, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G12_base_obs[0], rrcs=G12_rover_obs[0], N=G24toG12_before, e=G24toG12_noise, ref_station=pillar_1A_base, corresponding_sat=G12, sat_ref=G24)
+    G24G10 = DD(wl=wl, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G10_base_obs[0], rrcs=G10_rover_obs[0], N=G24toG10_before, e=G24toG10_noise, ref_station=pillar_1A_base, corresponding_sat=G10, sat_ref=G24)
+
+    b = np.array([[G24G19.calc_b_vector()],
+                 [G24G18.calc_b_vector()],
+                 [G24G17.calc_b_vector()],
+                 [G24G15.calc_b_vector()],
+                 [G24G13.calc_b_vector()],
+                 [G24G12.calc_b_vector()],
+                 [G24G10.calc_b_vector()]])
+
+    print(b)
+
+
+
+
+
+
     """
     Constructing the A matrix
 
     """
 
-    one = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G19, sat_ref=G24, wavelength=wl)
-    two = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G18, sat_ref=G24, wavelength=wl)
-    three = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G17, sat_ref=G24, wavelength=wl)
-    four = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G15, sat_ref=G24, wavelength=wl)
-    five = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G13, sat_ref=G24, wavelength=wl)
-    six = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G12, sat_ref=G24, wavelength=wl)
-    seven = PartialDiffCalc(ref_station=pillar_1A_base, corresponding_sat=G10, sat_ref=G24, wavelength=wl)
-
-    A = np.array([
-        [one.x_diff(), one.y_diff(), one.z_diff()],
-        [two.x_diff(), two.y_diff(), two.z_diff()],
-        [three.x_diff(), three.y_diff(), three.z_diff()],
-        [four.x_diff(), four.y_diff(), four.z_diff()],
-        [five.x_diff(), five.y_diff(), five.z_diff()],
-        [six.x_diff(), six.y_diff(), six.z_diff()],
-        [seven.x_diff(), seven.y_diff(), seven.z_diff()],
-    ])
+    # one = DD(ref_station=pillar_1A_base, corresponding_sat=G19, sat_ref=G24, wavelength=wl)
+    # two = DD(ref_station=pillar_1A_base, corresponding_sat=G18, sat_ref=G24, wavelength=wl)
+    # three = DD(ref_station=pillar_1A_base, corresponding_sat=G17, sat_ref=G24, wavelength=wl)
+    # four = DD(ref_station=pillar_1A_base, corresponding_sat=G15, sat_ref=G24, wavelength=wl)
+    # five = DD(ref_station=pillar_1A_base, corresponding_sat=G13, sat_ref=G24, wavelength=wl)
+    # six = DD(ref_station=pillar_1A_base, corresponding_sat=G12, sat_ref=G24, wavelength=wl)
+    # seven = DD(ref_station=pillar_1A_base, corresponding_sat=G10, sat_ref=G24, wavelength=wl)
+    #
+    # A = np.array([
+    #     [one.x_diff(), one.y_diff(), one.z_diff()],
+    #     [two.x_diff(), two.y_diff(), two.z_diff()],
+    #     [three.x_diff(), three.y_diff(), three.z_diff()],
+    #     [four.x_diff(), four.y_diff(), four.z_diff()],
+    #     [five.x_diff(), five.y_diff(), five.z_diff()],
+    #     [six.x_diff(), six.y_diff(), six.z_diff()],
+    #     [seven.x_diff(), seven.y_diff(), seven.z_diff()],
+    # ])
 
     # Output the A matrix
-    A_out = HeatMap(matrix=A, title="A_Matrix")
-    A_out.output_png()
+    # A_out = HeatMap(matrix=A, title="A_Matrix")
+    # A_out.output_png()
+    #
+    # # Calculate A^TWA
+    # atwa = ATWA(A, Wd)
+    #
+    # # Output the atwa matrix
+    # atwa_out = HeatMap(matrix=atwa, title="ATWA_Matrix")
+    # atwa_out.output_png()
+    #
+    # # Calculate inverse A^T WA
+    # inverse_ATWA = linalg.inv(atwa)
+    #
+    # # Output the ATWA^-1 matrix
+    # inverse_ATWA_out = HeatMap(matrix=inverse_ATWA, title="(ATWA)^-1)_Matrix")
+    # inverse_ATWA_out.output_png()
 
-    # Calculate A^TWA
-    atwa = ATWA(A, Wd)
 
-    # Output the atwa matrix
-    atwa_out = HeatMap(matrix=atwa, title="ATWA_Matrix")
-    atwa_out.output_png()
-
-    # Calculate inverse A^T WA
-    inverse_ATWA = linalg.inv(atwa)
-
-    # Output the ATWA^-1 matrix
-    inverse_ATWA_out = HeatMap(matrix=inverse_ATWA, title="(ATWA)^-1)_Matrix")
-    inverse_ATWA_out.output_png()
-
-    # Calculate the observations
-    G24toG10_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G19_base_obs,
-                                           G19_rover_obs, G24toG19_after, G24toG19_noise)
-    G24toG12_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G18_base_obs,
-                                           G18_rover_obs, G24toG18_after, G24toG18_noise)
-    G24toG13_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G17_base_obs,
-                                           G17_rover_obs, G24toG17_after, G24toG17_noise)
-    G24toG15_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G15_base_obs,
-                                           G15_rover_obs, G24toG15_after, G24toG15_noise)
-    G24toG17_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G13_base_obs,
-                                           G13_rover_obs, G24toG13_after, G24toG13_noise)
-    G24toG18_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G12_base_obs,
-                                           G12_rover_obs, G24toG12_after, G24toG12_noise)
-    G24toG19_measured = calculate_measured(wl, G24_base_obs, G24_rover_obs, G10_base_obs,
-                                           G10_rover_obs, G24toG10_after, G24toG10_noise)
-
-    b = np.array([
-        [b_vector(G24_base_obs, G19_base_obs, G24_rover_obs, G19_rover_obs, G24toG19_before, wl, G24toG19_measured)],
-        [b_vector(G24_base_obs, G18_base_obs, G24_rover_obs, G18_rover_obs, G24toG18_before, wl, G24toG18_measured)],
-        [b_vector(G24_base_obs, G17_base_obs, G24_rover_obs, G17_rover_obs, G24toG17_before, wl, G24toG17_measured)],
-        [b_vector(G24_base_obs, G15_base_obs, G24_rover_obs, G15_rover_obs, G24toG15_before, wl, G24toG15_measured)],
-        [b_vector(G24_base_obs, G13_base_obs, G24_rover_obs, G13_rover_obs, G24toG13_before, wl, G24toG13_measured)],
-        [b_vector(G24_base_obs, G12_base_obs, G24_rover_obs, G12_rover_obs, G24toG12_before, wl, G24toG12_measured)],
-        [b_vector(G24_base_obs, G10_base_obs, G24_rover_obs, G10_rover_obs, G24toG10_before, wl, G24toG10_measured)],
-    ])
-
-    X_hat = calculate_x_hat(A, Wd, b)
-    X_post = pillar_3A_rover - X_hat
-
-    print('X: ', X_post[0])
-    print('Y: ', X_post[0])
-    print('X: ', X_post[0])
+    # X_hat = calculate_x_hat(A, Wd, b)
+    # X_post = pillar_3A_rover - X_hat
+    #
+    # print('X: ', X_post[0])
+    # print('Y: ', X_post[0])
+    # print('X: ', X_post[0])
