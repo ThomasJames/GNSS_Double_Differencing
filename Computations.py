@@ -41,12 +41,6 @@ TO compute the precise coordinates of the pillar 3A sensor phase center.
 These are pseudo range measurements 
 """
 
-print("b: G24G10 observed measurement",
-      1 / 190293.67279836486 * (20436699.926 - 20436682.002 - 23726969.123 + 23726881.094) + 12.564)
-G24G10observed = 1 / 190293.67279836486 * (20436699.926 - 20436682.002 - 23726969.123 + 23726881.094) + 12.564
-
-print(G24G10observed - (1 / 190293.67279836486 * (20436699.926 - 20436682.002 - 23726969.123 + 23726881.094) + 12))
-
 # BASE OBSERVATIONS (Pillar 1A) C1C (metres), L1C (L1 cycles)
 # 2016_11_15_22_19_5
 
