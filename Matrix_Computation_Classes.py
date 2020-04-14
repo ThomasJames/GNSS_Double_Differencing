@@ -26,10 +26,10 @@ f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)  either L1 or L2 can be Tru
 class DD:
     def __init__(self, ref_station=None, corresponding_sat=None, sat_ref=None,
                        N=None, e=None,
-                       brrs=None, rrrs=None, brcs=None, rrcs=None, L1=False, dsl=None):
+                       brrs=None, rrrs=None, brcs=None, rrcs=None, L1=True, dsl=None):
 
         if L1:
-            f = 0.19
+            wl = 0.19029367
 
         self.X_3A = ref_station[0]
         self.Y_3A = ref_station[1]
@@ -40,7 +40,7 @@ class DD:
         self.X_s_ref = sat_ref[0]
         self.Y_s_ref = sat_ref[1]
         self.Z_s_ref = sat_ref[2]
-        self.wl = f
+        self.wl = wl
         self.N = N
         self.e = e
         self.brrs = brrs

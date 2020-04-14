@@ -261,9 +261,22 @@ if __name__ == "__main__":
     Wd_out = HeatMap(matrix=Wd, title="Wd_Matrix")
     # Wd_out.output_png()
 
-
-
-    # Populate DD class.
+    """
+    The DD class contains 3 methods for 
+    
+    
+    L1: - If L1 is True, then it 
+    brrs:
+    rrrs:
+    brcs:
+    rrcs:
+    N:
+    e:
+    ref_station:
+    Corresponding_sat:
+    sat_ref:
+    Dsl:
+    """
     G24G19 = DD(L1=True,
                 brrs=G24_base_obs[0],
                 rrrs=G24_rover_obs[0],
@@ -346,6 +359,12 @@ if __name__ == "__main__":
                 sat_ref=G24,
                 dsl=Dsl[6])
 
+
+    """
+    Calculate the b vector:
+    This is the observed double differencing measurements - the computed.
+     
+    """
     b = np.array([[G24G19.calc_b_vector()],
                   [G24G18.calc_b_vector()],
                   [G24G17.calc_b_vector()],
@@ -368,9 +387,9 @@ if __name__ == "__main__":
     # Calculate X_hat
 
     X_hat = calculate_x_hat(A, Wd, b)
-    print("X: ", X_hat[0], "Y",  X_hat[1], "Z", X_hat[2])
+    print("X: ", X_hat[0], "Y:",  X_hat[1], "Z:", X_hat[2])
 
-    print(X_hat[0] + pillar_1A_base[0])
+    print(X_hat[0] - pillar_1A_base[0])
 
 
 
