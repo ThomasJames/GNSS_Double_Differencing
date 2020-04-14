@@ -262,20 +262,21 @@ if __name__ == "__main__":
     # Wd_out.output_png()
 
     """
-    The DD class contains 3 methods for 
+    3 methods for calculating the partial differentials of the design matrix - (X Y and Z)
+    1 method for calculating the b vector i.e The observed - computed measurements. 
     
-    
-    L1: - If L1 is True, then it 
-    brrs:
-    rrrs:
-    brcs:
-    rrcs:
-    N:
-    e:
-    ref_station:
-    Corresponding_sat:
-    sat_ref:
-    Dsl:
+    ATTRIBUTES: 
+    L1: - If L1 is True, then the wavelength for this 
+    brrs: Base Receiver to Reference Satellite geometric range (m)
+    rrrs: Roving Receiver to Reference Satellite geometric range (m)
+    brcs: Base Receiver to Corresponding Satellite  geometric range (m)
+    rrcs: Roving Receiver to Corresponding Satellite geometric range (m)
+    N: Ambiguity Term - Always an integer
+    e: Noise term
+    ref_station: Cartesian [X, Y, Z] coordinates <-- Must be in this order
+    Corresponding_sat: Cartesian [X, Y, Z] coordinates <-- Must be in this order
+    sat_ref: Cartesian [X, Y, Z] coordinates <-- Must be in this order
+    Dsl: Vector of the observed double differences 
     """
     G24G19 = DD(L1=True,
                 brrs=G24_base_obs[0],
