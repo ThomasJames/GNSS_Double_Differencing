@@ -1,7 +1,7 @@
 from math import sqrt, cos, sin, degrees, acos
 import numpy as np
 from numpy import transpose, linalg
-from Matrix_Computation_Classes import DD, HeatMap
+from Matrix_Computation_Classes import DD, HeatMap, MatrixOperations
 
 
 """
@@ -18,6 +18,8 @@ Pillar 3A is treated as the monument.
 
 # X, Y, Z ECEF coordinates for the phase center of the receiver
 pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])  # Reference receiver
+
+# Trying to reproduce these coordinates
 pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])  # Monument
 
 distance_between_receivers = 94.4  # Measured in meters / Approximate
@@ -72,15 +74,22 @@ G10_rover_obs = [23726881.094, 124685588.685]
 # At the first epoch we have 16 raw phase observations in cycles.
 
 l = np.transpose([
-    G24_base_obs[1], G24_rover_obs[1],
-    G19_base_obs[1], G19_rover_obs[1],
-    G18_base_obs[1], G18_rover_obs[1],
-    G17_base_obs[1], G17_rover_obs[1],
-    G15_base_obs[1], G15_rover_obs[1],
-    G13_base_obs[1], G13_rover_obs[1],
-    G12_base_obs[1], G12_rover_obs[1],
-    G10_base_obs[1], G10_rover_obs[1]
-])
+    G24_base_obs[1],
+    G24_rover_obs[1],
+    G19_base_obs[1],
+    G19_rover_obs[1],
+    G18_base_obs[1],
+    G18_rover_obs[1],
+    G17_base_obs[1],
+    G17_rover_obs[1],
+    G15_base_obs[1],
+    G15_rover_obs[1],
+    G13_base_obs[1],
+    G13_rover_obs[1],
+    G12_base_obs[1],
+    G12_rover_obs[1],
+    G10_base_obs[1],
+    G10_rover_obs[1]])
 
 """
 Phase Ambiguity terms (N) for each measurement, before and after ambiguity resolution 
@@ -180,10 +189,10 @@ if __name__ == "__main__":
     """
 
     D_out = HeatMap(matrix=D, title="D_matrix")
-    D_out.output_png()
+    # D_out.output_png()
 
     S_out = HeatMap(matrix=S, title="S_matrix")
-    S_out.output_png()
+    # S_out.output_png()
 
     """
     SINGLE DIFFERENCING
@@ -198,6 +207,10 @@ if __name__ == "__main__":
 
     """
     DOUBLE DIFFERENCING 
+    
+    We choose the satellite with the highest elevation as the reference satellite.
+    This will be G24 - This satellite will have the least noise and multipath 
+    
     Dsl = vector of double differences
     DIM: 7 x 1
     """
@@ -214,7 +227,7 @@ if __name__ == "__main__":
 
     cl = (l1_SD**2) * np.eye(16, 16)
     cl_out = HeatMap(matrix=cl, title="cl_Matrix")
-    cl_out.output_png()
+    # cl_out.output_png()
 
     """
     Obtain the covariance matrix of the double differences.
@@ -228,44 +241,36 @@ if __name__ == "__main__":
     d = DSl 
     Cl Exists and is known.
     
-    
-    Uses the formula: Cd = DSCl (DS)^T 
+    Use the formula: Cd = DSCl (DS)^T 
     
     DIM: 7 x 7 
-    
-    Consistent with:
-   [[4. 2. 2. 2. 2. 2. 2.]
-    [2. 4. 2. 2. 2. 2. 2.]
-    [2. 2. 4. 2. 2. 2. 2.]
-    [2. 2. 2. 4. 2. 2. 2.]
-    [2. 2. 2. 2. 4. 2. 2.]
-    [2. 2. 2. 2. 2. 4. 2.]
-    [2. 2. 2. 2. 2. 2. 4.]] ** Variance
-    
     """
 
     Cd = (Cd_calculator(D, S, cl))
-    print(Cd / l1_SD**2)
     cd_out = HeatMap(matrix=Cd, title="Cd_Matrix")
-    cd_out.output_png()
+    # cd_out.output_png()
 
-
+    """
+    Calculate the weight matrix of the double differences. 
+    
+    Wd = Cd^-1
+    DIM: 7 x 7
+    """
 
     Wd = linalg.inv(Cd)
-
-    # Output the Wd matrix
     Wd_out = HeatMap(matrix=Wd, title="Wd_Matrix")
-    Wd_out.output_png()
+    # Wd_out.output_png()
+
 
 
     # Populate DD class.
-    G24G19 = DD(L1=True, brrs=G24_base_obs[1], rrrs=G24_rover_obs[1], brcs=G19_base_obs[1], rrcs=G19_rover_obs[1], N=G24toG19_before, e=G24toG19_noise, ref_station=pillar_1A_base, corresponding_sat=G19, sat_ref=G24)
-    G24G18 = DD(L1=True, brrs=G24_base_obs[1], rrrs=G24_rover_obs[1], brcs=G18_base_obs[1], rrcs=G18_rover_obs[1], N=G24toG18_before, e=G24toG18_noise, ref_station=pillar_1A_base, corresponding_sat=G18, sat_ref=G24)
-    G24G17 = DD(L1=True, brrs=G24_base_obs[1], rrrs=G24_rover_obs[1], brcs=G17_base_obs[1], rrcs=G17_rover_obs[1], N=G24toG17_before, e=G24toG17_noise, ref_station=pillar_1A_base, corresponding_sat=G17, sat_ref=G24)
-    G24G15 = DD(L1=True, brrs=G24_base_obs[1], rrrs=G24_rover_obs[1], brcs=G15_base_obs[1], rrcs=G15_rover_obs[1], N=G24toG15_before, e=G24toG15_noise, ref_station=pillar_1A_base, corresponding_sat=G15, sat_ref=G24)
-    G24G13 = DD(L1=True, brrs=G24_base_obs[1], rrrs=G24_rover_obs[1], brcs=G13_base_obs[1], rrcs=G13_rover_obs[1], N=G24toG13_before, e=G24toG13_noise, ref_station=pillar_1A_base, corresponding_sat=G13, sat_ref=G24)
-    G24G12 = DD(L1=True, brrs=G24_base_obs[1], rrrs=G24_rover_obs[1], brcs=G12_base_obs[1], rrcs=G12_rover_obs[1], N=G24toG12_before, e=G24toG12_noise, ref_station=pillar_1A_base, corresponding_sat=G12, sat_ref=G24)
-    G24G10 = DD(L1=True, brrs=G24_base_obs[1], rrrs=G24_rover_obs[1], brcs=G10_base_obs[1], rrcs=G10_rover_obs[1], N=G24toG10_before, e=G24toG10_noise, ref_station=pillar_1A_base, corresponding_sat=G10, sat_ref=G24)
+    G24G19 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G19_base_obs[0], rrcs=G19_rover_obs[0], N=G24toG19_after, e=G24toG19_noise, ref_station=pillar_1A_base, corresponding_sat=G19, sat_ref=G24)
+    G24G18 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G18_base_obs[0], rrcs=G18_rover_obs[0], N=G24toG18_after, e=G24toG18_noise, ref_station=pillar_1A_base, corresponding_sat=G18, sat_ref=G24)
+    G24G17 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G17_base_obs[0], rrcs=G17_rover_obs[0], N=G24toG17_after, e=G24toG17_noise, ref_station=pillar_1A_base, corresponding_sat=G17, sat_ref=G24)
+    G24G15 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G15_base_obs[0], rrcs=G15_rover_obs[0], N=G24toG15_after, e=G24toG15_noise, ref_station=pillar_1A_base, corresponding_sat=G15, sat_ref=G24)
+    G24G13 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G13_base_obs[0], rrcs=G13_rover_obs[0], N=G24toG13_after, e=G24toG13_noise, ref_station=pillar_1A_base, corresponding_sat=G13, sat_ref=G24)
+    G24G12 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G12_base_obs[0], rrcs=G12_rover_obs[0], N=G24toG12_after, e=G24toG12_noise, ref_station=pillar_1A_base, corresponding_sat=G12, sat_ref=G24)
+    G24G10 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G10_base_obs[0], rrcs=G10_rover_obs[0], N=G24toG10_after, e=G24toG10_noise, ref_station=pillar_1A_base, corresponding_sat=G10, sat_ref=G24)
 
     b = np.array([[G24G19.calc_b_vector(dsl=Dsl[0])],
                   [G24G18.calc_b_vector(dsl=Dsl[1])],
@@ -283,34 +288,28 @@ if __name__ == "__main__":
                   [G24G13.x_diff(), G24G13.y_diff(), G24G13.z_diff()],
                   [G24G12.x_diff(), G24G12.y_diff(), G24G12.z_diff()],
                   [G24G10.x_diff(), G24G10.y_diff(), G24G10.z_diff()]])
-    print(A)
+    print("A", A)
 
-
-    # Output the A matrix
-    # A_out = HeatMap(matrix=A, title="A_Matrix")
-    # A_out.output_png()
-
-    # Calculate A^TWA
-    atwa = ATWA(A, Wd)
-    print("atwa: ", atwa)
-
-    # Output the atwa matrix
-    # atwa_out = HeatMap(matrix=atwa, title="ATWA_Matrix")
-    # atwa_out.output_png()
-
-    # Calculate inverse A^T WA
-    inverse_atwa = linalg.inv(atwa)
-    print("inverse atwa", atwa)
-
-    # Output the ATWA^-1 matrix
-    # inverse_ATWA_out = HeatMap(matrix=inverse_ATWA, title="(ATWA)^-1)_Matrix")
-    # inverse_ATWA_out.output_png()
+    # Calculate X_hat
 
     X_hat = calculate_x_hat(A, Wd, b)
-    print(X_hat)
-    
-    X_post = pillar_3A_rover - X_hat
+    print("X: ", X_hat[0], "Y",  X_hat[1], "Z", X_hat[2])
 
-    print('X: ', X_post[0])
-    print('Y: ', X_post[0])
-    print('X: ', X_post[0])
+
+    
+
+
+    
+
+    
+
+    
+
+
+
+
+
+
+
+
+

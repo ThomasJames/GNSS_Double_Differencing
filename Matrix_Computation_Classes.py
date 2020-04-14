@@ -26,16 +26,10 @@ f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)  either L1 or L2 can be Tru
 class DD:
     def __init__(self, ref_station=None, corresponding_sat=None, sat_ref=None,
                        N=None, e=None,
-                       brrs=None, rrrs=None, brcs=None, rrcs=None, c=299792458.0, L1=False, L2=False):
+                       brrs=None, rrrs=None, brcs=None, rrcs=None, L1=False):
 
         if L1:
-            f = 1575.42
-
-        if L2:
-            f = 1227.6
-
-        if L1 and L2:
-            print("ERROR: L1 and L2 both True")
+            f = 0.19
 
         self.X_3A = ref_station[0]
         self.Y_3A = ref_station[1]
@@ -46,7 +40,7 @@ class DD:
         self.X_s_ref = sat_ref[0]
         self.Y_s_ref = sat_ref[1]
         self.Z_s_ref = sat_ref[2]
-        self.wl = c/f
+        self.wl = f
         self.N = N
         self.e = e
         self.brrs = brrs
@@ -55,8 +49,8 @@ class DD:
         self.rrcs = rrcs
 
     def x_diff(self):
-        return (1 / self.wl * \
-                (
+        return float(1 / self.wl * \
+                    (
                          (self.X_3A - self.X_s) /
                          (sqrt((self.X_s - self.X_3A) ** 2 +
                                (self.Y_s - self.Y_3A) ** 2 +
@@ -68,8 +62,8 @@ class DD:
                           (self.Z_s_ref - self.Z_3A) ** 2)))
 
     def y_diff(self):
-        return (1 / self.wl * \
-                (
+        return float((1 / self.wl * \
+                    (
                          (self.Y_3A - self.Y_s) /
                          (sqrt((self.X_s - self.X_3A) ** 2 +
                                (self.Y_s - self.Y_3A) ** 2 +
@@ -78,7 +72,7 @@ class DD:
                          (self.Y_3A - self.Y_s_ref) /
                          (sqrt(self.X_s_ref - self.X_3A) ** 2 +
                           (self.Y_s_ref - self.Y_3A) ** 2 +
-                          (self.Z_s_ref - self.Z_3A) ** 2)))
+                          (self.Z_s_ref - self.Z_3A) ** 2))))
 
     def z_diff(self):
         return float(1 / self.wl * \
@@ -94,11 +88,11 @@ class DD:
                           (self.Z_s_ref - self.Z_3A) ** 2)))
 
     def calc_b_vector(self, dsl):
-        # observed
+        # observed - The vector of measured quantities
         o = dsl
 
         # Computed
-        c = (1 / self.wl) * (self.brrs - self.rrrs - self.brcs + self.rrcs) + self.N
+        c = (1 / self.wl) * (self.brrs - self.rrrs - self.brcs + self.rrcs) + self.N + self.e
         return o - c
 
 
