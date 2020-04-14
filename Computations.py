@@ -264,21 +264,96 @@ if __name__ == "__main__":
 
 
     # Populate DD class.
-    G24G19 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G19_base_obs[0], rrcs=G19_rover_obs[0], N=G24toG19_after, e=G24toG19_noise, ref_station=pillar_1A_base, corresponding_sat=G19, sat_ref=G24)
-    G24G18 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G18_base_obs[0], rrcs=G18_rover_obs[0], N=G24toG18_after, e=G24toG18_noise, ref_station=pillar_1A_base, corresponding_sat=G18, sat_ref=G24)
-    G24G17 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G17_base_obs[0], rrcs=G17_rover_obs[0], N=G24toG17_after, e=G24toG17_noise, ref_station=pillar_1A_base, corresponding_sat=G17, sat_ref=G24)
-    G24G15 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G15_base_obs[0], rrcs=G15_rover_obs[0], N=G24toG15_after, e=G24toG15_noise, ref_station=pillar_1A_base, corresponding_sat=G15, sat_ref=G24)
-    G24G13 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G13_base_obs[0], rrcs=G13_rover_obs[0], N=G24toG13_after, e=G24toG13_noise, ref_station=pillar_1A_base, corresponding_sat=G13, sat_ref=G24)
-    G24G12 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G12_base_obs[0], rrcs=G12_rover_obs[0], N=G24toG12_after, e=G24toG12_noise, ref_station=pillar_1A_base, corresponding_sat=G12, sat_ref=G24)
-    G24G10 = DD(L1=True, brrs=G24_base_obs[0], rrrs=G24_rover_obs[0], brcs=G10_base_obs[0], rrcs=G10_rover_obs[0], N=G24toG10_after, e=G24toG10_noise, ref_station=pillar_1A_base, corresponding_sat=G10, sat_ref=G24)
+    G24G19 = DD(L1=True,
+                brrs=G24_base_obs[0],
+                rrrs=G24_rover_obs[0],
+                brcs=G19_base_obs[0],
+                rrcs=G19_rover_obs[0],
+                N=G24toG19_after,
+                e=G24toG19_noise,
+                ref_station=pillar_1A_base,
+                corresponding_sat=G19,
+                sat_ref=G24,
+                dsl=Dsl[0])
 
-    b = np.array([[G24G19.calc_b_vector(dsl=Dsl[0])],
-                  [G24G18.calc_b_vector(dsl=Dsl[1])],
-                  [G24G17.calc_b_vector(dsl=Dsl[2])],
-                  [G24G15.calc_b_vector(dsl=Dsl[3])],
-                  [G24G13.calc_b_vector(dsl=Dsl[4])],
-                  [G24G12.calc_b_vector(dsl=Dsl[5])],
-                  [G24G10.calc_b_vector(dsl=Dsl[6])]])
+    G24G18 = DD(L1=True,
+                brrs=G24_base_obs[0],
+                rrrs=G24_rover_obs[0],
+                brcs=G18_base_obs[0],
+                rrcs=G18_rover_obs[0],
+                N=G24toG18_after,
+                e=G24toG18_noise,
+                ref_station=pillar_1A_base,
+                corresponding_sat=G18,
+                sat_ref=G24,
+                dsl=Dsl[1])
+
+    G24G17 = DD(L1=True,
+                brrs=G24_base_obs[0],
+                rrrs=G24_rover_obs[0],
+                brcs=G17_base_obs[0],
+                rrcs=G17_rover_obs[0],
+                N=G24toG17_after,
+                e=G24toG17_noise,
+                ref_station=pillar_1A_base,
+                corresponding_sat=G17,
+                sat_ref=G24, dsl=Dsl[2])
+
+    G24G15 = DD(L1=True,
+                brrs=G24_base_obs[0],
+                rrrs=G24_rover_obs[0],
+                brcs=G15_base_obs[0],
+                rrcs=G15_rover_obs[0],
+                N=G24toG15_after,
+                e=G24toG15_noise,
+                ref_station=pillar_1A_base,
+                corresponding_sat=G15,
+                sat_ref=G24, dsl=Dsl[3])
+
+    G24G13 = DD(L1=True,
+                brrs=G24_base_obs[0],
+                rrrs=G24_rover_obs[0],
+                brcs=G13_base_obs[0],
+                rrcs=G13_rover_obs[0],
+                N=G24toG13_after,
+                e=G24toG13_noise,
+                ref_station=pillar_1A_base,
+                corresponding_sat=G13,
+                sat_ref=G24,
+                dsl=Dsl[4])
+
+    G24G12 = DD(L1=True,
+                brrs=G24_base_obs[0],
+                rrrs=G24_rover_obs[0],
+                brcs=G12_base_obs[0],
+                rrcs=G12_rover_obs[0],
+                N=G24toG12_after,
+                e=G24toG12_noise,
+                ref_station=pillar_1A_base,
+                corresponding_sat=G12,
+                sat_ref=G24,
+                dsl=Dsl[5])
+
+    G24G10 = DD(L1=True,
+                brrs=G24_base_obs[0],
+                rrrs=G24_rover_obs[0],
+                brcs=G10_base_obs[0],
+                rrcs=G10_rover_obs[0],
+                N=G24toG10_after,
+                e=G24toG10_noise,
+                ref_station=pillar_1A_base,
+                corresponding_sat=G10,
+                sat_ref=G24,
+                dsl=Dsl[6])
+
+    b = np.array([[G24G19.calc_b_vector()],
+                  [G24G18.calc_b_vector()],
+                  [G24G17.calc_b_vector()],
+                  [G24G15.calc_b_vector()],
+                  [G24G13.calc_b_vector()],
+                  [G24G12.calc_b_vector()],
+                  [G24G10.calc_b_vector()]])
+
     print("B vector: ", b)
 
     A = np.array([[G24G19.x_diff(), G24G19.y_diff(), G24G19.z_diff()],
@@ -294,6 +369,11 @@ if __name__ == "__main__":
 
     X_hat = calculate_x_hat(A, Wd, b)
     print("X: ", X_hat[0], "Y",  X_hat[1], "Z", X_hat[2])
+
+    print(X_hat[0] + pillar_1A_base[0])
+
+
+
 
 
     

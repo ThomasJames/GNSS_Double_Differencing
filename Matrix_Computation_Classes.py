@@ -26,7 +26,7 @@ f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)  either L1 or L2 can be Tru
 class DD:
     def __init__(self, ref_station=None, corresponding_sat=None, sat_ref=None,
                        N=None, e=None,
-                       brrs=None, rrrs=None, brcs=None, rrcs=None, L1=False):
+                       brrs=None, rrrs=None, brcs=None, rrcs=None, L1=False, dsl=None):
 
         if L1:
             f = 0.19
@@ -47,6 +47,7 @@ class DD:
         self.rrrs = rrrs
         self.brcs = brcs
         self.rrcs = rrcs
+        self.dsl = dsl
 
     def x_diff(self):
         return float(1 / self.wl * \
@@ -87,9 +88,9 @@ class DD:
                           (self.Y_s_ref - self.Y_3A) ** 2 +
                           (self.Z_s_ref - self.Z_3A) ** 2)))
 
-    def calc_b_vector(self, dsl):
+    def calc_b_vector(self):
         # observed - The vector of measured quantities
-        o = dsl
+        o = self.dsl
 
         # Computed
         c = (1 / self.wl) * (self.brrs - self.rrrs - self.brcs + self.rrcs) + self.N + self.e
