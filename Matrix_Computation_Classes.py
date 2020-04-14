@@ -3,6 +3,7 @@ from numpy import transpose, linalg
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 """
 Class DD
 
@@ -16,13 +17,25 @@ brcs - Base receiver to corresponding satellite
 rrcs - Reference receiver to corresponding satellite
 N - Ambiguity term (int)
 e - Noise term 
+c = speed of light in vacuum (299792458.0 ms-1) - Set to default    
+f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)  either L1 or L2 can be True
+λ=𝑐/𝑓  - Wavelength calculated from c and f 
+
 """
 
 class DD:
     def __init__(self, ref_station=None, corresponding_sat=None, sat_ref=None,
-                       wl=None,
                        N=None, e=None,
-                       brrs=None, rrrs=None, brcs=None, rrcs=None):
+                       brrs=None, rrrs=None, brcs=None, rrcs=None, c=299792458.0, L1=False, L2=False):
+
+        if L1:
+            f = 1575.42
+
+        if L2:
+            f = 1227.6
+
+        if L1 and L2:
+            print("ERROR: L1 and L2 both True")
 
         self.X_3A = ref_station[0]
         self.Y_3A = ref_station[1]
@@ -33,7 +46,7 @@ class DD:
         self.X_s_ref = sat_ref[0]
         self.Y_s_ref = sat_ref[1]
         self.Z_s_ref = sat_ref[2]
-        self.wl = wl
+        self.wl = c/f
         self.N = N
         self.e = e
         self.brrs = brrs
@@ -80,12 +93,12 @@ class DD:
                           (self.Y_s_ref - self.Y_3A) ** 2 +
                           (self.Z_s_ref - self.Z_3A) ** 2)))
 
-    def calc_b_vector(self):
+    def calc_b_vector(self, dsl):
         # observed
-        o = 1 / self.wl * (self.brrs - self.rrrs - self.brcs + self.rrcs) + self.N + self.e
+        o = dsl
 
         # Computed
-        c = 1 / self.wl * (self.brrs - self.rrrs - self.brcs + self.rrcs) + self.N
+        c = (1 / self.wl) * (self.brrs - self.rrrs - self.brcs + self.rrcs) + self.N
         return o - c
 
 
@@ -101,7 +114,7 @@ b - B (innovation vector?)
 """
 
 class MatrixOperations:
-    def __init__(self, D, S, Cl, A, W, b):
+    def __init__(self, D=None, S=None, Cl=None, A=None, W=None, b=None):
         self.D = D
         self.S = S
         self.Cl = Cl
@@ -110,15 +123,23 @@ class MatrixOperations:
         self.b = b
 
     def Cd_calculator(self):
-        return (((self.D.dot(self.S)).dot(self.Cl)).dot(transpose(self.S))).dot(transpose(self.D))
+        try:
+            return (((self.D.dot(self.S)).dot(self.Cl)).dot(transpose(self.S))).dot(transpose(self.D))
+        except IOError:
+            print("Cd_calculator failed")
 
     def calculate_x_hat(self):
-        return \
-            ((linalg.inv((transpose(self.A).dot(self.W)).dot(self.A))).dot(transpose(self.A).dot(self.W))).dot(self.b)
+        try:
+            return \
+                ((linalg.inv((transpose(self.A).dot(self.W)).dot(self.A))).dot(transpose(self.A).dot(self.W))).dot(self.b)
+        except IOError:
+            print("Calculate_x_hat failed")
 
     def ATWA(self):
-        return ((transpose(self.A)).dot(self.W)).dot(self.A)
-
+        try:
+            return ((transpose(self.A)).dot(self.W)).dot(self.A)
+        except IOError:
+            print("ATWA failed")
 
 """
 Heatmap Matrix Plotter)
