@@ -3,8 +3,6 @@ import numpy as np
 from numpy import transpose, linalg
 from Matrix_Computation_Classes import DD, HeatMap, MatrixOperations
 
-print(np.eye(16, 16))        
-
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
 
@@ -22,9 +20,12 @@ pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])  # Refer
 
 # Trying to reproduce these coordinates
 pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])  # Monument
+after_ambiguit  = np.array([[4929605.542], [-29123.828], [4033603.932]])
 before_pa =       np.array([[4929605.096], [-29123.627], [4033604.055]])
 after_pa =        np.array([[4929604.918], [-29123.616], [4033603.990]])
 distance_between_receivers = 94.4  # Measured in meters / Approximate
+
+l1_SD = 0.003
 
 """
 ECEF coordinates (m) of the satellite phase centers when they transmitted the signals measured at each epoch.
@@ -141,7 +142,7 @@ def elevation_variance_calculator(sat_coords, receiver_coords, range_obs):
     # ec_r = sqrt((sqrt(x_s ** 2 + y_s ** 2))**2 + z_r**2)
 
     # Using known approximation of earth radius.
-    ec_r = 6378000
+    ec_r = 6369601.100213256
 
     # Calculate the earth surface angle
     angle = degrees(acos((ec_r**2 + range_obs[0]**2 - ec_s**2) / (2 * ec_r * range_obs[0])))
@@ -153,6 +154,7 @@ def elevation_variance_calculator(sat_coords, receiver_coords, range_obs):
     variance = (l1_SD ** 2) / sin(angle)
 
     return variance
+
 
 G24_variance_base = elevation_variance_calculator(G24, pillar_1A_base, G24_base_obs)
 G24_variance_rover = elevation_variance_calculator(G24, pillar_3A_rover, G24_rover_obs)
@@ -428,9 +430,15 @@ if __name__ == "__main__":
 
     print("X: ", X_hat[0], "Y:",  X_hat[1], "Z:", X_hat[2])
 
-    print(before_ambiguity_resolution[0] + X_hat[0])
-    print(before_ambiguity_resolution[1] + X_hat[1])
-    print(before_ambiguity_resolution[2] + X_hat[2])
+    newX = before_ambiguity_resolution[0] + X_hat[0]
+    newY = before_ambiguity_resolution[1] + X_hat[1]
+    newZ = before_ambiguity_resolution[2] + X_hat[2]
+
+    print("True x: ", pillar_3A_rover[0], " calculated x: ", newX)
+    print("True y: ", pillar_3A_rover[1], " calculated y: ", newY)
+    print("True z: ", pillar_3A_rover[2], " calculated z: ", newZ)
+
+
 
 
 
