@@ -57,48 +57,28 @@ Satellite G24 has the highest elevation of 71 degrees. This satellite is used as
 It is important to initially calculate the elevation angles of each satelite. The error of a satellite is inversely proportial to elevation with respect to a local horizon. Low elevation satellites produce less reliable results, and this needs to be taken into account when formulating a weight matrix.
 
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satelite_Elevation.png" width="600">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Elevation.png" width="600">
+
+(Elevation angles depicted here are to scale) 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Angles.png" width="600">
 
 
 
 ## Matrices:
 
 ### A (Design) Matrix
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/A_Matrix.png" width="500">
 
 ### D (Single differencing) Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/D_Matrix.png" width="500">
 
 ### S (Double differencing) Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/S_Matrix.png" width="500">
 
 ### Cl (Observations covariance) Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/cl_Matrix.png" width="500">
 
 ### Cd (Covariance) Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Cd_Matrix.png" width="500">
 
 ### Wd (Weight) Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Wd_Matrix.png" width="500">
 
 ### ATWA Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/ATWA_Matrix.png" width="500">
 
 ### (ATWA)^-1 Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Inverse_ATWA.png" width="500">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
