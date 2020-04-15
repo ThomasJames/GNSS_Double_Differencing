@@ -2,7 +2,7 @@ from math import sqrt
 from numpy import transpose, linalg
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+from math import sqrt, cos, sin, degrees, acos
 
 """
 Class DD

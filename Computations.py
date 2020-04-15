@@ -40,6 +40,7 @@ G18 = [13564948.214, -21357948.777, 8232124.013]
 G19 = [12262838.101, 17165601.305, 15682863.092]
 G24 = [15569244.807, -1039249.482, 21443791.252]
 
+
 """
 Use double differenced phase measurements, from the first epoch of data only 2016_11_15_22_19_5
 TO compute the precise coordinates of the pillar 3A sensor phase center. 
@@ -126,6 +127,50 @@ G24toG13_noise = G24toG13_before - G24toG13_after
 G24toG12_noise = G24toG12_before - G24toG12_after
 G24toG10_noise = G24toG10_before - G24toG10_after
 
+
+def elevation_variance_calculator(sat_coords, receiver_coords, range_obs):
+
+    # Extract X, Y, Z
+    x_s, y_s, z_s = sat_coords[0], sat_coords[1], sat_coords[2]
+    # x_r, y_r, z_r = receiver_coords[0], receiver_coords[1], receiver_coords[2]
+
+    # Calculate distance from EC
+    ec_s = sqrt((sqrt(x_s**2 + y_s**2))**2 + z_s**2)
+    # ec_r = sqrt((sqrt(x_s ** 2 + y_s ** 2))**2 + z_r**2)
+
+    # Using known approximation of earth radius.
+    ec_r = 6378000
+
+    # Calculate the earth surface angle
+    angle = degrees(acos((ec_r**2 + range_obs[0]**2 - ec_s**2) / (2 * ec_r * range_obs[0])))
+
+    # L1 standard deviation
+    l1_SD = 0.003
+
+    # Calculate variance 
+    variance = (l1_SD ** 2) / sin(angle)
+
+    return variance
+
+G24_variance = elevation_variance_calculator(G24, pillar_1A_base, G24_base_obs)
+G19_variance = elevation_variance_calculator(G19, pillar_1A_base, G19_base_obs)
+G18_variance = elevation_variance_calculator(G18, pillar_1A_base, G18_base_obs)
+G17_variance = elevation_variance_calculator(G17, pillar_1A_base, G17_base_obs)
+G15_variance = elevation_variance_calculator(G15, pillar_1A_base, G15_base_obs)
+G13_variance = elevation_variance_calculator(G13, pillar_1A_base, G13_base_obs)
+G12_variance = elevation_variance_calculator(G12, pillar_1A_base, G12_base_obs)
+G10_variance = elevation_variance_calculator(G10, pillar_1A_base, G10_base_obs)
+
+variance_vector = np.array([[G24_variance],
+                            [G19_variance],
+                            [G18_variance],
+                            [G17_variance],
+                            [G15_variance],
+                            [G13_variance],
+                            [G12_variance],
+                            [G10_variance]])
+
+
 # 16 x 8:  Differencing matrix
 S = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -143,28 +188,6 @@ D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
               [1, 0, 0, 0, 0, -1, 0, 0],
               [1, 0, 0, 0, 0, 0, -1, 0],
               [1, 0, 0, 0, 0, 0, 0, -1]])
-
-
-# Calculate Satelite elevation from a local horizon.
-def elevation_calculator(rec_XYZ, sat_XYZ, obs):
-    r_rv = sqrt(abs(rec_XYZ[0] ** 2) + abs(rec_XYZ[1] ** 2))
-    re = sqrt(abs(r_rv ** 2) + abs(rec_XYZ[2]))
-    s_rv = sqrt(sat_XYZ[0] ** 2 + sat_XYZ[1] ** 2)
-    se = sqrt(s_rv ** 2 + sat_XYZ[2])
-    # Calculate subtending angle between receiver, center of the earth and the satellite.
-    theta = ((acos(((se ** 2) + (re ** 2) - (rec_XYZ[2] ** 2)) / (2 * se * re))))
-    print("Earth center vector = radians: ", theta, "degrees: ", degrees(theta))
-    cos_el = (sin(theta)) / sqrt((1 + ((re / obs[0]) ** 2) * (-2 * (re / obs[0])) * cos(theta)))
-    el = degrees((acos(cos_el)))
-    return (el - 90)
-
-
-def variance(s, e):
-    a = s ** 2 * s / cos(e)
-    return a
-
-
-l1_SD = 0.003
 
 
 def Cd_calculator(D, S, Cl):
@@ -225,7 +248,8 @@ if __name__ == "__main__":
     DIM: 16 x 16 
     """
 
-    cl = (l1_SD**2) * np.eye(16, 16)
+    cl = variance_vector.dot(np.eye(16, 16))
+    print(cl)
     cl_out = HeatMap(matrix=cl, title="cl_Matrix")
     # cl_out.output_png()
 
