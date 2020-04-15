@@ -3,6 +3,7 @@ import numpy as np
 from numpy import transpose, linalg
 from Matrix_Computation_Classes import DD, HeatMap, MatrixOperations
 
+print(np.eye(16, 16))        
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -152,23 +153,39 @@ def elevation_variance_calculator(sat_coords, receiver_coords, range_obs):
 
     return variance
 
-G24_variance = elevation_variance_calculator(G24, pillar_1A_base, G24_base_obs)
-G19_variance = elevation_variance_calculator(G19, pillar_1A_base, G19_base_obs)
-G18_variance = elevation_variance_calculator(G18, pillar_1A_base, G18_base_obs)
-G17_variance = elevation_variance_calculator(G17, pillar_1A_base, G17_base_obs)
-G15_variance = elevation_variance_calculator(G15, pillar_1A_base, G15_base_obs)
-G13_variance = elevation_variance_calculator(G13, pillar_1A_base, G13_base_obs)
-G12_variance = elevation_variance_calculator(G12, pillar_1A_base, G12_base_obs)
-G10_variance = elevation_variance_calculator(G10, pillar_1A_base, G10_base_obs)
+G24_variance_base = elevation_variance_calculator(G24, pillar_1A_base, G24_base_obs)
+G24_variance_rover = elevation_variance_calculator(G24, pillar_3A_rover, G24_rover_obs)
+G19_variance_base = elevation_variance_calculator(G19, pillar_1A_base, G19_base_obs)
+G19_variance_rover = elevation_variance_calculator(G19, pillar_3A_rover, G19_rover_obs)
+G18_variance_base = elevation_variance_calculator(G18, pillar_1A_base, G18_base_obs)
+G18_variance_rover = elevation_variance_calculator(G18, pillar_3A_rover, G18_rover_obs)
+G17_variance_base = elevation_variance_calculator(G17, pillar_1A_base, G17_base_obs)
+G17_variance_rover = elevation_variance_calculator(G17, pillar_3A_rover, G17_rover_obs)
+G15_variance_base = elevation_variance_calculator(G15, pillar_1A_base, G15_base_obs)
+G15_variance_rover = elevation_variance_calculator(G15, pillar_3A_rover, G15_rover_obs)
+G13_variance_base = elevation_variance_calculator(G13, pillar_1A_base, G13_base_obs)
+G13_variance_rover = elevation_variance_calculator(G13, pillar_3A_rover, G13_rover_obs)
+G12_variance_base = elevation_variance_calculator(G12, pillar_1A_base, G12_base_obs)
+G12_variance_rover = elevation_variance_calculator(G12, pillar_3A_rover, G12_rover_obs)
+G10_variance_base = elevation_variance_calculator(G10, pillar_1A_base, G10_base_obs)
+G10_variance_rover = elevation_variance_calculator(G10, pillar_3A_rover, G10_rover_obs)
 
-variance_vector = np.array([[G24_variance],
-                            [G19_variance],
-                            [G18_variance],
-                            [G17_variance],
-                            [G15_variance],
-                            [G13_variance],
-                            [G12_variance],
-                            [G10_variance]])
+variance_vector = np.array([ [G24_variance_base ],
+                             [G24_variance_rover],
+                             [G19_variance_base ],
+                             [G19_variance_rover],
+                             [G18_variance_base ],
+                             [G18_variance_rover],
+                             [G17_variance_base ],
+                             [G17_variance_rover],
+                             [G15_variance_base ],
+                             [G15_variance_rover],
+                             [G13_variance_base ],
+                             [G13_variance_rover],
+                             [G12_variance_base ],
+                             [G12_variance_rover],
+                             [G10_variance_base ],
+                             [G10_variance_rover]])
 
 
 # 16 x 8:  Differencing matrix
@@ -240,6 +257,8 @@ if __name__ == "__main__":
 
     Dsl = D.dot(sl)
 
+    print(Dsl)
+
     """
     Covariance matrix of the observation vector.
     This is an identity matrix scaled by the variance.
@@ -248,7 +267,7 @@ if __name__ == "__main__":
     DIM: 16 x 16 
     """
 
-    cl = variance_vector.dot(np.eye(16, 16))
+    cl = np.eye(16, 16) * variance_vector
     print(cl)
     cl_out = HeatMap(matrix=cl, title="cl_Matrix")
     # cl_out.output_png()
