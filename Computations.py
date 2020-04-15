@@ -22,7 +22,8 @@ pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])  # Refer
 
 # Trying to reproduce these coordinates
 pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])  # Monument
-
+before_pa =       np.array([[4929605.096], [-29123.627], [4033604.055]])
+after_pa =        np.array([[4929604.918], [-29123.616], [4033603.990]])
 distance_between_receivers = 94.4  # Measured in meters / Approximate
 
 """
@@ -257,8 +258,6 @@ if __name__ == "__main__":
 
     Dsl = D.dot(sl)
 
-    print(Dsl)
-
     """
     Covariance matrix of the observation vector.
     This is an identity matrix scaled by the variance.
@@ -268,7 +267,6 @@ if __name__ == "__main__":
     """
 
     cl = np.eye(16, 16) * variance_vector
-    print(cl)
     cl_out = HeatMap(matrix=cl, title="cl_Matrix")
     # cl_out.output_png()
 
@@ -417,8 +415,6 @@ if __name__ == "__main__":
                   [G24G12.calc_b_vector()],
                   [G24G10.calc_b_vector()]])
 
-    print("B vector: ", b)
-
     A = np.array([[G24G19.x_diff(), G24G19.y_diff(), G24G19.z_diff()],
                   [G24G18.x_diff(), G24G18.y_diff(), G24G18.z_diff()],
                   [G24G17.x_diff(), G24G17.y_diff(), G24G17.z_diff()],
@@ -426,14 +422,18 @@ if __name__ == "__main__":
                   [G24G13.x_diff(), G24G13.y_diff(), G24G13.z_diff()],
                   [G24G12.x_diff(), G24G12.y_diff(), G24G12.z_diff()],
                   [G24G10.x_diff(), G24G10.y_diff(), G24G10.z_diff()]])
-    print("A", A)
-
     # Calculate X_hat
 
     X_hat = calculate_x_hat(A, Wd, b)
+
     print("X: ", X_hat[0], "Y:",  X_hat[1], "Z:", X_hat[2])
 
-    print(X_hat[0] - pillar_1A_base[0])
+    print(before_ambiguity_resolution[0] + X_hat[0])
+    print(before_ambiguity_resolution[1] + X_hat[1])
+    print(before_ambiguity_resolution[2] + X_hat[2])
+
+
+
 
 
 
