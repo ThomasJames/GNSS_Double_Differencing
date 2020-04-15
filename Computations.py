@@ -1,7 +1,7 @@
 from math import sqrt, cos, sin, degrees, acos
 import numpy as np
 from numpy import transpose, linalg
-from Matrix_Computation_Classes import DD, HeatMap, MatrixOperations
+from Matrix_Computation_Classes import DD, HeatMap, MatrixOperations, Variance
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -131,64 +131,39 @@ G24toG12_noise = G24toG12_before - G24toG12_after
 G24toG10_noise = G24toG10_before - G24toG10_after
 
 
-def elevation_variance_calculator(sat_coords, receiver_coords, range_obs):
+G24_base_var = Variance(sat_coords=G24, receiver_coords=pillar_1A_base, range_obs=G24_base_obs, L1=True)
+G24_rover_var = Variance(sat_coords=G24, receiver_coords=pillar_3A_rover,range_obs=G24_rover_obs, L1=True)
+G19_base_var = Variance(sat_coords=G19, receiver_coords=pillar_1A_base, range_obs=G19_base_obs, L1=True)
+G19_rover_var = Variance(sat_coords=G19, receiver_coords=pillar_3A_rover,range_obs=G19_rover_obs, L1=True)
+G18_base_var = Variance(sat_coords=G18, receiver_coords=pillar_1A_base, range_obs=G18_base_obs, L1=True)
+G18_rover_var = Variance(sat_coords=G18, receiver_coords=pillar_3A_rover,range_obs=G18_rover_obs, L1=True)
+G17_base_var = Variance(sat_coords=G17, receiver_coords=pillar_1A_base, range_obs=G17_base_obs, L1=True)
+G17_rover_var = Variance(sat_coords=G17, receiver_coords=pillar_3A_rover,range_obs=G17_rover_obs, L1=True)
+G15_base_var = Variance(sat_coords=G15, receiver_coords=pillar_1A_base, range_obs=G15_base_obs, L1=True)
+G15_rover_var = Variance(sat_coords=G15, receiver_coords=pillar_3A_rover,range_obs=G15_rover_obs, L1=True)
+G13_base_var = Variance(sat_coords=G13, receiver_coords=pillar_1A_base, range_obs=G13_base_obs, L1=True)
+G13_rover_var = Variance(sat_coords=G13, receiver_coords=pillar_3A_rover,range_obs=G13_rover_obs, L1=True)
+G12_base_var = Variance(sat_coords=G12, receiver_coords=pillar_1A_base, range_obs=G12_base_obs, L1=True)
+G12_rover_var = Variance(sat_coords=G12, receiver_coords=pillar_3A_rover,range_obs=G12_rover_obs, L1=True)
+G10_base_var = Variance(sat_coords=G10, receiver_coords=pillar_1A_base, range_obs=G10_base_obs, L1=True)
+G10_rover_var = Variance(sat_coords=G10, receiver_coords=pillar_3A_rover,range_obs=G10_rover_obs, L1=True)
 
-    # Extract X, Y, Z
-    x_s, y_s, z_s = sat_coords[0], sat_coords[1], sat_coords[2]
-    # x_r, y_r, z_r = receiver_coords[0], receiver_coords[1], receiver_coords[2]
-
-    # Calculate distance from EC
-    ec_s = sqrt((sqrt(x_s**2 + y_s**2))**2 + z_s**2)
-    # ec_r = sqrt((sqrt(x_s ** 2 + y_s ** 2))**2 + z_r**2)
-
-    # Using known approximation of earth radius.
-    ec_r = 6369601.100213256
-
-    # Calculate the earth surface angle
-    angle = degrees(acos((ec_r**2 + range_obs[0]**2 - ec_s**2) / (2 * ec_r * range_obs[0])))
-
-    # L1 standard deviation
-    l1_SD = 0.003
-
-    # Calculate variance 
-    variance = (l1_SD ** 2) / sin(angle)
-
-    return variance
-
-
-G24_variance_base = elevation_variance_calculator(G24, pillar_1A_base, G24_base_obs)
-G24_variance_rover = elevation_variance_calculator(G24, pillar_3A_rover, G24_rover_obs)
-G19_variance_base = elevation_variance_calculator(G19, pillar_1A_base, G19_base_obs)
-G19_variance_rover = elevation_variance_calculator(G19, pillar_3A_rover, G19_rover_obs)
-G18_variance_base = elevation_variance_calculator(G18, pillar_1A_base, G18_base_obs)
-G18_variance_rover = elevation_variance_calculator(G18, pillar_3A_rover, G18_rover_obs)
-G17_variance_base = elevation_variance_calculator(G17, pillar_1A_base, G17_base_obs)
-G17_variance_rover = elevation_variance_calculator(G17, pillar_3A_rover, G17_rover_obs)
-G15_variance_base = elevation_variance_calculator(G15, pillar_1A_base, G15_base_obs)
-G15_variance_rover = elevation_variance_calculator(G15, pillar_3A_rover, G15_rover_obs)
-G13_variance_base = elevation_variance_calculator(G13, pillar_1A_base, G13_base_obs)
-G13_variance_rover = elevation_variance_calculator(G13, pillar_3A_rover, G13_rover_obs)
-G12_variance_base = elevation_variance_calculator(G12, pillar_1A_base, G12_base_obs)
-G12_variance_rover = elevation_variance_calculator(G12, pillar_3A_rover, G12_rover_obs)
-G10_variance_base = elevation_variance_calculator(G10, pillar_1A_base, G10_base_obs)
-G10_variance_rover = elevation_variance_calculator(G10, pillar_3A_rover, G10_rover_obs)
-
-variance_vector = np.array([ [G24_variance_base ],
-                             [G24_variance_rover],
-                             [G19_variance_base ],
-                             [G19_variance_rover],
-                             [G18_variance_base ],
-                             [G18_variance_rover],
-                             [G17_variance_base ],
-                             [G17_variance_rover],
-                             [G15_variance_base ],
-                             [G15_variance_rover],
-                             [G13_variance_base ],
-                             [G13_variance_rover],
-                             [G12_variance_base ],
-                             [G12_variance_rover],
-                             [G10_variance_base ],
-                             [G10_variance_rover]])
+variance_vector = np.array([ [G24_base_var .elevation_variance_calculator()],
+                             [G24_rover_var.elevation_variance_calculator()],
+                             [G19_base_var .elevation_variance_calculator()],
+                             [G19_rover_var.elevation_variance_calculator()],
+                             [G18_base_var .elevation_variance_calculator()],
+                             [G18_rover_var.elevation_variance_calculator()],
+                             [G17_base_var .elevation_variance_calculator()],
+                             [G17_rover_var.elevation_variance_calculator()],
+                             [G15_base_var .elevation_variance_calculator()],
+                             [G15_rover_var.elevation_variance_calculator()],
+                             [G13_base_var .elevation_variance_calculator()],
+                             [G13_rover_var.elevation_variance_calculator()],
+                             [G12_base_var .elevation_variance_calculator()],
+                             [G12_rover_var.elevation_variance_calculator()],
+                             [G10_base_var .elevation_variance_calculator()],
+                             [G10_rover_var.elevation_variance_calculator()]])
 
 
 # 16 x 8:  Differencing matrix
