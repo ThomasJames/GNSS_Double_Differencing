@@ -72,14 +72,6 @@ It is important to initially calculate the elevation angles of each satelite. Th
 ### D (Single differencing) Matrix 
 
 ### S (Double differencing) Matrix 
-[[ 1 -1  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
- [ 0  0  1 -1  0  0  0  0  0  0  0  0  0  0  0  0]
- [ 0  0  0  0  1 -1  0  0  0  0  0  0  0  0  0  0]
- [ 0  0  0  0  0  0  1 -1  0  0  0  0  0  0  0  0]
- [ 0  0  0  0  0  0  0  0  1 -1  0  0  0  0  0  0]
- [ 0  0  0  0  0  0  0  0  0  0  1 -1  0  0  0  0]
- [ 0  0  0  0  0  0  0  0  0  0  0  0  1 -1  0  0]
- [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 -1]]
 
 ### Cl (Observations covariance) Matrix 
 
