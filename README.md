@@ -59,7 +59,7 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Elevation.png" width="600">
 
-### Here is  (Elevation angles are to scale.) 
+(Elevation angles depicted here are to scale) 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Angles.png" width="600">
 
@@ -82,19 +82,3 @@ It is important to initially calculate the elevation angles of each satelite. Th
 ### ATWA Matrix 
 
 ### (ATWA)^-1 Matrix 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
