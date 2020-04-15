@@ -59,6 +59,8 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Elevation.png" width="600">
 
+### Here is  (Elevation angles are to scale.) 
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Angles.png" width="600">
 
 
@@ -66,28 +68,20 @@ It is important to initially calculate the elevation angles of each satelite. Th
 ## Matrices:
 
 ### A (Design) Matrix
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/A_Matrix.png" width="500">
 
 ### D (Single differencing) Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/D_Matrix.png" width="500">
 
 ### S (Double differencing) Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/S_Matrix.png" width="500">
 
 ### Cl (Observations covariance) Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/cl_Matrix.png" width="500">
 
 ### Cd (Covariance) Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Cd_Matrix.png" width="500">
 
 ### Wd (Weight) Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Wd_Matrix.png" width="500">
 
 ### ATWA Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/ATWA_Matrix.png" width="500">
 
 ### (ATWA)^-1 Matrix 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrix_Output/Inverse_ATWA.png" width="500">
 
 
 
