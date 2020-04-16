@@ -2,6 +2,8 @@ from math import sqrt, cos, sin, degrees, acos
 import numpy as np
 from numpy import transpose, linalg
 from Matrix_Computation_Classes import DD, HeatMap, MatrixOperations, Variance
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -196,7 +198,6 @@ def calculate_x_hat(A, W, b):
 def ATWA(A, W):
     return ((transpose(A)).dot(W)).dot(A)
 
-
 if __name__ == "__main__":
 
     """
@@ -207,10 +208,11 @@ if __name__ == "__main__":
     """
 
     D_out = HeatMap(matrix=D, title="D_matrix")
-    # D_out.output_png()
+    D_out.output_png()
 
     S_out = HeatMap(matrix=S, title="S_matrix")
-    # S_out.output_png()
+    S_out.output_png()
+    print(S)
 
     """
     SINGLE DIFFERENCING
@@ -232,6 +234,8 @@ if __name__ == "__main__":
     Dsl = vector of double differences
     DIM: 7 x 1
     """
+
+
 
     Dsl = D.dot(sl)
 
