@@ -67,6 +67,8 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 ## Matrices:
 
+### l (Observations) vector 
+
 ### A (Design) Matrix
 
 ### S (Double differencing) Matrix 
@@ -81,4 +83,9 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 ### ATWA Matrix 
 
-### (ATWA)^-1 Matrix 
+### (ATWA)^-1 Matrix
+
+### x^ result
+
+### RESULT
+
