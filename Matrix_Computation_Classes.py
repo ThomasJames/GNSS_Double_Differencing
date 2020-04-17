@@ -177,28 +177,19 @@ colour - Set to "Pastel1" as default.
 
 class HeatMap:
 
-    def __init__(self, matrix, title, file_type=".png", colour="Pastel1"):
+    def __init__(self, matrix, filename):
         self.matrix = matrix
-        self.title = title
-        self.file_type = file_type
-        self.colour = colour
+        self.filename = filename
 
-    def output_png(self):
-        sns.heatmap(self.matrix,
-                    annot=True,
-                    cbar=False,
-                    xticklabels=False,
-                    yticklabels=False,
-                    cmap=self.colour)
-        plt.title(str(self.title))
-        plt.savefig("Matrix_Output/" + str(self.title) + self.file_type)
+    def png_out(self):
+        heat_map = sns.heatmap(self.matrix,
+                               annot=True,
+                               xticklabels=False,
+                               yticklabels=False,
+                               cmap="Blues",
+                               cbar=False,)
+        plt.imsave('Matrix.png', self.matrix)
 
-    # def matrix_plotter(self):
-    #     sns.heatmap(self.matrix,
-    #                 annot=True,
-    #                 cbar=False,
-    #                 xticklabels=False,
-    #                 yticklabels=False,
-    #                 cmap=self.colour)
-    #     plt.title(str(self.title))
-    #     plt.show()
+
+
+

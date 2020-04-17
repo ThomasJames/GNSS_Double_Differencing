@@ -3,7 +3,9 @@ import numpy as np
 from numpy import transpose, linalg
 from Matrix_Computation_Classes import DD, HeatMap, MatrixOperations, Variance
 import matplotlib.pyplot as plt
+from matplotlib import transforms
 import seaborn as sns
+import pandas as pd
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -200,6 +202,26 @@ def ATWA(A, W):
 
 if __name__ == "__main__":
 
+    # Suppress Scientific mode for simplicity
+    np.set_printoptions(suppress=True,
+                        formatter={'float_kind':'{:16.3f}'.format},
+                        linewidth=130)
+
+    """
+    l vector - The vector of raw observations
+    """
+
+    vec2 = l.reshape(l.shape[0], 1)
+    ax = sns.heatmap((vec2),
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False,
+                fmt='g')
+    plt.title("Vector of observations (l) Matrix")
+    plt.show()
+
     """
     For purposes of single differencing and double differencing.
     The D and S are created.
@@ -207,12 +229,24 @@ if __name__ == "__main__":
     S DIM: 8 X 16
     """
 
-    D_out = HeatMap(matrix=D, title="D_matrix")
-    D_out.output_png()
+    ax = sns.heatmap(S,
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("Single Differencing (S) Matrix")
+    plt.show()
 
-    S_out = HeatMap(matrix=S, title="S_matrix")
-    S_out.output_png()
-    print(S)
+    sns.heatmap(D,
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("Double Differencing (D) Matrix")
+    plt.show()
+
 
     """
     SINGLE DIFFERENCING
@@ -224,6 +258,15 @@ if __name__ == "__main__":
     """
 
     sl = S.dot(l)
+    vec2 = sl.reshape(sl.shape[0], 1)
+    ax = sns.heatmap((vec2),
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("Vector of single differences (sl) Matrix")
+    plt.show()
 
     """
     DOUBLE DIFFERENCING 
@@ -235,9 +278,17 @@ if __name__ == "__main__":
     DIM: 7 x 1
     """
 
-
-
     Dsl = D.dot(sl)
+    vec2 = Dsl.reshape(Dsl.shape[0], 1)
+    ax = sns.heatmap((vec2),
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("Vector of Double differences (Dsl) Matrix")
+    plt.show()
+
 
     """
     Covariance matrix of the observation vector.
@@ -248,8 +299,16 @@ if __name__ == "__main__":
     """
 
     cl = np.eye(16, 16) * variance_vector
-    cl_out = HeatMap(matrix=cl, title="cl_Matrix")
-    # cl_out.output_png()
+    ax = sns.heatmap((cl),
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("Covariance matrix of observations (cl) Matrix")
+    plt.show()
+
+
 
     """
     Obtain the covariance matrix of the double differences.
@@ -269,8 +328,16 @@ if __name__ == "__main__":
     """
 
     Cd = (Cd_calculator(D, S, cl))
-    cd_out = HeatMap(matrix=Cd, title="Cd_Matrix")
-    # cd_out.output_png()
+    ax = sns.heatmap((Cd),
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("covariance matrix of the double differences (Cd) Matrix")
+    plt.imsave("Matrix_Output/Cd.png")
+
+
 
     """
     Calculate the weight matrix of the double differences. 
@@ -280,8 +347,16 @@ if __name__ == "__main__":
     """
 
     Wd = linalg.inv(Cd)
-    Wd_out = HeatMap(matrix=Wd, title="Wd_Matrix")
-    # Wd_out.output_png()
+
+    Wd = np.around(Wd, decimals=4)
+    heat_map = sns.heatmap(Wd,
+                           annot=True,
+                           xticklabels=False,
+                           yticklabels=False,
+                           cmap="Blues",
+                           cbar=False, )
+    plt.title("Weight (Wd) Matrix")
+    plt.show()
 
     """
     3 methods for calculating the partial differentials of the design matrix - (X Y and Z)
@@ -396,6 +471,19 @@ if __name__ == "__main__":
                   [G24G12.calc_b_vector()],
                   [G24G10.calc_b_vector()]])
 
+
+    vec2 = b.reshape(Dsl.shape[0], 1)
+    ax = sns.heatmap((b),
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("Observed - Computed (b) Vector")
+    plt.show()
+
+
+
     A = np.array([[G24G19.x_diff(), G24G19.y_diff(), G24G19.z_diff()],
                   [G24G18.x_diff(), G24G18.y_diff(), G24G18.z_diff()],
                   [G24G17.x_diff(), G24G17.y_diff(), G24G17.z_diff()],
@@ -403,9 +491,52 @@ if __name__ == "__main__":
                   [G24G13.x_diff(), G24G13.y_diff(), G24G13.z_diff()],
                   [G24G12.x_diff(), G24G12.y_diff(), G24G12.z_diff()],
                   [G24G10.x_diff(), G24G10.y_diff(), G24G10.z_diff()]])
-    # Calculate X_hat
 
+    A = np.around(A, decimals=4)
+    sns.heatmap(A,
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("Design (A) Matrix")
+    plt.show()
+
+    """
+    Output the ATWA matrix 
+    """
+    atwa = ATWA(A, Wd)
+    sns.heatmap(atwa,
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("ATWA Matrix")
+    plt.show()
+
+    """
+    Output the (ATWA)^-1 matrix 
+    """
+    inverse_atwa = linalg.inv(atwa)
+    sns.heatmap(inverse_atwa,
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("(ATWA)^-1 Matrix")
+    plt.show()
+
+
+    # Calculate X_hat
     X_hat = calculate_x_hat(A, Wd, b)
+    print(X_hat)
+
+    x_hat_out = np.array([["X", X_hat[0]],
+                          ["Y", X_hat[1]],
+                          ["Z", X_hat[2]]])
+
 
     print("X: ", X_hat[0], "Y:",  X_hat[1], "Z:", X_hat[2])
 
@@ -416,30 +547,3 @@ if __name__ == "__main__":
     print("True x: ", pillar_3A_rover[0], " calculated x: ", newX)
     print("True y: ", pillar_3A_rover[1], " calculated y: ", newY)
     print("True z: ", pillar_3A_rover[2], " calculated z: ", newZ)
-
-
-
-
-
-
-
-
-
-
-    
-
-
-    
-
-    
-
-    
-
-
-
-
-
-
-
-
-
