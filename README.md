@@ -69,21 +69,104 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 ### l (Observations) vector 
 
-### A (Design) Matrix
+This is the vector of raw observations.
 
-### S (Double differencing) Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20observations%20(l)%20Matrix.png" width="500">
 
-### D (Single differencing) Matrix 
 
-### Cl (Observations covariance) Matrix 
+### S (Single differencing) Matrix 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Single%20Differencing%20(S)%20Matrix.png" width="500">
+
+### Sl (Vector of single differences)
+
+```
+sl = S.dot(l)   
+```
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20single%20differences%20(sl)%20Matrix.png" width="500">
+
+### D (Doube differencing) Matrix 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Double%20Differencing%20(D)%20Matrix.png" width="500">
+
+### DSl (Vector of Double Differences)
+
+```
+Dsl = D.dot(sl)     
+```
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20Double%20differences%20(Dsl)%20Matrix.png" width="500">
+
+### b (Observed - Computed)
+
+``` 
+"""
+wl - Wavelength 
+brrs - Base receiver to reference satellite 
+rrrs - Reference receiver to reference satellite
+brcs - Base receiver to corresponding satellite 
+rrcs - Reference receiver to corresponding satellite
+N - Ambiguity term (int)
+e - Noise term 
+dsl - Vector of double differences.
+"""    
+def calc_b_vector(dsl, wl, brrs, rrrs, brcs, rrcs, N, e):
+    # observed - The vector of measured quantities
+    o = dsl
+        
+    # Computed
+    c = (1 / wl) * (brrs - rrrs - brcs + rrcs) + N + e
+    return o - c
+``` 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Observed%20-%20Computed%20(b)%20Vector.png" width="500">
+
+### Cl (Observations covariance) Matrix
+
+``` 
+cl = np.eye(16, 16) * variance_vector  
+``` 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Covariance%20matrix%20of%20observations%20(cl)%20Matrix.png" width="500">
 
 ### Cd (Covariance) Matrix 
 
+``` 
+def Cd_calculator(D, S, Cl):                                              
+    return (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))      
+``` 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/covariance%20matrix%20of%20the%20double%20differences%20(Cd)%20Matrix.png" width="500">
+
 ### Wd (Weight) Matrix 
+
+``` 
+Wd = linalg.inv(Cd)      
+``` 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Weight%20(Wd)%20Matrix.png" width="500">
+
+### A (Design) Martix
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Design%20(A)%20Matrix.png" width="500">
 
 ### ATWA Matrix 
 
+``` 
+def ATWA(A, W):                            
+    return ((transpose(A)).dot(W)).dot(A)      
+``` 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/ATWA%20Matrix.png" width="500">
+
 ### (ATWA)^-1 Matrix
+
+``` 
+linalg.inv(atwa)   
+```
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/(ATWA)%5E-1%20Matrix.png" width="500">
 
 ### x^ result
 
