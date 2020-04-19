@@ -73,31 +73,16 @@ This is the vector of raw observations.
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20observations%20(l)%20Matrix.png" width="500">
 
-### A (Design) Matrix
-
-
-``` 
-def x_diff(wl, X_3A, Y_3A, Z_3A, X_s, Y_s, Z_s):
-    return float(1 / wl * \
-                (
-                     (X_3A - X_s) /
-                     (sqrt((X_s - X_3A) ** 2 +
-                           (Y_s - Y_3A) ** 2 +
-                           (Z_s - Z_3A) ** 2))
-                     -
-                     (X_3A - X_s_ref) /
-                     (sqrt(X_s_ref - X_3A) ** 2 +
-                      (Y_s_ref - Y_3A) ** 2 +
-                      (Z_s_ref - Z_3A) ** 2)))
-``` 
-
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Design%20(A)%20Matrix.png" width="500">
 
 ### S (Single differencing) Matrix 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Single%20Differencing%20(S)%20Matrix.png" width="500">
 
 ### Sl (Vector of single differences)
+
+```
+sl = S.dot(l)   
+```
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20single%20differences%20(sl)%20Matrix.png" width="500">
 
@@ -106,6 +91,10 @@ def x_diff(wl, X_3A, Y_3A, Z_3A, X_s, Y_s, Z_s):
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Double%20Differencing%20(D)%20Matrix.png" width="500">
 
 ### DSl (Vector of Double Differences)
+
+```
+Dsl = D.dot(sl)     
+```
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20Double%20differences%20(Dsl)%20Matrix.png" width="500">
 
@@ -135,13 +124,26 @@ def calc_b_vector(dsl, wl, brrs, rrrs, brcs, rrcs, N, e):
 
 ### Cl (Observations covariance) Matrix
 
+``` 
+cl = np.eye(16, 16) * variance_vector  
+``` 
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Covariance%20matrix%20of%20observations%20(cl)%20Matrix.png" width="500">
 
 ### Cd (Covariance) Matrix 
 
+``` 
+def Cd_calculator(D, S, Cl):                                              
+    return (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))      
+``` 
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/covariance%20matrix%20of%20the%20double%20differences%20(Cd)%20Matrix.png" width="500">
 
 ### Wd (Weight) Matrix 
+
+``` 
+Wd = linalg.inv(Cd)      
+``` 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Weight%20(Wd)%20Matrix.png" width="500">
 
@@ -151,9 +153,18 @@ def calc_b_vector(dsl, wl, brrs, rrrs, brcs, rrcs, N, e):
 
 ### ATWA Matrix 
 
+``` 
+def ATWA(A, W):                            
+    return ((transpose(A)).dot(W)).dot(A)      
+``` 
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/ATWA%20Matrix.png" width="500">
 
 ### (ATWA)^-1 Matrix
+
+``` 
+linalg.inv(atwa)   
+```
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/(ATWA)%5E-1%20Matrix.png" width="500">
 
