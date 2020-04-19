@@ -220,6 +220,7 @@ if __name__ == "__main__":
                 cbar=False,
                 fmt='g')
     plt.title("Vector of observations (l) Matrix")
+    plt.savefig("Matrices/Vector of observations (l) Matrix")
     plt.show()
 
     """
@@ -236,6 +237,7 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("Single Differencing (S) Matrix")
+    plt.savefig("Matrices/Single Differencing (S) Matrix")
     plt.show()
 
     sns.heatmap(D,
@@ -266,6 +268,7 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("Vector of single differences (sl) Matrix")
+    plt.savefig("Matrices/Vector of single differences (sl) Matrix")
     plt.show()
 
     """
@@ -287,6 +290,7 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("Vector of Double differences (Dsl) Matrix")
+    plt.savefig("Matrices/Vector of Double differences (Dsl) Matrix")
     plt.show()
 
 
@@ -306,6 +310,7 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("Covariance matrix of observations (cl) Matrix")
+    plt.savefig("Matrices/Covariance matrix of observations (cl) Matrix")
     plt.show()
 
 
@@ -335,7 +340,9 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("covariance matrix of the double differences (Cd) Matrix")
-    plt.imsave("Matrix_Output/Cd.png")
+    plt.savefig("Matrices/covariance matrix of the double differences (Cd) Matrix")
+    plt.show()
+
 
 
 
@@ -356,6 +363,7 @@ if __name__ == "__main__":
                            cmap="Blues",
                            cbar=False, )
     plt.title("Weight (Wd) Matrix")
+    plt.savefig("Matrices/Weight (Wd) Matrix")
     plt.show()
 
     """
@@ -480,6 +488,7 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("Observed - Computed (b) Vector")
+    plt.savefig("Matrices/Observed - Computed (b) Vector")
     plt.show()
 
 
@@ -500,6 +509,7 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("Design (A) Matrix")
+    plt.savefig("Matrices/Design (A) Matrix")
     plt.show()
 
     """
@@ -513,6 +523,7 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("ATWA Matrix")
+    plt.savefig("Matrices/ATWA Matrix")
     plt.show()
 
     """
@@ -526,6 +537,7 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("(ATWA)^-1 Matrix")
+    plt.savefig("Matrices/(ATWA)^-1 Matrix")
     plt.show()
 
 
