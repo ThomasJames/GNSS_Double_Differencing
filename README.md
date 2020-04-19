@@ -95,7 +95,7 @@ class Variance:
         return variance
 ```
 
-src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="500">
 
 
 ### l (Observations) vector 
