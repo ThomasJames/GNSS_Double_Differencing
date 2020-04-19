@@ -69,21 +69,55 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 ### l (Observations) vector 
 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20observations%20(l)%20Matrix.png" width="500">
+
 ### A (Design) Matrix
 
-### S (Double differencing) Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Design%20(A)%20Matrix.png" width="500">
 
-### D (Single differencing) Matrix 
+### S (Single differencing) Matrix 
 
-### Cl (Observations covariance) Matrix 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Single%20Differencing%20(S)%20Matrix.png" width="500">
+
+### Sl (Vector of single differences)
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20single%20differences%20(sl)%20Matrix.png" width="500">
+
+### D (Doube differencing) Matrix 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Double%20Differencing%20(D)%20Matrix.png" width="500">
+
+### DSl (Vector of Double Differences)
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20Double%20differences%20(Dsl)%20Matrix.png" width="500">
+
+### b (Observed - Computed)
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20Double%20differences%20(Dsl)%20Matrix.png" width="500">
+
+### Cl (Observations covariance) Matrix
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Covariance%20matrix%20of%20observations%20(cl)%20Matrix.png" width="500">
 
 ### Cd (Covariance) Matrix 
 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/covariance%20matrix%20of%20the%20double%20differences%20(Cd)%20Matrix.png" width="500">
+
 ### Wd (Weight) Matrix 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Weight%20(Wd)%20Matrix.png" width="500">
+
+### A (Design) Martix
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Design%20(A)%20Matrix.png" width="500">
 
 ### ATWA Matrix 
 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/ATWA%20Matrix.png" width="500">
+
 ### (ATWA)^-1 Matrix
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/(ATWA)%5E-1%20Matrix.png" width="500">
 
 ### x^ result
 
