@@ -93,7 +93,7 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 ### b (Observed - Computed)
 
-
+``` 
 """
 wl - Wavelength 
 brrs - Base receiver to reference satellite 
@@ -111,6 +111,7 @@ def calc_b_vector(dsl, wl, brrs, rrrs, brcs, rrcs, N, e):
     # Computed
     c = (1 / wl) * (brrs - rrrs - brcs + rrcs) + N + e
     return o - c
+``` 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20Double%20differences%20(Dsl)%20Matrix.png" width="500">
 
