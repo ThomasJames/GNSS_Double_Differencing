@@ -67,6 +67,37 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 ## Matrices:
 
+### Vector of variances:
+```
+class Variance:
+
+    def __init__(self, sat_coords, receiver_coords, range_obs, L1=True):
+
+        if L1:
+            l1_std = 0.003
+
+        self.l1_std = l1_std
+        self.sat_coords = sat_coords
+        self.receiver_coords = receiver_coords
+        self.range_obs = range_obs
+
+    def elevation_variance_calculator(self):
+
+        x_s, y_s, z_s = self.sat_coords[0], self.sat_coords[1], self.sat_coords[2]
+        x_r, y_r, z_r = self.receiver_coords[0], self.receiver_coords[1], self.receiver_coords[2]
+
+        ec_s = sqrt((sqrt(x_s ** 2 + y_s ** 2)) ** 2 + z_s ** 2)
+        ec_r = sqrt((sqrt(x_r ** 2 + y_r ** 2)) ** 2 + z_r ** 2)
+        angle = degrees(acos((ec_r ** 2 + self.range_obs[0] ** 2 - ec_s ** 2) / (2 * ec_r * self.range_obs[0])))
+
+        variance = (self.l1_std ** 2) / sin(angle)
+
+        return variance
+```
+
+src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="500">
+
+
 ### l (Observations) vector 
 
 This is the vector of raw observations.
