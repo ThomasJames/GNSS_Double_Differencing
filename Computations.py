@@ -207,6 +207,20 @@ if __name__ == "__main__":
                         formatter={'float_kind':'{:16.3f}'.format},
                         linewidth=130)
 
+    vec2 = variance_vector.reshape(variance_vector.shape[0], 1)
+    ax = sns.heatmap((vec2),
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False,
+                fmt='g')
+    plt.title("Vector of variances")
+    plt.savefig("Matrices/Vector of variances")
+    plt.show()
+
+
+
     """
     l vector - The vector of raw observations
     """
@@ -247,7 +261,7 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("Double Differencing (D) Matrix")
-    plt.savefig("Matrices/Double Differencing (D) Matri")
+    plt.savefig("Matrices/Double Differencing (D) Matrix")
     plt.show()
 
 
@@ -546,9 +560,11 @@ if __name__ == "__main__":
     X_hat = calculate_x_hat(A, Wd, b)
     print(X_hat)
 
-    x_hat_out = np.array([["X", X_hat[0]],
-                          ["Y", X_hat[1]],
-                          ["Z", X_hat[2]]])
+    x_hat_out = np.array([["X", float(X_hat[0])],
+                          ["Y", float(X_hat[1])],
+                          ["Z", float(X_hat[2])]])
+
+    print(x_hat_out)
 
 
     print("X: ", X_hat[0], "Y:",  X_hat[1], "Z:", X_hat[2])
