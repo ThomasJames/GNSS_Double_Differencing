@@ -93,6 +93,8 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 ### b (Observed - Computed)
 
+<script src="https://gist.github.com/ThomasJames/7a90cac698a8c2c64372c121c4ad5dec.js"></script>
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20Double%20differences%20(Dsl)%20Matrix.png" width="500">
 
 ### Cl (Observations covariance) Matrix
