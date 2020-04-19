@@ -247,6 +247,7 @@ if __name__ == "__main__":
                 cmap="Blues",
                 cbar=False)
     plt.title("Double Differencing (D) Matrix")
+    plt.savefig("Matrices/Double Differencing (D) Matri")
     plt.show()
 
 
