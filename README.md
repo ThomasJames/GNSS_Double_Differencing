@@ -180,6 +180,26 @@ Wd = linalg.inv(Cd)
 
 ### A (Design) Martix
 
+``` 
+wl - L1 wavelength 
+X_3A, Y_3A, Z_3A - [X, Y, Z coordinates of Pillar 3A]
+X_s_ref, Y_s_ref, Z_s_ref   - [X, Y, Z coordinates of reference satelite]
+
+def x_diff(wl, X_3A, Y_3A, Z_3A, X_s_ref, Y_s_ref, Z_s_ref):
+ return float(1 / wl * \
+                (
+                     (X_3A - X_s) /
+                     (sqrt((X_s - X_3A) ** 2 +
+                           (Y_s - Y_3A) ** 2 +
+                           (Z_s - Z_3A) ** 2))
+                     -
+                      (X_3A - self.X_s_ref) /
+                      (sqrt(X_s_ref - X_3A) ** 2 +
+                           (Y_s_ref - Y_3A) ** 2 +
+                           (Z_s_ref - Z_3A) ** 2)))
+
+``` 
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Design%20(A)%20Matrix.png" width="500">
 
 ### ATWA Matrix 
