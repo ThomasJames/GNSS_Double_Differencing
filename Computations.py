@@ -567,6 +567,7 @@ if __name__ == "__main__":
     print(x_hat_out)
 
 
+
     print("X: ", X_hat[0], "Y:",  X_hat[1], "Z:", X_hat[2])
 
     newX = before_ambiguity_resolution[0] + X_hat[0]

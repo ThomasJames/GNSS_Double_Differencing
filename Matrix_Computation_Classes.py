@@ -116,9 +116,10 @@ class Variance:
         x_s, y_s, z_s = self.sat_coords[0], self.sat_coords[1], self.sat_coords[2]
         x_r, y_r, z_r = self.receiver_coords[0], self.receiver_coords[1], self.receiver_coords[2]
 
+        r_s = sqrt((x_s - x_r)**2 + (y_s - y_r)**2 + (z_s - z_r)**2)
         ec_s = sqrt((sqrt(x_s ** 2 + y_s ** 2)) ** 2 + z_s ** 2)
         ec_r = sqrt((sqrt(x_r ** 2 + y_r ** 2)) ** 2 + z_r ** 2)
-        angle = degrees(acos((ec_r ** 2 + self.range_obs[0] ** 2 - ec_s ** 2) / (2 * ec_r * self.range_obs[0])))
+        angle = (degrees(acos((ec_r ** 2 + r_s ** 2 - ec_s ** 2) / (2 * ec_r * r_s)))) - 90
 
         variance = (self.l1_std ** 2) / sin(angle)
 
