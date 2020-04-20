@@ -67,6 +67,37 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 ## Matrices:
 
+### Vector of variances:
+```
+class Variance:
+
+    def __init__(self, sat_coords, receiver_coords, range_obs, L1=True):
+
+        if L1:
+            l1_std = 0.003
+
+        self.l1_std = l1_std
+        self.sat_coords = sat_coords
+        self.receiver_coords = receiver_coords
+        self.range_obs = range_obs
+
+    def elevation_variance_calculator(self):
+
+        x_s, y_s, z_s = self.sat_coords[0], self.sat_coords[1], self.sat_coords[2]
+        x_r, y_r, z_r = self.receiver_coords[0], self.receiver_coords[1], self.receiver_coords[2]
+
+        ec_s = sqrt((sqrt(x_s ** 2 + y_s ** 2)) ** 2 + z_s ** 2)
+        ec_r = sqrt((sqrt(x_r ** 2 + y_r ** 2)) ** 2 + z_r ** 2)
+        angle = degrees(acos((ec_r ** 2 + self.range_obs[0] ** 2 - ec_s ** 2) / (2 * ec_r * self.range_obs[0])))
+
+        variance = (self.l1_std ** 2) / sin(angle)
+
+        return variance
+```
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="500">
+
+
 ### l (Observations) vector 
 
 This is the vector of raw observations.
@@ -148,6 +179,26 @@ Wd = linalg.inv(Cd)
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Weight%20(Wd)%20Matrix.png" width="500">
 
 ### A (Design) Martix
+
+``` 
+wl - L1 wavelength 
+X_3A, Y_3A, Z_3A - [X, Y, Z coordinates of Pillar 3A]
+X_s_ref, Y_s_ref, Z_s_ref   - [X, Y, Z coordinates of reference satelite]
+
+def x_diff(wl, X_3A, Y_3A, Z_3A, X_s_ref, Y_s_ref, Z_s_ref):
+ return float(1 / wl * \
+                (
+                     (X_3A - X_s) /
+                     (sqrt((X_s - X_3A) ** 2 +
+                           (Y_s - Y_3A) ** 2 +
+                           (Z_s - Z_3A) ** 2))
+                     -
+                      (X_3A - self.X_s_ref) /
+                      (sqrt(X_s_ref - X_3A) ** 2 +
+                           (Y_s_ref - Y_3A) ** 2 +
+                           (Z_s_ref - Z_3A) ** 2)))
+
+``` 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Design%20(A)%20Matrix.png" width="500">
 
