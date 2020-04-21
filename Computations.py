@@ -1,11 +1,12 @@
 from math import sqrt, cos, sin, degrees, acos
 import numpy as np
 from numpy import transpose, linalg
-from Matrix_Computation_Classes import DD, HeatMap, MatrixOperations, Variance
+from Matrix_Computation_Classes import DD, Variance, distance
 import matplotlib.pyplot as plt
 from matplotlib import transforms
 import seaborn as sns
 import pandas as pd
+from typing import List
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -24,9 +25,6 @@ pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])  # Refer
 
 # Trying to reproduce these coordinates
 pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])  # Monument
-after_ambiguit  = np.array([[4929605.542], [-29123.828], [4033603.932]])
-before_pa =       np.array([[4929605.096], [-29123.627], [4033604.055]])
-after_pa =        np.array([[4929604.918], [-29123.616], [4033603.990]])
 distance_between_receivers = 94.4  # Measured in meters / Approximate
 
 l1_SD = 0.003
@@ -558,24 +556,27 @@ if __name__ == "__main__":
 
     # Calculate X_hat
     X_hat = calculate_x_hat(A, Wd, b)
-    print(X_hat)
 
     L1_wl = 0.19
 
-    x_hat_out = np.array([["X", 1/L1_wl*(float(X_hat[0]))],
-                          ["Y", 1/L1_wl*(float(X_hat[1]))],
-                          ["Z", 1/1/L1_wl*(float(X_hat[2]))]])
+    X_hat = [(L1_wl * X_hat[0]), (L1_wl * X_hat[1]), (L1_wl * X_hat[2])]
 
-    print(x_hat_out)
+    updated_pillar_3A = [(pillar_3A_rover[0] + X_hat[0]), (pillar_3A_rover[1] + X_hat[1]), (pillar_3A_rover[2] + X_hat[2])]
 
 
+    table = np.array([["Nominal: ", distance(pillar_1A_base, pillar_3A_rover)],
+                      ["Updated: ", distance(pillar_1A_base, updated_pillar_3A)]])
 
-    print("X: ", X_hat[0], "Y:",  X_hat[1], "Z:", X_hat[2])
 
-    newX = before_ambiguity_resolution[0] + X_hat[0]
-    newY = before_ambiguity_resolution[1] + X_hat[1]
-    newZ = before_ambiguity_resolution[2] + X_hat[2]
+    fig, ax = plt.subplots()
+    # hide axes
+    fig.patch.set_visible(False)
+    ax.axis('off')
+    ax.axis('tight')
+    columns = [" ", "Distance between Pillars (m)"]
+    df = pd.DataFrame(table, columns=columns)
+    ax.table(cellText=df.values, colLabels=df.columns, loc='center')
+    fig.tight_layout()
+    plt.savefig("Matrices/Nominal Vs Updated Distances")
+    plt.show()
 
-    print("True x: ", pillar_3A_rover[0], " calculated x: ", newX)
-    print("True y: ", pillar_3A_rover[1], " calculated y: ", newY)
-    print("True z: ", pillar_3A_rover[2], " calculated z: ", newZ)
