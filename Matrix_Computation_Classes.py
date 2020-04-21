@@ -101,7 +101,7 @@ class DD:
 
     def calc_b_vector(self) -> float:
         # observed - The vector of measured quantities
-        o = self.dsl - self.N + self.e
+        o = self.dsl - self.N
 
         # Computed
         c = (1 / self.wl) * (self.brrs - self.rrrs - self.brcs + self.rrcs)

@@ -563,6 +563,8 @@ if __name__ == "__main__":
 
     updated_pillar_3A = [(pillar_3A_rover[0] + X_hat[0]), (pillar_3A_rover[1] + X_hat[1]), (pillar_3A_rover[2] + X_hat[2])]
 
+
+
     """
     Table to display final results
     """
@@ -585,6 +587,7 @@ if __name__ == "__main__":
     """
     As a performance test, the computed distances between pillar 1A and pillar 3A are compared.
     """
+    print(distance(after_ambiguity_resolution, pillar_1A_base))
 
     table = np.array([["Nominal: ", distance(pillar_1A_base, pillar_3A_rover)],
                       ["Updated: ", distance(pillar_1A_base, updated_pillar_3A)]])
