@@ -69,29 +69,53 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 ### Vector of variances:
 
+This method calculates the satellite angle of elevation in the following stages:                     
+Calculates the distance of receiver to the satellite (m) using pythagoras theorem.                   
+Calculates the distance between the earth center and the satellite (m) using pythagoras theorem.     
+Calculates the distance between the earth center and the receiver (m) using pythagoras theorem.      
+These ranges make up a scalene triangle, where all ranges are known.                                 
+The low of cosines is used to calculate the angle about the receiver in degrees.                     
+90 is subtracted from this angle to get the local elevation angle.                                   
+The method then calculates the variance of the satellite at the calculated angle.                    
+returns the variance as a float                                                                      
+
 ```
-class Variance:
-
-    def __init__(self, sat_coords, receiver_coords, range_obs, L1=True):
-
-        if L1:
-            l1_std = 0.003
-
-        self.l1_std = l1_std
-        self.sat_coords = sat_coords
-        self.receiver_coords = receiver_coords
-        self.range_obs = range_obs
-
-    def elevation_variance_calculator(self):
-
+class Variance:                                         
+                                                        
+    def __init__(self, sat_coords: list,                
+                       receiver_coords: list,           
+                       range_obs: list,                 
+                       L1: bool == True):               
+                                                        
+                                                        
+                                                        
+        if L1:                                          
+            l1_std = 0.003                              
+                                                        
+        self.l1_std = l1_std                            
+        self.sat_coords = sat_coords                    
+        self.receiver_coords = receiver_coords          
+        self.range_obs = range_obs                      
+                                                        
+    def elevation_variance_calculator(self) -> float:   
+    
+            # Extract ECEF distances (m)
         x_s, y_s, z_s = self.sat_coords[0], self.sat_coords[1], self.sat_coords[2]
         x_r, y_r, z_r = self.receiver_coords[0], self.receiver_coords[1], self.receiver_coords[2]
 
+        # Distance from receiver to satellite (m)
         r_s = sqrt((x_s - x_r)**2 + (y_s - y_r)**2 + (z_s - z_r)**2)
+
+        # Distance from earth center to satellite (m)
         ec_s = sqrt((sqrt(x_s ** 2 + y_s ** 2)) ** 2 + z_s ** 2)
+
+        # Distance from earth center to receiver (m)
         ec_r = sqrt((sqrt(x_r ** 2 + y_r ** 2)) ** 2 + z_r ** 2)
+
+        # Angle from the local horizontal to the satellite (m)
         angle = (degrees(acos((ec_r ** 2 + r_s ** 2 - ec_s ** 2) / (2 * ec_r * r_s)))) - 90
 
+        # Variance (uncertainty associated with the satellite) (m)
         variance = (self.l1_std ** 2) / sin(angle)
 
         return variance
