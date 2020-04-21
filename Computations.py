@@ -123,6 +123,8 @@ G24toG13_after = -4.000
 G24toG12_after = 35.000
 G24toG10_after = 12.000
 
+a_a_r = [G24toG19_after, G24toG18_after, G24toG17_after, G24toG15_after, G24toG13_after, G24toG12_after, G24toG10_after]
+
 # Calculate the noise of each measurement.
 G24toG19_noise = G24toG19_before - G24toG19_after
 G24toG18_noise = G24toG18_before - G24toG18_after
@@ -295,6 +297,17 @@ if __name__ == "__main__":
     """
 
     Dsl = D.dot(sl)
+
+    """
+    Subtract the corresponding ambiguity resolved phase ambiguity term. 
+    """
+    DD_s_p_a = []
+    for i in range(len(Dsl)):
+        DD_s_p_a.append(Dsl[i] - a_a_r[i])
+
+    print(DD_s_p_a)
+
+
     vec2 = Dsl.reshape(Dsl.shape[0], 1)
     ax = sns.heatmap((vec2),
                 annot=True,
@@ -305,6 +318,8 @@ if __name__ == "__main__":
     plt.title("Vector of Double differences (Dsl) Matrix")
     plt.savefig("Matrices/Vector of Double differences (Dsl) Matrix")
     plt.show()
+
+
 
 
     """
@@ -401,82 +416,70 @@ if __name__ == "__main__":
                 rrrs=G24_rover_obs[0],
                 brcs=G19_base_obs[0],
                 rrcs=G19_rover_obs[0],
-                N=G24toG19_after,
-                e=G24toG19_noise,
                 ref_station=pillar_1A_base,
                 corresponding_sat=G19,
                 sat_ref=G24,
-                dsl=Dsl[0])
+                DD_s_p_a=DD_s_p_a[0])
 
     G24G18 = DD(L1=True,
                 brrs=G24_base_obs[0],
                 rrrs=G24_rover_obs[0],
                 brcs=G18_base_obs[0],
                 rrcs=G18_rover_obs[0],
-                N=G24toG18_after,
-                e=G24toG18_noise,
                 ref_station=pillar_1A_base,
                 corresponding_sat=G18,
                 sat_ref=G24,
-                dsl=Dsl[1])
+                DD_s_p_a=DD_s_p_a[1])
 
     G24G17 = DD(L1=True,
                 brrs=G24_base_obs[0],
                 rrrs=G24_rover_obs[0],
                 brcs=G17_base_obs[0],
                 rrcs=G17_rover_obs[0],
-                N=G24toG17_after,
-                e=G24toG17_noise,
                 ref_station=pillar_1A_base,
                 corresponding_sat=G17,
-                sat_ref=G24, dsl=Dsl[2])
+                sat_ref=G24,
+                DD_s_p_a=DD_s_p_a[2])
 
     G24G15 = DD(L1=True,
                 brrs=G24_base_obs[0],
                 rrrs=G24_rover_obs[0],
                 brcs=G15_base_obs[0],
                 rrcs=G15_rover_obs[0],
-                N=G24toG15_after,
-                e=G24toG15_noise,
                 ref_station=pillar_1A_base,
                 corresponding_sat=G15,
-                sat_ref=G24, dsl=Dsl[3])
+                sat_ref=G24,
+                DD_s_p_a=DD_s_p_a[3])
 
     G24G13 = DD(L1=True,
                 brrs=G24_base_obs[0],
                 rrrs=G24_rover_obs[0],
                 brcs=G13_base_obs[0],
                 rrcs=G13_rover_obs[0],
-                N=G24toG13_after,
-                e=G24toG13_noise,
                 ref_station=pillar_1A_base,
                 corresponding_sat=G13,
                 sat_ref=G24,
-                dsl=Dsl[4])
+                DD_s_p_a=DD_s_p_a[4])
 
     G24G12 = DD(L1=True,
                 brrs=G24_base_obs[0],
                 rrrs=G24_rover_obs[0],
                 brcs=G12_base_obs[0],
                 rrcs=G12_rover_obs[0],
-                N=G24toG12_after,
-                e=G24toG12_noise,
                 ref_station=pillar_1A_base,
                 corresponding_sat=G12,
                 sat_ref=G24,
-                dsl=Dsl[5])
+                DD_s_p_a=DD_s_p_a[5])
 
     G24G10 = DD(L1=True,
                 brrs=G24_base_obs[0],
                 rrrs=G24_rover_obs[0],
                 brcs=G10_base_obs[0],
                 rrcs=G10_rover_obs[0],
-                N=G24toG10_after,
-                e=G24toG10_noise,
                 ref_station=pillar_1A_base,
                 corresponding_sat=G10,
                 sat_ref=G24,
-                dsl=Dsl[6])
+                DD_s_p_a=DD_s_p_a[6])
 
 
     """
@@ -492,8 +495,6 @@ if __name__ == "__main__":
                   [G24G12.calc_b_vector()],
                   [G24G10.calc_b_vector()]])
 
-
-    vec2 = b.reshape(Dsl.shape[0], 1)
     ax = sns.heatmap((b),
                 annot=True,
                 xticklabels=False,

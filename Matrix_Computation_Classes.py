@@ -1,9 +1,8 @@
-from math import sqrt
 from numpy import transpose, linalg
 import matplotlib.pyplot as plt
 import seaborn as sns
-from math import sqrt, cos, sin, degrees, acos, radians
-from typing import List, Tuple
+from math import sqrt, sin, degrees, acos, radians
+from typing import List
 
 """
 Class DD
@@ -28,14 +27,12 @@ class DD:
     def __init__(self, ref_station =None,
                        corresponding_sat =None,
                        sat_ref= None,
-                       N: int = None,
-                       e: float = None,
                        brrs: float = None,
                        rrrs: float = None,
                        brcs: float = None,
                        rrcs: float =None,
                        L1 : bool = True,
-                       dsl: float = None):
+                       DD_s_p_a: float = None):
 
         if L1:
             wl = 0.19029367
@@ -51,13 +48,11 @@ class DD:
         self.Y_s_ref = sat_ref[1]
         self.Z_s_ref = sat_ref[2]
         self.wl = wl
-        self.N = N
-        self.e = e
         self.brrs = brrs
         self.rrrs = rrrs
         self.brcs = brcs
         self.rrcs = rrcs
-        self.dsl = dsl
+        self.DD_s_p_a = DD_s_p_a
 
 
     def x_diff(self) -> float:
@@ -101,7 +96,7 @@ class DD:
 
     def calc_b_vector(self) -> float:
         # observed - The vector of measured quantities
-        o = self.dsl - self.N
+        o = self.DD_s_p_a
 
         # Computed
         c = (1 / self.wl) * (self.brrs - self.rrrs - self.brcs + self.rrcs)
@@ -152,13 +147,13 @@ class Variance:
         ec_r = sqrt((sqrt(x_r ** 2 + y_r ** 2)) ** 2 + z_r ** 2)
 
         # Angle from the local horizontal to the satellite (m)
-        angle = (degrees(acos((ec_r ** 2 + r_s ** 2 - ec_s ** 2) / (2 * ec_r * r_s)))) - 90
-        angle = radians(angle)
+        angle = radians((degrees(acos((ec_r ** 2 + r_s ** 2 - ec_s ** 2) / (2 * ec_r * r_s)))) - 90)
 
         # Variance (uncertainty associated with the satellite) (m)
         variance = (self.l1_std ** 2) / (sin(angle))
 
         return variance
+
 
 def distance(point_1: List[float], point_2: List[float]) -> float:
 
