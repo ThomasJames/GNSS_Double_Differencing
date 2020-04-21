@@ -560,9 +560,11 @@ if __name__ == "__main__":
     X_hat = calculate_x_hat(A, Wd, b)
     print(X_hat)
 
-    x_hat_out = np.array([["X", float(X_hat[0])],
-                          ["Y", float(X_hat[1])],
-                          ["Z", float(X_hat[2])]])
+    L1_wl = 0.19
+
+    x_hat_out = np.array([["X", 1/L1_wl*(float(X_hat[0]))],
+                          ["Y", 1/L1_wl*(float(X_hat[1]))],
+                          ["Z", 1/1/L1_wl*(float(X_hat[2]))]])
 
     print(x_hat_out)
 
