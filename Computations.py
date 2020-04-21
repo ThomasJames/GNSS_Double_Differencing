@@ -135,22 +135,22 @@ G24toG12_noise = G24toG12_before - G24toG12_after
 G24toG10_noise = G24toG10_before - G24toG10_after
 
 
-G24_base_var = Variance(sat_coords=G24, receiver_coords=pillar_1A_base, range_obs=G24_base_obs, L1=True)
-G24_rover_var = Variance(sat_coords=G24, receiver_coords=pillar_3A_rover,range_obs=G24_rover_obs, L1=True)
-G19_base_var = Variance(sat_coords=G19, receiver_coords=pillar_1A_base, range_obs=G19_base_obs, L1=True)
-G19_rover_var = Variance(sat_coords=G19, receiver_coords=pillar_3A_rover,range_obs=G19_rover_obs, L1=True)
-G18_base_var = Variance(sat_coords=G18, receiver_coords=pillar_1A_base, range_obs=G18_base_obs, L1=True)
-G18_rover_var = Variance(sat_coords=G18, receiver_coords=pillar_3A_rover,range_obs=G18_rover_obs, L1=True)
-G17_base_var = Variance(sat_coords=G17, receiver_coords=pillar_1A_base, range_obs=G17_base_obs, L1=True)
-G17_rover_var = Variance(sat_coords=G17, receiver_coords=pillar_3A_rover,range_obs=G17_rover_obs, L1=True)
-G15_base_var = Variance(sat_coords=G15, receiver_coords=pillar_1A_base, range_obs=G15_base_obs, L1=True)
-G15_rover_var = Variance(sat_coords=G15, receiver_coords=pillar_3A_rover,range_obs=G15_rover_obs, L1=True)
-G13_base_var = Variance(sat_coords=G13, receiver_coords=pillar_1A_base, range_obs=G13_base_obs, L1=True)
-G13_rover_var = Variance(sat_coords=G13, receiver_coords=pillar_3A_rover,range_obs=G13_rover_obs, L1=True)
-G12_base_var = Variance(sat_coords=G12, receiver_coords=pillar_1A_base, range_obs=G12_base_obs, L1=True)
-G12_rover_var = Variance(sat_coords=G12, receiver_coords=pillar_3A_rover,range_obs=G12_rover_obs, L1=True)
-G10_base_var = Variance(sat_coords=G10, receiver_coords=pillar_1A_base, range_obs=G10_base_obs, L1=True)
-G10_rover_var = Variance(sat_coords=G10, receiver_coords=pillar_3A_rover,range_obs=G10_rover_obs, L1=True)
+G24_base_var = Variance(sat_coords=G24, receiver_coords=pillar_1A_base, L1=True)
+G24_rover_var = Variance(sat_coords=G24, receiver_coords=pillar_3A_rover, L1=True)
+G19_base_var = Variance(sat_coords=G19, receiver_coords=pillar_1A_base, L1=True)
+G19_rover_var = Variance(sat_coords=G19, receiver_coords=pillar_3A_rover, L1=True)
+G18_base_var = Variance(sat_coords=G18, receiver_coords=pillar_1A_base, L1=True)
+G18_rover_var = Variance(sat_coords=G18, receiver_coords=pillar_3A_rover, L1=True)
+G17_base_var = Variance(sat_coords=G17, receiver_coords=pillar_1A_base, L1=True)
+G17_rover_var = Variance(sat_coords=G17, receiver_coords=pillar_3A_rover,  L1=True)
+G15_base_var = Variance(sat_coords=G15, receiver_coords=pillar_1A_base,  L1=True)
+G15_rover_var = Variance(sat_coords=G15, receiver_coords=pillar_3A_rover, L1=True)
+G13_base_var = Variance(sat_coords=G13, receiver_coords=pillar_1A_base,  L1=True)
+G13_rover_var = Variance(sat_coords=G13, receiver_coords=pillar_3A_rover, L1=True)
+G12_base_var = Variance(sat_coords=G12, receiver_coords=pillar_1A_base,  L1=True)
+G12_rover_var = Variance(sat_coords=G12, receiver_coords=pillar_3A_rover, L1=True)
+G10_base_var = Variance(sat_coords=G10, receiver_coords=pillar_1A_base, L1=True)
+G10_rover_var = Variance(sat_coords=G10, receiver_coords=pillar_3A_rover, L1=True)
 
 variance_vector = np.array([ [G24_base_var .elevation_variance_calculator()],
                              [G24_rover_var.elevation_variance_calculator()],

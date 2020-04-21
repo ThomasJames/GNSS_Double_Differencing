@@ -2,7 +2,8 @@ from math import sqrt
 from numpy import transpose, linalg
 import matplotlib.pyplot as plt
 import seaborn as sns
-from math import sqrt, cos, sin, degrees, acos
+from math import sqrt, cos, sin, degrees, acos, radians
+from typing import List, Tuple
 
 """
 Class DD
@@ -24,8 +25,8 @@ f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)  either L1 or L2 can be Tru
 """
 
 class DD:
-    def __init__(self, ref_station: list =None,
-                       corresponding_sat: list =None,
+    def __init__(self, ref_station =None,
+                       corresponding_sat =None,
                        sat_ref= None,
                        N: int = None,
                        e: float = None,
@@ -109,20 +110,19 @@ class DD:
 
 class Variance:
 
-    def __init__(self, sat_coords: list,
-                       receiver_coords: list,
-                       range_obs: list,
+    def __init__(self, sat_coords: List[float],
+                       receiver_coords: List[float],
                        L1: bool == True):
-
-
 
         if L1:
             l1_std = 0.003
 
+        assert len(sat_coords) == len(receiver_coords)
+
+
         self.l1_std = l1_std
         self.sat_coords = sat_coords
         self.receiver_coords = receiver_coords
-        self.range_obs = range_obs
 
     def elevation_variance_calculator(self) -> float:
 
@@ -153,9 +153,10 @@ class Variance:
 
         # Angle from the local horizontal to the satellite (m)
         angle = (degrees(acos((ec_r ** 2 + r_s ** 2 - ec_s ** 2) / (2 * ec_r * r_s)))) - 90
+        angle = radians(angle)
 
         # Variance (uncertainty associated with the satellite) (m)
-        variance = (self.l1_std ** 2) / sin(angle)
+        variance = (self.l1_std ** 2) / (sin(angle))
 
         return variance
 
