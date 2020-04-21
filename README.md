@@ -167,12 +167,12 @@ rrcs - Reference receiver to corresponding satellite
 DD_s_p_a - Vector of double differences, after phase ambiguity term subtracted.
 """    
 
-def calc_b_vector(self) -> float:                                        
+def calc_b_vector(wl: float, DD_s_p_a: float, brrs: float, rrrs: float, brcs: float, rrcs: float) -> float:                                        
     # observed - The vector of measured quantities                       
-    o = self.DD_s_p_a                                                    
+    o = DD_s_p_a                                                    
                                                                              
     # Computed                                                           
-    c = (1 / self.wl) * (self.brrs - self.rrrs - self.brcs + self.rrcs)  
+    c = (1 / wl) * (brrs - rrrs - brcs + rrcs)  
     return o - c                                                         
                                                                              
 ``` 
