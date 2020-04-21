@@ -248,7 +248,9 @@ linalg.inv(atwa)
 ### RESULT
 
 Table of parameters:
-<img src=https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Nominal%20and%20Updated%20Coords.png>
+<img src=https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Nominal%20and%20Updated%20Coords.png width="500">
+
 The distance between the two pillars is approximatley 94.4m 
 This is used to quantify accuracty.
-<img src=https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Nominal%20Vs%20Updated%20Distances.png>
+
+<img src=https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Nominal%20Vs%20Updated%20Distances.png width="500">
