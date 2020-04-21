@@ -563,13 +563,32 @@ if __name__ == "__main__":
 
     updated_pillar_3A = [(pillar_3A_rover[0] + X_hat[0]), (pillar_3A_rover[1] + X_hat[1]), (pillar_3A_rover[2] + X_hat[2])]
 
+    """
+    Table to display final results
+    """
+    table = np.array([[float(pillar_3A_rover[0]), float(X_hat[0]), float(updated_pillar_3A[0])],
+                     [float(pillar_3A_rover[1]), float(X_hat[1]), float(updated_pillar_3A[1])],
+                      [float(pillar_3A_rover[2]), float(X_hat[2]), float(updated_pillar_3A[2])]])
+
+    fig, ax = plt.subplots()
+    fig.patch.set_visible(False)
+    ax.axis('off')
+    ax.axis('tight')
+    columns = ["Nominal Coordinates", "Updates", "Updated Coordinates"]
+    df = pd.DataFrame(table, columns=columns)
+    ax.table(cellText=df.values, colLabels=df.columns, loc='center')
+    fig.tight_layout()
+    plt.savefig("Matrices/Nominal and Updated Coords")
+    plt.show()
+
+
+    """
+    As a performance test, the computed distances between pillar 1A and pillar 3A are compared.
+    """
 
     table = np.array([["Nominal: ", distance(pillar_1A_base, pillar_3A_rover)],
                       ["Updated: ", distance(pillar_1A_base, updated_pillar_3A)]])
-
-
     fig, ax = plt.subplots()
-    # hide axes
     fig.patch.set_visible(False)
     ax.axis('off')
     ax.axis('tight')
