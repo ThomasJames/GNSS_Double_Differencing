@@ -65,7 +65,7 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 
 
-## Matrices:
+## RESULTS:
 
 ### Vector of variances:
 
