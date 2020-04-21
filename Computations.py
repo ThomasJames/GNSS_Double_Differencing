@@ -566,15 +566,15 @@ if __name__ == "__main__":
     """
     Table to display final results
     """
-    table = np.array([[float(pillar_3A_rover[0]), float(X_hat[0]), float(updated_pillar_3A[0])],
-                     [float(pillar_3A_rover[1]), float(X_hat[1]), float(updated_pillar_3A[1])],
-                      [float(pillar_3A_rover[2]), float(X_hat[2]), float(updated_pillar_3A[2])]])
+    table = np.array([["X", float(pillar_3A_rover[0]), float(X_hat[0]), float(updated_pillar_3A[0])],
+                     ["Y", float(pillar_3A_rover[1]), float(X_hat[1]), float(updated_pillar_3A[1])],
+                      ["Z", float(pillar_3A_rover[2]), float(X_hat[2]), float(updated_pillar_3A[2])]])
 
     fig, ax = plt.subplots()
     fig.patch.set_visible(False)
     ax.axis('off')
     ax.axis('tight')
-    columns = ["Nominal Coordinates", "Updates", "Updated Coordinates"]
+    columns = [" ", "Nominal Coordinates", "Updates", "Updated Coordinates"]
     df = pd.DataFrame(table, columns=columns)
     ax.table(cellText=df.values, colLabels=df.columns, loc='center')
     fig.tight_layout()
