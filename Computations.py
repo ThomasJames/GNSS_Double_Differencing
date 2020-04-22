@@ -549,7 +549,11 @@ if __name__ == "__main__":
 
     L1_wl = 0.19
 
+    print(X_hat)
+
     X_hat = [(L1_wl * X_hat[0]), (L1_wl * X_hat[1]), (L1_wl * X_hat[2])]
+
+    print(X_hat)
 
     updated_pillar_3A = [(pillar_3A_rover[0] + X_hat[0]), (pillar_3A_rover[1] + X_hat[1]), (pillar_3A_rover[2] + X_hat[2])]
 
