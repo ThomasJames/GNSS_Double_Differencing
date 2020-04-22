@@ -158,6 +158,12 @@ Dsl = D.dot(sl)
 ### b (Observed - Computed)
 
 ``` 
+
+# This function is used to compute satelite - receiver ranges.
+def distance(point_1: List[float], point_2: List[float]) -> float:
+    return sqrt((point_2[0] - point_1[0])**2 +
+                (point_2[1] - point_1[1])**2 +
+                (point_2[2] - point_1[2])**2)
 """
 wl - Wavelength 
 brrs - Base receiver to reference satellite 
@@ -207,22 +213,77 @@ Wd = linalg.inv(Cd)
 ### A (Design) Martix
 
 ``` 
-wl - L1 wavelength 
-X_3A, Y_3A, Z_3A - [X, Y, Z coordinates of Pillar 3A]
-X_s_ref, Y_s_ref, Z_s_ref   - [X, Y, Z coordinates of reference satelite]
+class DD:
+    def __init__(self, ref_station: List[float] = None,
+                       rov_station: List[float] = None,
+                       corresponding_sat: List[float] = None,
+                       sat_ref: List[float] = None,
+                       L1 : bool = True,
+                       DD_s_p_a: float = None):
 
-def x_diff(wl, X_3A, Y_3A, Z_3A, X_s_ref, Y_s_ref, Z_s_ref):
- return float(1 / wl * \
-                (
-                     (X_3A - X_s) /
-                     (sqrt((X_s - X_3A) ** 2 +
-                           (Y_s - Y_3A) ** 2 +
-                           (Z_s - Z_3A) ** 2))
-                     -
-                      (X_3A - self.X_s_ref) /
-                      (sqrt(X_s_ref - X_3A) ** 2 +
-                           (Y_s_ref - Y_3A) ** 2 +
-                           (Z_s_ref - Z_3A) ** 2)))
+        if L1:
+            wl = 0.19029367
+
+        brrs = distance(ref_station, sat_ref)
+        rrrs = distance(rov_station, sat_ref)
+        brcs = distance(ref_station, corresponding_sat)
+        rrcs = distance(rov_station, corresponding_sat)
+
+        self.X_3A = ref_station[0]
+        self.Y_3A = ref_station[1]
+        self.Z_3A = ref_station[2]
+        self.X_s = corresponding_sat[0]
+        self.Y_s = corresponding_sat[1]
+        self.Z_s = corresponding_sat[2]
+        self.X_s_ref = sat_ref[0]
+        self.Y_s_ref = sat_ref[1]
+        self.Z_s_ref = sat_ref[2]
+        self.wl = wl
+        self.brrs = brrs
+        self.rrrs = rrrs
+        self.brcs = brcs
+        self.rrcs = rrcs
+        self.DD_s_p_a = DD_s_p_a
+
+
+    def x_diff(self) -> float:
+        return float(1 / self.wl * \
+                    (
+                         (self.X_3A - self.X_s) /
+                         (sqrt((self.X_s - self.X_3A) ** 2 +
+                               (self.Y_s - self.Y_3A) ** 2 +
+                               (self.Z_s - self.Z_3A) ** 2))
+                         -
+                         (self.X_3A - self.X_s_ref) /
+                         (sqrt(self.X_s_ref - self.X_3A) ** 2 +
+                          (self.Y_s_ref - self.Y_3A) ** 2 +
+                          (self.Z_s_ref - self.Z_3A) ** 2)))
+
+    def y_diff(self) -> float:
+        return float((1 / self.wl * \
+                    (
+                         (self.Y_3A - self.Y_s) /
+                         (sqrt((self.X_s - self.X_3A) ** 2 +
+                               (self.Y_s - self.Y_3A) ** 2 +
+                               (self.Z_s - self.Z_3A) ** 2))
+                         -
+                         (self.Y_3A - self.Y_s_ref) /
+                         (sqrt(self.X_s_ref - self.X_3A) ** 2 +
+                          (self.Y_s_ref - self.Y_3A) ** 2 +
+                          (self.Z_s_ref - self.Z_3A) ** 2))))
+
+    def z_diff(self) -> float:
+        return float(1 / self.wl * \
+                     (
+                         (self.Z_3A - self.Z_s) /
+                         (sqrt((self.X_s - self.X_3A) ** 2 +
+                               (self.Y_s - self.Y_3A) ** 2 +
+                               (self.Z_s - self.Z_3A) ** 2))
+                         -
+                         (self.Z_3A - self.Z_s_ref) /
+                         (sqrt(self.X_s_ref - self.X_3A) ** 2 +
+                          (self.Y_s_ref - self.Y_3A) ** 2 +
+                          (self.Z_s_ref - self.Z_3A) ** 2)))
 
 ``` 
 
