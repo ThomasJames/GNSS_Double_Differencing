@@ -164,17 +164,17 @@ brrs - Base receiver to reference satellite
 rrrs - Reference receiver to reference satellite
 brcs - Base receiver to corresponding satellite 
 rrcs - Reference receiver to corresponding satellite
-N - Ambiguity term (int)
-e - Noise term 
-dsl - Vector of double differences.
+DD_s_p_a - Vector of double differences, after phase ambiguity term subtracted.
 """    
-def calc_b_vector(dsl, wl, brrs, rrrs, brcs, rrcs, N, e):
-    # observed - The vector of measured quantities
-    o = dsl
-        
-    # Computed
-    c = (1 / wl) * (brrs - rrrs - brcs + rrcs) + N + e
-    return o - c
+
+def calc_b_vector(wl: float, DD_s_p_a: float, brrs: float, rrrs: float, brcs: float, rrcs: float) -> float:                                        
+    # observed - The vector of measured quantities                       
+    o = DD_s_p_a                                                    
+                                                                             
+    # Computed                                                           
+    c = (1 / wl) * (brrs - rrrs - brcs + rrcs)  
+    return o - c                                                         
+                                                                             
 ``` 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Observed%20-%20Computed%20(b)%20Vector.png" width="500">
