@@ -306,6 +306,18 @@ if __name__ == "__main__":
         DD_s_p_a.append(Dsl[i] - a_a_r[i])
 
     print(DD_s_p_a)
+    print(Dsl)
+
+    vec2 = Dsl.reshape(Dsl.shape[0], 1)
+    ax = sns.heatmap((vec2),
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False)
+    plt.title("Vector of Double differences (Dsl) Matrix")
+    plt.savefig("Matrices/Vector of Double differences (Dsl) Matrix")
+    plt.show()
 
 
     vec2 = Dsl.reshape(Dsl.shape[0], 1)
@@ -404,79 +416,56 @@ if __name__ == "__main__":
     rrrs: Roving Receiver to Reference Satellite geometric range (m)
     brcs: Base Receiver to Corresponding Satellite  geometric range (m)
     rrcs: Roving Receiver to Corresponding Satellite geometric range (m)
-    N: Ambiguity Term - Always an integer
-    e: Noise term
     ref_station: Cartesian [X, Y, Z] coordinates <-- Must be in this order
     Corresponding_sat: Cartesian [X, Y, Z] coordinates <-- Must be in this order
     sat_ref: Cartesian [X, Y, Z] coordinates <-- Must be in this order
-    Dsl: Vector of the observed double differences 
+    DD_s_p_a: DD_s_p_a - Vector of double differences, after phase ambiguity term subtracted.
     """
     G24G19 = DD(L1=True,
-                brrs=G24_base_obs[0],
-                rrrs=G24_rover_obs[0],
-                brcs=G19_base_obs[0],
-                rrcs=G19_rover_obs[0],
                 ref_station=pillar_1A_base,
+                rov_station=after_ambiguity_resolution,
                 corresponding_sat=G19,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[0])
 
     G24G18 = DD(L1=True,
-                brrs=G24_base_obs[0],
-                rrrs=G24_rover_obs[0],
-                brcs=G18_base_obs[0],
-                rrcs=G18_rover_obs[0],
                 ref_station=pillar_1A_base,
+                rov_station=after_ambiguity_resolution,
                 corresponding_sat=G18,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[1])
 
     G24G17 = DD(L1=True,
-                brrs=G24_base_obs[0],
-                rrrs=G24_rover_obs[0],
-                brcs=G17_base_obs[0],
-                rrcs=G17_rover_obs[0],
                 ref_station=pillar_1A_base,
+                rov_station=after_ambiguity_resolution,
                 corresponding_sat=G17,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[2])
 
     G24G15 = DD(L1=True,
-                brrs=G24_base_obs[0],
-                rrrs=G24_rover_obs[0],
-                brcs=G15_base_obs[0],
-                rrcs=G15_rover_obs[0],
                 ref_station=pillar_1A_base,
+                rov_station=after_ambiguity_resolution,
                 corresponding_sat=G15,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[3])
 
     G24G13 = DD(L1=True,
-                brrs=G24_base_obs[0],
-                rrrs=G24_rover_obs[0],
-                brcs=G13_base_obs[0],
-                rrcs=G13_rover_obs[0],
                 ref_station=pillar_1A_base,
+                rov_station=after_ambiguity_resolution,
                 corresponding_sat=G13,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[4])
 
     G24G12 = DD(L1=True,
-                brrs=G24_base_obs[0],
-                rrrs=G24_rover_obs[0],
-                brcs=G12_base_obs[0],
-                rrcs=G12_rover_obs[0],
                 ref_station=pillar_1A_base,
+                rov_station=after_ambiguity_resolution,
                 corresponding_sat=G12,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[5])
 
     G24G10 = DD(L1=True,
-                brrs=G24_base_obs[0],
-                rrrs=G24_rover_obs[0],
-                brcs=G10_base_obs[0],
-                rrcs=G10_rover_obs[0],
                 ref_station=pillar_1A_base,
+                rov_station=after_ambiguity_resolution,
                 corresponding_sat=G10,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[6])
@@ -602,4 +591,6 @@ if __name__ == "__main__":
     fig.tight_layout()
     plt.savefig("Matrices/Nominal Vs Updated Distances")
     plt.show()
+
+
 

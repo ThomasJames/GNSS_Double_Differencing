@@ -24,19 +24,20 @@ f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)  either L1 or L2 can be Tru
 """
 
 class DD:
-    def __init__(self, ref_station =None,
-                       corresponding_sat =None,
-                       sat_ref= None,
-                       brrs: float = None,
-                       rrrs: float = None,
-                       brcs: float = None,
-                       rrcs: float =None,
+    def __init__(self, ref_station: List[float] = None,
+                       rov_station: List[float] = None,
+                       corresponding_sat: List[float] = None,
+                       sat_ref: List[float] = None,
                        L1 : bool = True,
                        DD_s_p_a: float = None):
 
         if L1:
             wl = 0.19029367
 
+        brrs = distance(ref_station, sat_ref)
+        rrrs = distance(rov_station, sat_ref)
+        brcs = distance(ref_station, corresponding_sat)
+        rrcs = distance(rov_station, corresponding_sat)
 
         self.X_3A = ref_station[0]
         self.Y_3A = ref_station[1]
@@ -160,8 +161,6 @@ def distance(point_1: List[float], point_2: List[float]) -> float:
     return sqrt((point_2[0] - point_1[0])**2 +
                 (point_2[1] - point_1[1])**2 +
                 (point_2[2] - point_1[2])**2)
-
-
 
 
 """
