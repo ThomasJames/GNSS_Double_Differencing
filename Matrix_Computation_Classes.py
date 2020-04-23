@@ -35,7 +35,6 @@ class DD:
             wl = 0.19029367
 
 
-
         brrs = distance(ref_station, sat_ref)
         rrrs = distance(rov_station, sat_ref)
         brcs = distance(ref_station, corresponding_sat)
@@ -107,6 +106,7 @@ class DD:
         # Computed
         c = (1 / self.wl) * (self.brrs - self.rrrs - self.brcs + self.rrcs)
         return o - c
+
 
 
 class Variance:

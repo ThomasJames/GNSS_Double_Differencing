@@ -26,12 +26,14 @@ pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])  # Refer
 # Trying to reproduce these coordinates
 pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])  # Monument
 distance_between_receivers = 94.4  # Measured in meters / Approximate
-
 l1_SD = 0.003
 
 """
 ECEF coordinates (m) of the satellite phase centers when they transmitted the signals measured at each epoch.
 """
+
+# Make a note of the L1 Wl
+wl = 0.19029367
 
 # ECEF SATELLITE POSITIONS X, Y, Z (m) (already corrected for earth rotation during signal travel time)
 # 2016 11 15 22 19  5
@@ -170,6 +172,10 @@ variance_vector = np.array([ [G24_base_var .elevation_variance_calculator()],
                              [G10_rover_var.elevation_variance_calculator()]])
 
 
+
+print(variance_vector)
+
+
 # 16 x 8:  Differencing matrix
 S = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -188,9 +194,9 @@ D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
               [1, 0, 0, 0, 0, 0, -1, 0],
               [1, 0, 0, 0, 0, 0, 0, -1]])
 
-
+# DSCl(DS)^T
 def Cd_calculator(D, S, Cl):
-    return (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))
+    return (((D.dot(S)).dot(Cl)).dot(transpose((D.dot(S)))))
 
 
 def calculate_x_hat(A, W, b):
@@ -305,8 +311,6 @@ if __name__ == "__main__":
     for i in range(len(Dsl)):
         DD_s_p_a.append(Dsl[i] - a_a_r[i])
 
-    print(DD_s_p_a)
-    print(Dsl)
 
     vec2 = Dsl.reshape(Dsl.shape[0], 1)
     ax = sns.heatmap((vec2),
@@ -339,10 +343,11 @@ if __name__ == "__main__":
     This is an identity matrix scaled by the variance.
     It is assumed that the variance of each raw phase observation has the same l1 standard deviation is 0.003. 
     Therefore variance is this value squared.
+    UNITS: Cycles
     DIM: 16 x 16 
     """
 
-    cl = np.eye(16, 16) * variance_vector
+    cl = np.eye(16, 16) * (variance_vector * (1/wl))  # back to cycles
     ax = sns.heatmap((cl),
                 annot=True,
                 xticklabels=False,
@@ -384,8 +389,6 @@ if __name__ == "__main__":
     plt.show()
 
 
-
-
     """
     Calculate the weight matrix of the double differences. 
     
@@ -395,7 +398,7 @@ if __name__ == "__main__":
 
     Wd = linalg.inv(Cd)
 
-    Wd = np.around(Wd, decimals=4)
+    # Wd = np.around(Wd, decimals=4)
     heat_map = sns.heatmap(Wd,
                            annot=True,
                            xticklabels=False,
@@ -494,8 +497,6 @@ if __name__ == "__main__":
     plt.savefig("Matrices/Observed - Computed (b) Vector")
     plt.show()
 
-
-
     A = np.array([[G24G19.x_diff(), G24G19.y_diff(), G24G19.z_diff()],
                   [G24G18.x_diff(), G24G18.y_diff(), G24G18.z_diff()],
                   [G24G17.x_diff(), G24G17.y_diff(), G24G17.z_diff()],
@@ -547,13 +548,12 @@ if __name__ == "__main__":
     # Calculate X_hat
     X_hat = calculate_x_hat(A, Wd, b)
 
-    L1_wl = 0.19
+    L1_wl = 0.19029367
 
-    print(X_hat)
 
-    X_hat = [(L1_wl * X_hat[0]), (L1_wl * X_hat[1]), (L1_wl * X_hat[2])]
+    X_hat = [(X_hat[0]), (X_hat[1]), (X_hat[2])]
 
-    print(X_hat)
+
 
     updated_pillar_3A = [(pillar_3A_rover[0] + X_hat[0]), (pillar_3A_rover[1] + X_hat[1]), (pillar_3A_rover[2] + X_hat[2])]
 
@@ -581,10 +581,12 @@ if __name__ == "__main__":
     """
     As a performance test, the computed distances between pillar 1A and pillar 3A are compared.
     """
-    print(distance(after_ambiguity_resolution, pillar_1A_base))
+    # print("Nominal: ", distance(pillar_1A_base, updated_pillar_3A))
+    # print("Updated: ", distance(pillar_1A_base, pillar_3A_rover))
 
     table = np.array([["Nominal: ", distance(pillar_1A_base, pillar_3A_rover)],
                       ["Updated: ", distance(pillar_1A_base, updated_pillar_3A)]])
+
     fig, ax = plt.subplots()
     fig.patch.set_visible(False)
     ax.axis('off')
