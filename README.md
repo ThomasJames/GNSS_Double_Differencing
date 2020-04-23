@@ -213,77 +213,83 @@ Wd = linalg.inv(Cd)
 ### A (Design) Martix
 
 ``` 
-class DD:
-    def __init__(self, ref_station: List[float] = None,
-                       rov_station: List[float] = None,
-                       corresponding_sat: List[float] = None,
-                       sat_ref: List[float] = None,
-                       L1 : bool = True,
-                       DD_s_p_a: float = None):
-
-        if L1:
-            wl = 0.19029367
-
-        brrs = distance(ref_station, sat_ref)
-        rrrs = distance(rov_station, sat_ref)
-        brcs = distance(ref_station, corresponding_sat)
-        rrcs = distance(rov_station, corresponding_sat)
-
-        self.X_3A = ref_station[0]
-        self.Y_3A = ref_station[1]
-        self.Z_3A = ref_station[2]
-        self.X_s = corresponding_sat[0]
-        self.Y_s = corresponding_sat[1]
-        self.Z_s = corresponding_sat[2]
-        self.X_s_ref = sat_ref[0]
-        self.Y_s_ref = sat_ref[1]
-        self.Z_s_ref = sat_ref[2]
-        self.wl = wl
-        self.brrs = brrs
-        self.rrrs = rrrs
-        self.brcs = brcs
-        self.rrcs = rrcs
-        self.DD_s_p_a = DD_s_p_a
-
-
-    def x_diff(self) -> float:
-        return float(1 / self.wl * \
-                    (
-                         (self.X_3A - self.X_s) /
-                         (sqrt((self.X_s - self.X_3A) ** 2 +
-                               (self.Y_s - self.Y_3A) ** 2 +
-                               (self.Z_s - self.Z_3A) ** 2))
-                         -
-                         (self.X_3A - self.X_s_ref) /
-                         (sqrt(self.X_s_ref - self.X_3A) ** 2 +
-                          (self.Y_s_ref - self.Y_3A) ** 2 +
-                          (self.Z_s_ref - self.Z_3A) ** 2)))
-
-    def y_diff(self) -> float:
-        return float((1 / self.wl * \
-                    (
-                         (self.Y_3A - self.Y_s) /
-                         (sqrt((self.X_s - self.X_3A) ** 2 +
-                               (self.Y_s - self.Y_3A) ** 2 +
-                               (self.Z_s - self.Z_3A) ** 2))
-                         -
-                         (self.Y_3A - self.Y_s_ref) /
-                         (sqrt(self.X_s_ref - self.X_3A) ** 2 +
-                          (self.Y_s_ref - self.Y_3A) ** 2 +
-                          (self.Z_s_ref - self.Z_3A) ** 2))))
-
-    def z_diff(self) -> float:
-        return float(1 / self.wl * \
-                     (
-                         (self.Z_3A - self.Z_s) /
-                         (sqrt((self.X_s - self.X_3A) ** 2 +
-                               (self.Y_s - self.Y_3A) ** 2 +
-                               (self.Z_s - self.Z_3A) ** 2))
-                         -
-                         (self.Z_3A - self.Z_s_ref) /
-                         (sqrt(self.X_s_ref - self.X_3A) ** 2 +
-                          (self.Y_s_ref - self.Y_3A) ** 2 +
-                          (self.Z_s_ref - self.Z_3A) ** 2)))
+class DD:                                                                  
+    def __init__(self, ref_station: List[float] = None,                    
+                       rov_station: List[float] = None,                    
+                       corresponding_sat: List[float] = None,              
+                       sat_ref: List[float] = None,                        
+                       L1: bool = True,                                    
+                       DD_s_p_a: float = None):                            
+                                                                           
+        if L1:                                                             
+            wl = 0.19029367                                                
+                                                                           
+                                                                           
+                                                                           
+        brrs = distance(ref_station, sat_ref)                              
+        rrrs = distance(rov_station, sat_ref)                              
+        brcs = distance(ref_station, corresponding_sat)                    
+        rrcs = distance(rov_station, corresponding_sat)                    
+                                                                           
+        self.X_1A = ref_station[0]                                         
+        self.Y_1A = ref_station[1]                                         
+        self.Z_1A = ref_station[2]                                         
+        self.X_3A = rov_station[0]                                         
+        self.Y_3A = rov_station[1]                                         
+        self.Z_3A = rov_station[2]                                         
+        self.X_s = corresponding_sat[0]                                    
+        self.Y_s = corresponding_sat[1]                                    
+        self.Z_s = corresponding_sat[2]                                    
+        self.X_s_ref = sat_ref[0]                                          
+        self.Y_s_ref = sat_ref[1]                                          
+        self.Z_s_ref = sat_ref[2]                                          
+        self.wl = wl                                                       
+        self.brrs = brrs                                                   
+        self.rrrs = rrrs                                                   
+        self.brcs = brcs                                                   
+        self.rrcs = rrcs                                                   
+        self.DD_s_p_a = DD_s_p_a                                           
+                                                                           
+                                                                           
+    def x_diff(self) -> float:                                             
+        return float(1 / self.wl * \                                       
+                    (                                                      
+                         (self.X_3A - self.X_s) /                          
+                         (sqrt(((self.X_s - self.X_3A) ** 2) +             
+                               ((self.Y_s - self.Y_3A) ** 2) +             
+                               ((self.Z_s - self.Z_3A) ** 2)))             
+                         -                                                 
+                         (self.X_3A - self.X_s_ref) /                      
+                         (sqrt(((self.X_s_ref - self.X_3A) ** 2) +         
+                               ((self.Y_s_ref - self.Y_3A) ** 2) +         
+                               ((self.Z_s_ref - self.Z_3A) ** 2)))))       
+                                                                           
+    def y_diff(self) -> float:                                             
+        return float((1 / self.wl * \                                      
+                    (                                                      
+                         (self.Y_3A - self.Y_s) /                          
+                         (sqrt(((self.X_s - self.X_3A) ** 2) +             
+                               ((self.Y_s - self.Y_3A) ** 2) +             
+                               ((self.Z_s - self.Z_3A) ** 2)))             
+                         -                                                 
+                         (self.Y_3A - self.Y_s_ref) /                      
+                         (sqrt(((self.X_s_ref - self.X_3A) ** 2) +         
+                               ((self.Y_s_ref - self.Y_3A) ** 2) +         
+                               ((self.Z_s_ref - self.Z_3A) ** 2))))))      
+                                                                           
+    def z_diff(self) -> float:                                             
+        return float(1 / self.wl * \                                       
+                     (                                                     
+                         (self.Z_3A - self.Z_s) /                          
+                         (sqrt(((self.X_s - self.X_3A) ** 2) +             
+                               ((self.Y_s - self.Y_3A) ** 2) +             
+                               ((self.Z_s - self.Z_3A) ** 2)))             
+                         -                                                 
+                         (self.Z_3A - self.Z_s_ref) /                      
+                         (sqrt(((self.X_s_ref - self.X_3A) ** 2) +         
+                               ((self.Y_s_ref - self.Y_3A) ** 2) +         
+                               ((self.Z_s_ref - self.Z_3A) ** 2)))))       
+                                                                           
 
 ``` 
 
