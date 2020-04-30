@@ -1,12 +1,13 @@
 from math import sqrt, cos, sin, degrees, acos
+from matplotlib import transforms
+from typing import List
+
 import numpy as np
 from numpy import transpose, linalg
 from Matrix_Computation_Classes import DD, Variance, distance
 import matplotlib.pyplot as plt
-from matplotlib import transforms
 import seaborn as sns
 import pandas as pd
-from typing import List
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -154,8 +155,8 @@ G12_rover_var = Variance(sat_coords=G12, receiver_coords=pillar_3A_rover, L1=Tru
 G10_base_var = Variance(sat_coords=G10, receiver_coords=pillar_1A_base, L1=True)
 G10_rover_var = Variance(sat_coords=G10, receiver_coords=pillar_3A_rover, L1=True)
 
-variance_vector = np.array([ [G24_base_var .elevation_variance_calculator()],
-                             [G24_rover_var.elevation_variance_calculator()],
+variance_vector = np.array([
+
                              [G19_base_var .elevation_variance_calculator()],
                              [G19_rover_var.elevation_variance_calculator()],
                              [G18_base_var .elevation_variance_calculator()],
@@ -169,7 +170,9 @@ variance_vector = np.array([ [G24_base_var .elevation_variance_calculator()],
                              [G12_base_var .elevation_variance_calculator()],
                              [G12_rover_var.elevation_variance_calculator()],
                              [G10_base_var .elevation_variance_calculator()],
-                             [G10_rover_var.elevation_variance_calculator()]])
+                             [G10_rover_var.elevation_variance_calculator()],
+                             [G24_base_var .elevation_variance_calculator()],
+                             [G24_rover_var.elevation_variance_calculator()]     ])
 
 
 
@@ -200,18 +203,13 @@ def Cd_calculator(D, S, Cl):
 
 
 def calculate_x_hat(A, W, b):
-    return ((linalg.inv((transpose(A).dot(W)).dot(A))).dot(transpose(A).dot(W))).dot(b)
+    return (((linalg.inv((transpose(A).dot(W)).dot(A))).dot(transpose(A)).dot(W))).dot(b)
 
 
 def ATWA(A, W):
     return ((transpose(A)).dot(W)).dot(A)
 
 if __name__ == "__main__":
-
-    # Suppress Scientific mode for simplicity
-    np.set_printoptions(suppress=True,
-                        formatter={'float_kind':'{:16.3f}'.format},
-                        linewidth=130)
 
     vec2 = variance_vector.reshape(variance_vector.shape[0], 1)
     ax = sns.heatmap((vec2),
@@ -397,6 +395,7 @@ if __name__ == "__main__":
     """
 
     Wd = linalg.inv(Cd)
+    print(Wd)
 
     # Wd = np.around(Wd, decimals=4)
     heat_map = sns.heatmap(Wd,
@@ -530,6 +529,8 @@ if __name__ == "__main__":
     plt.savefig("Matrices/ATWA Matrix")
     plt.show()
 
+    print(atwa)
+
     """
     Output the (ATWA)^-1 matrix 
     """
@@ -544,6 +545,19 @@ if __name__ == "__main__":
     plt.savefig("Matrices/(ATWA)^-1 Matrix")
     plt.show()
 
+    print(inverse_atwa)
+
+    ATWb = (transpose(A).dot(Wd)).dot(b)
+
+    x_hat = inverse_atwa.dot(ATWb)
+
+    x = x_hat[0]
+    y = x_hat[1]
+    z = x_hat[2] 
+    print(x)
+    print(y)
+    print(z)
+
 
     # Calculate X_hat
     X_hat = calculate_x_hat(A, Wd, b)
@@ -551,7 +565,8 @@ if __name__ == "__main__":
     L1_wl = 0.19029367
 
 
-    X_hat = [(X_hat[0]), (X_hat[1]), (X_hat[2])]
+    X_hat = [(X_hat[0]/wl), (X_hat[1]/wl), (X_hat[2]/wl)]
+    print(X_hat)
 
 
 

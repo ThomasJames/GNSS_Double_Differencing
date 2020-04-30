@@ -158,7 +158,7 @@ class Variance:
         # Variance (uncertainty associated with the satellite) (m)
         variance = (self.l1_std ** 2) / (sin(angle))
 
-        return variance
+        return angle
 
 
 def distance(point_1: List[float], point_2: List[float]) -> float:
