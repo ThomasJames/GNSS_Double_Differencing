@@ -120,7 +120,7 @@ returns the variance as a float
 
 ```
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Elevations%20in%20Degrees.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Elevations%20in%20Radians.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300">
 
 
 ### l (Observations) vector 
@@ -132,9 +132,14 @@ This is the vector of raw observations.
 
 ### S (Single differencing) Matrix 
 
+This matrix is used to generate a vector of single differences.
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Single%20Differencing%20(S)%20Matrix.png" width="500">
 
 ### Sl (Vector of single differences)
+
+The dot product of the differencing matrix (S) and the vector of observations (l) generates the vector of single differences.
+The following code was used compute this:
 
 ```
 sl = S.dot(l)   
@@ -144,9 +149,14 @@ sl = S.dot(l)
 
 ### D (Doube differencing) Matrix 
 
+This matrix is used to generate values for the double differences of the observations matrix.
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Double%20Differencing%20(D)%20Matrix.png" width="500">
 
-### DSl (Vector of Double Differences)
+### DSl (Vector of Double Differences of Observations)
+
+The dot product of the double differencing matrix (D) and the vector of single differences generates the vector of double differences of the observations. 
+The following code was used to compute this.
 
 ```
 Dsl = D.dot(sl)     
@@ -156,8 +166,16 @@ Dsl = D.dot(sl)
 
 ### b (Observed - Computed)
 
-``` 
+The observed - computed (b) matrix was calculated in the following steps:
 
+1. The phase ambiguity term (N) was subtracted from the double differenced vector of double differences (DSl):
+In the code, this has been stored into the variable ``` DD_s_p_a``` This value is expressed in cycles
+
+2. The computed value
+
+3. The observed measurement is subtracted from the computed measurement.
+
+``` 
 # This function is used to compute satelite - receiver ranges.
 def distance(point_1: List[float], point_2: List[float]) -> float:
     return sqrt((point_2[0] - point_1[0])**2 +
@@ -186,6 +204,13 @@ def calc_b_vector(wl: float, DD_s_p_a: float, brrs: float, rrrs: float, brcs: fl
 
 ### Cl (Observations covariance) Matrix
 
+The covarince matrix of observations is calculated in the following steps:
+
+Step 1: A 16 x 16 Identity matrix is generated.
+
+Step 2: This matrix is multiplied by the vector of variances (Computed from satellite elevations)
+
+This following code was used to make this computations: 
 ``` 
 cl = np.eye(16, 16) * variance_vector  
 ``` 
