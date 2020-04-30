@@ -155,7 +155,7 @@ G12_rover_var = Variance(sat_coords=G12, receiver_coords=pillar_3A_rover, L1=Tru
 G10_base_var = Variance(sat_coords=G10, receiver_coords=pillar_1A_base, L1=True)
 G10_rover_var = Variance(sat_coords=G10, receiver_coords=pillar_3A_rover, L1=True)
 
-variance_vector = np.array([
+elevations = np.array([
 
                              [G19_base_var .elevation_variance_calculator()],
                              [G19_rover_var.elevation_variance_calculator()],
@@ -172,11 +172,31 @@ variance_vector = np.array([
                              [G10_base_var .elevation_variance_calculator()],
                              [G10_rover_var.elevation_variance_calculator()],
                              [G24_base_var .elevation_variance_calculator()],
-                             [G24_rover_var.elevation_variance_calculator()]     ])
+                             [G24_rover_var.elevation_variance_calculator()]])
 
+print(elevations)
 
+variance_vector = np.array([
+
+                             [G19_base_var .variance()],
+                             [G19_rover_var.variance()],
+                             [G18_base_var .variance()],
+                             [G18_rover_var.variance()],
+                             [G17_base_var .variance()],
+                             [G17_rover_var.variance()],
+                             [G15_base_var .variance()],
+                             [G15_rover_var.variance()],
+                             [G13_base_var .variance()],
+                             [G13_rover_var.variance()],
+                             [G12_base_var .variance()],
+                             [G12_rover_var.variance()],
+                             [G10_base_var .variance()],
+                             [G10_rover_var.variance()],
+                             [G24_base_var .variance()],
+                             [G24_rover_var.variance()]])
 
 print(variance_vector)
+
 
 
 # 16 x 8:  Differencing matrix

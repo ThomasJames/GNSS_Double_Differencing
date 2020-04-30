@@ -8,21 +8,21 @@ from typing import List
 
 class DD:
     
-"""
-ref_station - Earth centric Cartesian Coordinates of the reference station [X, Y, Z]
-corresponding_sat - Earth centric cartesian Coordinates of the corresponding station [X, Y, Z]
-sat_ref - Satellite reference of cartesian Coordinates of the reference station [X, Y, Z]
-wl - Wavelength 
-brrs - Base receiver to reference satellite 
-rrrs - Reference receiver to reference satellite
-brcs - Base receiver to corresponding satellite 
-rrcs - Reference receiver to corresponding satellite
-N - Ambiguity term (int)
-e - Noise term 
-c = speed of light in vacuum (299792458.0 ms-1) - Set to default    
-f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)  either L1 or L2 can be True
-λ=𝑐/𝑓  - Wavelength calculated from c and f 
-"""
+    """"
+    ref_station - Earth centric Cartesian Coordinates of the reference station [X, Y, Z]
+    corresponding_sat - Earth centric cartesian Coordinates of the corresponding station [X, Y, Z]
+    sat_ref - Satellite reference of cartesian Coordinates of the reference station [X, Y, Z]
+    wl - Wavelength 
+    brrs - Base receiver to reference satellite 
+    rrrs - Reference receiver to reference satellite
+    brcs - Base receiver to corresponding satellite 
+    rrcs - Reference receiver to corresponding satellite
+    N - Ambiguity term (int)
+    e - Noise term 
+    c = speed of light in vacuum (299792458.0 ms-1) - Set to default    
+    f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)  either L1 or L2 can be True
+    λ=𝑐/𝑓  - Wavelength calculated from c and f 
+    """""
 
     def __init__(self, ref_station: List[float] = None,
                        rov_station: List[float] = None,
@@ -156,36 +156,36 @@ class Variance:
         return angle
     
     def variance(self):
-        """
+        """""
         This method then calculates the variance of the satellite at the calculated angle.
         returns the variance as a float
-        """
+        """""
         # Variance (uncertainty associated with the satellite) (m)
-        variance = (self.l1_std ** 2) / (sin(angle))
+        variance = (self.l1_std ** 2) / (sin(self.elevation_variance_calculator()))
         
-        returtn variance
+        return variance
         
 
 def distance(point_1: List[float], point_2: List[float]) -> float:
-"""
-Find the difference between two points given sets of [X, Y, Z] coordinates.
-"""
+    """""
+    Find the difference between two points given sets of [X, Y, Z] coordinates.
+    """""
     return sqrt((point_2[0] - point_1[0])**2 +
                 (point_2[1] - point_1[1])**2 +
                 (point_2[2] - point_1[2])**2)
 
 
 class MatrixOperations:
-"""
-Matrix Operations
-
-D - Double differencing matrix 
-S - Single differencing matrix
-Cl - Covariance matrix of observations
-A - Design matric
-W - Weight matrix
-b - B (innovation vector?)
-"""   
+    """"
+    Matrix Operations
+    
+    D - Double differencing matrix 
+    S - Single differencing matrix
+    Cl - Covariance matrix of observations
+    A - Design matric
+    W - Weight matrix
+    b - B (innovation vector?)
+    """""
     def __init__(self, D=None, S=None, Cl=None, A=None, W=None, b=None):
         self.D = D
         self.S = S
