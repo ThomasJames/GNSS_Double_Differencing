@@ -240,6 +240,10 @@ The design matrix was populated with the partial derivitives of the double diffe
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Partial%20Derivitives%20Hand%20calculation.jpg" width="500">
 
+Where:
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Denominator%20(Hand%20calculation).JPG" width="500">
+
 The Design matrix was then populated with these values 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Populated%20Design%20Matrix%20(hand%20drawn).jpg" width="500">
