@@ -52,7 +52,7 @@ The original [text file](https://github.com/ThomasJames/GNSS_Data_(text).txt) is
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Method_Flowchart.png" width="600">
 
-Satellite G24 has the highest elevation of 71 degrees. This satellite is used as the reference satellite.
+Satellite G24 has the highest elevation of apprixmatley 71 degrees. This satellite is used as the reference satellite.
 
 It is important to initially calculate the elevation angles of each satelite. The error of a satellite is inversely proportial to elevation with respect to a local horizon. Low elevation satellites produce less reliable results, and this needs to be taken into account when formulating a weight matrix.
 
@@ -64,10 +64,7 @@ It is important to initially calculate the elevation angles of each satelite. Th
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Angles.png" width="600">
 
 
-
-## RESULTS:
-
-### Vector of variances:
+### Computations of elevations and variances:
 
 This method calculates the satellite angle of elevation in the following stages:                     
 Calculates the distance of receiver to the satellite (m) using pythagoras theorem.                   
@@ -123,7 +120,7 @@ returns the variance as a float
 
 ```
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300">
 
 
 ### l (Observations) vector 
