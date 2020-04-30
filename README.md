@@ -120,7 +120,7 @@ returns the variance as a float
 
 ```
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Elevations%20in%20Degrees.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Elevations%20in%20Radians.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300">
 
 
 ### l (Observations) vector 
