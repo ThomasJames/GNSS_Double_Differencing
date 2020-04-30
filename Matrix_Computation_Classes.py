@@ -125,7 +125,7 @@ class Variance:
         self.sat_coords = sat_coords
         self.receiver_coords = receiver_coords
 
-    def elevation_variance_calculator(self) -> float:
+    def elevation_calculator(self) -> float:
 
         """"
         This method calculates the satellite angle of elevation in the following stages:
@@ -151,9 +151,9 @@ class Variance:
         ec_r = sqrt((sqrt(x_r ** 2 + y_r ** 2)) ** 2 + z_r ** 2)
 
         # Angle from the local horizontal to the satellite (m)
-        angle = radians((degrees(acos((ec_r ** 2 + r_s ** 2 - ec_s ** 2) / (2 * ec_r * r_s)))) - 90)
+        angle_radians = radians((degrees(acos((ec_r ** 2 + r_s ** 2 - ec_s ** 2) / (2 * ec_r * r_s)))) - 90)
 
-        return angle
+        return angle_radians
     
     def variance(self):
         """""
@@ -161,7 +161,7 @@ class Variance:
         returns the variance as a float
         """""
         # Variance (uncertainty associated with the satellite) (m)
-        variance = (self.l1_std ** 2) / (sin(self.elevation_variance_calculator()))
+        variance = (self.l1_std ** 2) / (sin(self.elevation_calculator()))
         
         return variance
         

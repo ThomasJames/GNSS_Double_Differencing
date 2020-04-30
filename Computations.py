@@ -1,13 +1,13 @@
 from math import sqrt, cos, sin, degrees, acos
 from matplotlib import transforms
 from typing import List
-
 import numpy as np
 from numpy import transpose, linalg
 from Matrix_Computation_Classes import DD, Variance, distance
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -155,29 +155,73 @@ G12_rover_var = Variance(sat_coords=G12, receiver_coords=pillar_3A_rover, L1=Tru
 G10_base_var = Variance(sat_coords=G10, receiver_coords=pillar_1A_base, L1=True)
 G10_rover_var = Variance(sat_coords=G10, receiver_coords=pillar_3A_rover, L1=True)
 
-elevations = np.array([
+elevations_radians = np.array([
 
-                             [G19_base_var .elevation_variance_calculator()],
-                             [G19_rover_var.elevation_variance_calculator()],
-                             [G18_base_var .elevation_variance_calculator()],
-                             [G18_rover_var.elevation_variance_calculator()],
-                             [G17_base_var .elevation_variance_calculator()],
-                             [G17_rover_var.elevation_variance_calculator()],
-                             [G15_base_var .elevation_variance_calculator()],
-                             [G15_rover_var.elevation_variance_calculator()],
-                             [G13_base_var .elevation_variance_calculator()],
-                             [G13_rover_var.elevation_variance_calculator()],
-                             [G12_base_var .elevation_variance_calculator()],
-                             [G12_rover_var.elevation_variance_calculator()],
-                             [G10_base_var .elevation_variance_calculator()],
-                             [G10_rover_var.elevation_variance_calculator()],
-                             [G24_base_var .elevation_variance_calculator()],
-                             [G24_rover_var.elevation_variance_calculator()]])
+                             [G19_base_var .elevation_calculator()],
+                             [G19_rover_var.elevation_calculator()],
+                             [G18_base_var .elevation_calculator()],
+                             [G18_rover_var.elevation_calculator()],
+                             [G17_base_var .elevation_calculator()],
+                             [G17_rover_var.elevation_calculator()],
+                             [G15_base_var .elevation_calculator()],
+                             [G15_rover_var.elevation_calculator()],
+                             [G13_base_var .elevation_calculator()],
+                             [G13_rover_var.elevation_calculator()],
+                             [G12_base_var .elevation_calculator()],
+                             [G12_rover_var.elevation_calculator()],
+                             [G10_base_var .elevation_calculator()],
+                             [G10_rover_var.elevation_calculator()],
+                             [G24_base_var .elevation_calculator()],
+                             [G24_rover_var.elevation_calculator()]])
 
-print(elevations)
+satelltie_names = np.array([["Base to G19"],
+                            ["Rover to G19"],
+                            ["Base to  G18"],
+                            ["Rover to G18"],
+                            ["Base to G17"],
+                            ["Rover to G17"],
+                            ["Base to G15"],
+                            ["Rover to G15"],
+                            ["Base to G13"],
+                            ["Rover to G13"],
+                            ["Base to G12"],
+                            ["Rover to G12"],
+                            ["Base to G10"],
+                            ["Rover to G10"],
+                            ["Base to G24"],
+                            ["Rover to G24"]])
+
+# Output the elevations in Radians
+vec2 = elevations_radians.reshape(elevations_radians.shape[0], 1)
+ax = sns.heatmap((vec2),
+
+                 annot=True,
+                 xticklabels=False,
+                 yticklabels=False,
+                 cmap="Blues",
+                 cbar=False,
+                 fmt='g')
+plt.title("Elevations in Radians")
+plt.savefig("Matrices/Elevations in Radians")
+plt.show()
+
+# Output the elevations in degrees     
+elevations_degrees = np.array([degrees(x) for x in elevations_radians])
+vec2 = elevations_degrees.reshape(elevations_degrees.shape[0], 1)
+ax = sns.heatmap((vec2),
+                 annot=True,
+                 xticklabels=False,
+                 yticklabels=False,
+                 cmap="Blues",
+                 cbar=False,
+                 fmt='g')
+plt.title("Elevations in Degrees")
+plt.savefig("Matrices/Elevations in Degrees")
+plt.show()
+
+
 
 variance_vector = np.array([
-
                              [G19_base_var .variance()],
                              [G19_rover_var.variance()],
                              [G18_base_var .variance()],
