@@ -4,9 +4,11 @@ import seaborn as sns
 from math import sqrt, sin, degrees, acos, radians
 from typing import List
 
-"""
-Class DD
 
+
+class DD:
+    
+"""
 ref_station - Earth centric Cartesian Coordinates of the reference station [X, Y, Z]
 corresponding_sat - Earth centric cartesian Coordinates of the corresponding station [X, Y, Z]
 sat_ref - Satellite reference of cartesian Coordinates of the reference station [X, Y, Z]
@@ -20,10 +22,8 @@ e - Noise term
 c = speed of light in vacuum (299792458.0 ms-1) - Set to default    
 f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)  either L1 or L2 can be True
 λ=𝑐/𝑓  - Wavelength calculated from c and f 
-
 """
 
-class DD:
     def __init__(self, ref_station: List[float] = None,
                        rov_station: List[float] = None,
                        corresponding_sat: List[float] = None,
@@ -135,8 +135,6 @@ class Variance:
         These ranges make up a scalene triangle, where all ranges are known.
         The low of cosines is used to calculate the angle about the receiver in degrees. 
         90 is subtracted from this angle to get the local elevation angle.     
-        The method then calculates the variance of the satellite at the calculated angle.
-        returns the variance as a float
         """""
 
         # Extract ECEF distances (m)
@@ -155,19 +153,29 @@ class Variance:
         # Angle from the local horizontal to the satellite (m)
         angle = radians((degrees(acos((ec_r ** 2 + r_s ** 2 - ec_s ** 2) / (2 * ec_r * r_s)))) - 90)
 
+        return angle
+    
+    def variance(self):
+        """
+        This method then calculates the variance of the satellite at the calculated angle.
+        returns the variance as a float
+        """
         # Variance (uncertainty associated with the satellite) (m)
         variance = (self.l1_std ** 2) / (sin(angle))
-
-        return angle
-
+        
+        returtn variance
+        
 
 def distance(point_1: List[float], point_2: List[float]) -> float:
-
+"""
+Find the difference between two points given sets of [X, Y, Z] coordinates.
+"""
     return sqrt((point_2[0] - point_1[0])**2 +
                 (point_2[1] - point_1[1])**2 +
                 (point_2[2] - point_1[2])**2)
 
 
+class MatrixOperations:
 """
 Matrix Operations
 
@@ -177,9 +185,7 @@ Cl - Covariance matrix of observations
 A - Design matric
 W - Weight matrix
 b - B (innovation vector?)
-"""
-
-class MatrixOperations:
+"""   
     def __init__(self, D=None, S=None, Cl=None, A=None, W=None, b=None):
         self.D = D
         self.S = S
@@ -207,29 +213,6 @@ class MatrixOperations:
         except IOError:
             print("ATWA failed")
 
-"""
-Heatmap Matrix Plotter)
-
-matrix - Numpy file.
-title - Title of the matrix (string)
-file_type - Set to png as default.
-colour - Set to "Pastel1" as default.
-"""
-
-class HeatMap:
-
-    def __init__(self, matrix, filename):
-        self.matrix = matrix
-        self.filename = filename
-
-    def png_out(self):
-        heat_map = sns.heatmap(self.matrix,
-                               annot=True,
-                               xticklabels=False,
-                               yticklabels=False,
-                               cmap="Blues",
-                               cbar=False,)
-        plt.imsave('Matrix.png', self.matrix)
 
 
 
