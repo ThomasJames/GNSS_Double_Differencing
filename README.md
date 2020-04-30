@@ -236,6 +236,11 @@ Wd = linalg.inv(Cd)
 
 ### A (Design) Martix
 
+The design matrix was populated with the partial derivitives of the double difference observation equations with respect to the unknowns. 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Partial%20Derivitives%20Hand%20calculation.jpg" width="500">
+
+
 ``` 
 class DD:                                                                  
     def __init__(self, ref_station: List[float] = None,                    
