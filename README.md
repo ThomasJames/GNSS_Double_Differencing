@@ -246,6 +246,8 @@ The Design matrix was then populated with these values
 
 NOTE: Phase ambiguity terms are not included.
 
+### The following code was used to perform these computations.
+
 ``` 
 class DD:                                                                  
     def __init__(self, ref_station: List[float] = None,                    
