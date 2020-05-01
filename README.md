@@ -171,7 +171,7 @@ The observed - computed (b) matrix was calculated in the following steps:
 1. The phase ambiguity term (N) was subtracted from the double differenced vector of double differences (DSl):
 In the code, this has been stored into the variable ``` DD_s_p_a``` This value is expressed in cycles
 
-2. The computed value
+2. The range terms are computed from the satellite coordinates. These are then used to generate a value of the computed measurement. These are multiplied by 1/wavelength to convert from meters into cycles.
 
 3. The observed measurement is subtracted from the computed measurement.
 
@@ -181,6 +181,7 @@ def distance(point_1: List[float], point_2: List[float]) -> float:
     return sqrt((point_2[0] - point_1[0])**2 +
                 (point_2[1] - point_1[1])**2 +
                 (point_2[2] - point_1[2])**2)
+                
 """
 wl - Wavelength 
 brrs - Base receiver to reference satellite 
@@ -189,7 +190,11 @@ brcs - Base receiver to corresponding satellite
 rrcs - Reference receiver to corresponding satellite
 DD_s_p_a - Vector of double differences, after phase ambiguity term subtracted.
 """    
-
+brrs: floa = distance(ref_station, sat_ref)
+rrrs = distance(rov_station, sat_ref)
+brcs = distance(ref_station, corresponding_sat)
+rrcs = distance(rov_station, corresponding_sat)
+        
 def calc_b_vector(wl: float, DD_s_p_a: float, brrs: float, rrrs: float, brcs: float, rrcs: float) -> float:                                        
     # observed - The vector of measured quantities                       
     o = DD_s_p_a                                                    
@@ -239,6 +244,10 @@ Wd = linalg.inv(Cd)
 The design matrix was populated with the partial derivitives of the double difference observation equations with respect to the unknowns. 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Partial%20Derivitives%20Hand%20calculation.jpg" width="500">
+
+Where:
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Denominator%20(Hand%20calculation).JPG" width="500">
 
 The Design matrix was then populated with these values 
 
@@ -352,6 +361,9 @@ linalg.inv(atwa)
 
 Table of parameters:
 <img src=https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Nominal%20and%20Updated%20Coords.png width="500">
+
+
+## Quality Assessment:
 
 The distance between the two pillars is approximatley 94.4m 
 This is used to quantify accuracty.
