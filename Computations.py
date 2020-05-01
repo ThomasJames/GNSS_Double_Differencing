@@ -3,7 +3,7 @@ from matplotlib import transforms
 from typing import List
 import numpy as np
 from numpy import transpose, linalg
-from Matrix_Computation_Classes import DD, Variance, distance
+from Matrix_Computation_Classes import DD, Variance
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -559,6 +559,8 @@ if __name__ == "__main__":
     plt.savefig("Matrices/Observed - Computed (b) Vector")
     plt.show()
 
+
+    # Populate the design matrix
     A = np.array([[G24G19.x_diff(), G24G19.y_diff(), G24G19.z_diff()],
                   [G24G18.x_diff(), G24G18.y_diff(), G24G18.z_diff()],
                   [G24G17.x_diff(), G24G17.y_diff(), G24G17.z_diff()],
@@ -611,8 +613,6 @@ if __name__ == "__main__":
     ATWb = (transpose(A).dot(Wd)).dot(b)
 
     x_hat = inverse_atwa.dot(ATWb)
-
-
 
     x = x_hat[0]
     y = x_hat[1] 

@@ -4,21 +4,16 @@ import seaborn as sns
 from math import sqrt, sin, degrees, acos, radians
 from typing import List
 
-
-
 class DD:
     
     """"
     ref_station - Earth centric Cartesian Coordinates of the reference station [X, Y, Z]
     corresponding_sat - Earth centric cartesian Coordinates of the corresponding station [X, Y, Z]
     sat_ref - Satellite reference of cartesian Coordinates of the reference station [X, Y, Z]
-    wl - Wavelength 
     brrs - Base receiver to reference satellite 
     rrrs - Reference receiver to reference satellite
     brcs - Base receiver to corresponding satellite 
     rrcs - Reference receiver to corresponding satellite
-    N - Ambiguity term (int)
-    e - Noise term 
     c = speed of light in vacuum (299792458.0 ms-1) - Set to default    
     f = signal frequency (L1: 1575.42MHz, L2: 1227.6MHz)  either L1 or L2 can be True
     λ=𝑐/𝑓  - Wavelength calculated from c and f 
@@ -29,20 +24,35 @@ class DD:
                        corresponding_sat: List[float] = None,
                        sat_ref: List[float] = None,
                        L1: bool = True,
+                       L2: bool = False,
                        DD_s_p_a: float = None):
+
+        # Speed of light m/s
+        c: float = 299792458.0
+
+        # Signal frequency of L1 (MHz)
+        L1_f: float= 1575.42 * 1000000
+
+        # Signal frequency of L2
+        L2_f: float = 1227.6 * 1000000
 
         # Set to true by default
         if L1:
-            wl = 0.19029367
+            wl = c / L1_f
 
-        # 3D cartesian coordinate check
+        if L2:
+            wl = c / L2_f
+
+        # Error check the augments
         assert len(ref_station) == len(rov_station) == len(corresponding_sat) == len(sat_ref)
+        assert L1 != L2
+
 
         # Compute ranges from satellite coordinates
-        brrs: float = distance(ref_station, sat_ref)
-        rrrs: float = distance(rov_station, sat_ref)
-        brcs: float = distance(ref_station, corresponding_sat)
-        rrcs: float = distance(rov_station, corresponding_sat)
+        brrs: float = self.distance(ref_station, sat_ref)
+        rrrs: float = self.distance(rov_station, sat_ref)
+        brcs: float = self.distance(ref_station, corresponding_sat)
+        rrcs: float = self.distance(rov_station, corresponding_sat)
 
         self.X_1A = ref_station[0]
         self.Y_1A = ref_station[1]
@@ -111,6 +121,14 @@ class DD:
         c = (1 / self.wl) * (self.brrs - self.rrrs - self.brcs + self.rrcs)
         return o - c
 
+    def distance(self, point_1: List[float], point_2: List[float]) -> float:
+        """""
+        Find the difference between two points given sets of [X, Y, Z] coordinates.
+        """""
+        return sqrt((point_2[0] - point_1[0]) ** 2 +
+                    (point_2[1] - point_1[1]) ** 2 +
+                    (point_2[2] - point_1[2]) ** 2)
+
 
 
 class Variance:
@@ -168,17 +186,8 @@ class Variance:
         variance = (self.l1_std ** 2) / (sin(self.elevation_calculator()))
         
         return variance
+
         
-
-def distance(point_1: List[float], point_2: List[float]) -> float:
-    """""
-    Find the difference between two points given sets of [X, Y, Z] coordinates.
-    """""
-    return sqrt((point_2[0] - point_1[0])**2 +
-                (point_2[1] - point_1[1])**2 +
-                (point_2[2] - point_1[2])**2)
-
-
 class MatrixOperations:
     """"
     Matrix Operations
