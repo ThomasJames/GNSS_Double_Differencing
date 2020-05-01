@@ -126,17 +126,13 @@ G24toG13_after = -4.000
 G24toG12_after = 35.000
 G24toG10_after = 12.000
 
-a_a_r = [G24toG19_after, G24toG18_after, G24toG17_after, G24toG15_after, G24toG13_after, G24toG12_after, G24toG10_after]
-
-# Calculate the noise of each measurement.
-G24toG19_noise = G24toG19_before - G24toG19_after
-G24toG18_noise = G24toG18_before - G24toG18_after
-G24toG17_noise = G24toG17_before - G24toG17_after
-G24toG15_noise = G24toG15_before - G24toG15_after
-G24toG13_noise = G24toG13_before - G24toG13_after
-G24toG12_noise = G24toG12_before - G24toG12_after
-G24toG10_noise = G24toG10_before - G24toG10_after
-
+a_a_r = [G24toG19_after,
+         G24toG18_after,
+         G24toG17_after,
+         G24toG15_after,
+         G24toG13_after,
+         G24toG12_after,
+         G24toG10_after]
 
 G24_base_var = Variance(sat_coords=G24, receiver_coords=pillar_1A_base, L1=True)
 G24_rover_var = Variance(sat_coords=G24, receiver_coords=pillar_3A_rover, L1=True)
@@ -369,6 +365,8 @@ if __name__ == "__main__":
     for i in range(len(Dsl)):
         DD_s_p_a.append(Dsl[i] - a_a_r[i])
 
+    print("Observed:", DD_s_p_a)
+
 
     vec2 = Dsl.reshape(Dsl.shape[0], 1)
     ax = sns.heatmap((vec2),
@@ -487,49 +485,49 @@ if __name__ == "__main__":
     """
     G24G19 = DD(L1=True,
                 ref_station=pillar_1A_base,
-                rov_station=after_ambiguity_resolution,
+                rov_station=pillar_3A_rover,
                 corresponding_sat=G19,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[0])
 
     G24G18 = DD(L1=True,
                 ref_station=pillar_1A_base,
-                rov_station=after_ambiguity_resolution,
+                rov_station=pillar_3A_rover,
                 corresponding_sat=G18,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[1])
 
     G24G17 = DD(L1=True,
                 ref_station=pillar_1A_base,
-                rov_station=after_ambiguity_resolution,
+                rov_station=pillar_3A_rover,
                 corresponding_sat=G17,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[2])
 
     G24G15 = DD(L1=True,
                 ref_station=pillar_1A_base,
-                rov_station=after_ambiguity_resolution,
+                rov_station=pillar_3A_rover,
                 corresponding_sat=G15,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[3])
 
     G24G13 = DD(L1=True,
                 ref_station=pillar_1A_base,
-                rov_station=after_ambiguity_resolution,
+                rov_station=pillar_3A_rover,
                 corresponding_sat=G13,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[4])
 
     G24G12 = DD(L1=True,
                 ref_station=pillar_1A_base,
-                rov_station=after_ambiguity_resolution,
+                rov_station=pillar_3A_rover,
                 corresponding_sat=G12,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[5])
 
     G24G10 = DD(L1=True,
                 ref_station=pillar_1A_base,
-                rov_station=after_ambiguity_resolution,
+                rov_station=pillar_3A_rover,
                 corresponding_sat=G10,
                 sat_ref=G24,
                 DD_s_p_a=DD_s_p_a[6])
@@ -547,6 +545,7 @@ if __name__ == "__main__":
                   [G24G13.calc_b_vector()],
                   [G24G12.calc_b_vector()],
                   [G24G10.calc_b_vector()]])
+
 
     ax = sns.heatmap((b),
                 annot=True,
@@ -607,73 +606,17 @@ if __name__ == "__main__":
     plt.savefig("Matrices/(ATWA)^-1 Matrix")
     plt.show()
 
-    print(inverse_atwa)
-
     ATWb = (transpose(A).dot(Wd)).dot(b)
 
     x_hat = inverse_atwa.dot(ATWb)
 
-    x = x_hat[0]
-    y = x_hat[1]
-    z = x_hat[2] 
+    x = x_hat[0] * 1/wl
+    y = x_hat[1] * 1/wl
+    z = x_hat[2] * 1/wl
     print(x)
     print(y)
     print(z)
 
-
-    # Calculate X_hat
-    X_hat = calculate_x_hat(A, Wd, b)
-
-    L1_wl = 0.19029367
-
-
-    X_hat = [(X_hat[0]/wl), (X_hat[1]/wl), (X_hat[2]/wl)]
-    print(X_hat)
-
-
-
-    updated_pillar_3A = [(pillar_3A_rover[0] + X_hat[0]), (pillar_3A_rover[1] + X_hat[1]), (pillar_3A_rover[2] + X_hat[2])]
-
-
-
-    """
-    Table to display final results
-    """
-    table = np.array([["X", float(pillar_3A_rover[0]), float(X_hat[0]), float(updated_pillar_3A[0])],
-                     ["Y", float(pillar_3A_rover[1]), float(X_hat[1]), float(updated_pillar_3A[1])],
-                      ["Z", float(pillar_3A_rover[2]), float(X_hat[2]), float(updated_pillar_3A[2])]])
-
-    fig, ax = plt.subplots()
-    fig.patch.set_visible(False)
-    ax.axis('off')
-    ax.axis('tight')
-    columns = [" ", "Nominal Coordinates", "Updates", "Updated Coordinates"]
-    df = pd.DataFrame(table, columns=columns)
-    ax.table(cellText=df.values, colLabels=df.columns, loc='center')
-    fig.tight_layout()
-    plt.savefig("Matrices/Nominal and Updated Coords")
-    plt.show()
-
-
-    """
-    As a performance test, the computed distances between pillar 1A and pillar 3A are compared.
-    """
-    # print("Nominal: ", distance(pillar_1A_base, updated_pillar_3A))
-    # print("Updated: ", distance(pillar_1A_base, pillar_3A_rover))
-
-    table = np.array([["Nominal: ", distance(pillar_1A_base, pillar_3A_rover)],
-                      ["Updated: ", distance(pillar_1A_base, updated_pillar_3A)]])
-
-    fig, ax = plt.subplots()
-    fig.patch.set_visible(False)
-    ax.axis('off')
-    ax.axis('tight')
-    columns = [" ", "Distance between Pillars (m)"]
-    df = pd.DataFrame(table, columns=columns)
-    ax.table(cellText=df.values, colLabels=df.columns, loc='center')
-    fig.tight_layout()
-    plt.savefig("Matrices/Nominal Vs Updated Distances")
-    plt.show()
 
 
 
