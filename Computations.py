@@ -1,13 +1,9 @@
 from math import sqrt, cos, sin, degrees, acos
-from matplotlib import transforms
-from typing import List
 import numpy as np
 from numpy import transpose, linalg
 from Matrix_Computation_Classes import DD, Variance
 import matplotlib.pyplot as plt
 import seaborn as sns
-import pandas as pd
-
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -490,49 +486,49 @@ if __name__ == "__main__":
                 rov_station=pillar_3A_rover,
                 corresponding_sat=G19,
                 sat_ref=G24,
-                DD_s_p_a=DD_s_p_a[0])
+                observed=DD_s_p_a[0])
 
     G24G18 = DD(L1=True,
                 ref_station=pillar_1A_base,
                 rov_station=pillar_3A_rover,
                 corresponding_sat=G18,
                 sat_ref=G24,
-                DD_s_p_a=DD_s_p_a[1])
+                observed=DD_s_p_a[1])
 
     G24G17 = DD(L1=True,
                 ref_station=pillar_1A_base,
                 rov_station=pillar_3A_rover,
                 corresponding_sat=G17,
                 sat_ref=G24,
-                DD_s_p_a=DD_s_p_a[2])
+                observed=DD_s_p_a[2])
 
     G24G15 = DD(L1=True,
                 ref_station=pillar_1A_base,
                 rov_station=pillar_3A_rover,
                 corresponding_sat=G15,
                 sat_ref=G24,
-                DD_s_p_a=DD_s_p_a[3])
+                observed=DD_s_p_a[3])
 
     G24G13 = DD(L1=True,
                 ref_station=pillar_1A_base,
                 rov_station=pillar_3A_rover,
                 corresponding_sat=G13,
                 sat_ref=G24,
-                DD_s_p_a=DD_s_p_a[4])
+                observed=DD_s_p_a[4])
 
     G24G12 = DD(L1=True,
                 ref_station=pillar_1A_base,
                 rov_station=pillar_3A_rover,
                 corresponding_sat=G12,
                 sat_ref=G24,
-                DD_s_p_a=DD_s_p_a[5])
+                observed=DD_s_p_a[5])
 
     G24G10 = DD(L1=True,
                 ref_station=pillar_1A_base,
                 rov_station=pillar_3A_rover,
                 corresponding_sat=G10,
                 sat_ref=G24,
-                DD_s_p_a=DD_s_p_a[6])
+                observed=DD_s_p_a[6])
 
 
     """
