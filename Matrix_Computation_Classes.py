@@ -186,7 +186,7 @@ class MatrixOperations:
     D - Double differencing matrix 
     S - Single differencing matrix
     Cl - Covariance matrix of observations
-    A - Design matric
+    A - Design matrix
     W - Weight matrix
     b - B (innovation vector?)
     """""

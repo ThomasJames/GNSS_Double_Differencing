@@ -265,6 +265,8 @@ def calculate_x_hat(A, W, b):
 def ATWA(A, W):
     return ((transpose(A)).dot(W)).dot(A)
 
+
+
 if __name__ == "__main__":
 
     vec2 = variance_vector.reshape(variance_vector.shape[0], 1)
@@ -610,12 +612,24 @@ if __name__ == "__main__":
 
     x_hat = inverse_atwa.dot(ATWb)
 
-    x = x_hat[0] * 1/wl
-    y = x_hat[1] * 1/wl
-    z = x_hat[2] * 1/wl
+
+
+    x = x_hat[0]
+    y = x_hat[1] 
+    z = x_hat[2] 
     print(x)
     print(y)
     print(z)
+
+    print(f"Updated Cooridnates: {pillar_3A_rover[0] + x} actual coordinates: {after_ambiguity_resolution[0]}")
+    print(f"Updated Cooridnates: {pillar_3A_rover[1] + y} actual coordinates: {after_ambiguity_resolution[1]}")
+    print(f"Updated Cooridnates: {pillar_3A_rover[2] + z} actual coordinates: {after_ambiguity_resolution[2]}")
+
+
+
+
+
+
 
 
 
