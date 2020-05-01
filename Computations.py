@@ -156,7 +156,8 @@ G10_base_var = Variance(sat_coords=G10, receiver_coords=pillar_1A_base, L1=True)
 G10_rover_var = Variance(sat_coords=G10, receiver_coords=pillar_3A_rover, L1=True)
 
 elevations_radians = np.array([
-
+                             [G24_base_var .elevation_calculator()],
+                             [G24_rover_var.elevation_calculator()],
                              [G19_base_var .elevation_calculator()],
                              [G19_rover_var.elevation_calculator()],
                              [G18_base_var .elevation_calculator()],
@@ -170,9 +171,7 @@ elevations_radians = np.array([
                              [G12_base_var .elevation_calculator()],
                              [G12_rover_var.elevation_calculator()],
                              [G10_base_var .elevation_calculator()],
-                             [G10_rover_var.elevation_calculator()],
-                             [G24_base_var .elevation_calculator()],
-                             [G24_rover_var.elevation_calculator()]])
+                             [G10_rover_var.elevation_calculator()]])
 
 satelltie_names = np.array([["Base to G19"],
                             ["Rover to G19"],
@@ -222,6 +221,8 @@ plt.show()
 
 
 variance_vector = np.array([
+                             [G24_base_var.variance()],
+                             [G24_rover_var.variance()],
                              [G19_base_var .variance()],
                              [G19_rover_var.variance()],
                              [G18_base_var .variance()],
@@ -235,12 +236,7 @@ variance_vector = np.array([
                              [G12_base_var .variance()],
                              [G12_rover_var.variance()],
                              [G10_base_var .variance()],
-                             [G10_rover_var.variance()],
-                             [G24_base_var .variance()],
-                             [G24_rover_var.variance()]])
-
-print(variance_vector)
-
+                             [G10_rover_var.variance()]])
 
 
 # 16 x 8:  Differencing matrix
@@ -409,7 +405,7 @@ if __name__ == "__main__":
     DIM: 16 x 16 
     """
 
-    cl = np.eye(16, 16) * (variance_vector * (1/wl))  # back to cycles
+    cl = np.eye(16, 16) * (1/wl * variance_vector)   # back to cycles
     ax = sns.heatmap((cl),
                 annot=True,
                 xticklabels=False,
@@ -419,7 +415,6 @@ if __name__ == "__main__":
     plt.title("Covariance matrix of observations (cl) Matrix")
     plt.savefig("Matrices/Covariance matrix of observations (cl) Matrix")
     plt.show()
-
 
 
     """
@@ -450,6 +445,8 @@ if __name__ == "__main__":
     plt.savefig("Matrices/covariance matrix of the double differences (Cd) Matrix")
     plt.show()
 
+    print(Cd)
+
 
     """
     Calculate the weight matrix of the double differences. 
@@ -459,6 +456,7 @@ if __name__ == "__main__":
     """
 
     Wd = linalg.inv(Cd)
+
     print(Wd)
 
     # Wd = np.around(Wd, decimals=4)

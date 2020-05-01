@@ -31,14 +31,18 @@ class DD:
                        L1: bool = True,
                        DD_s_p_a: float = None):
 
+        # Set to true by default
         if L1:
             wl = 0.19029367
 
+        # 3D cartesian coordinate check
+        assert len(ref_station) == len(rov_station) == len(corresponding_sat) == len(sat_ref)
 
-        brrs = distance(ref_station, sat_ref)
-        rrrs = distance(rov_station, sat_ref)
-        brcs = distance(ref_station, corresponding_sat)
-        rrcs = distance(rov_station, corresponding_sat)
+        # Compute ranges from satellite coordinates
+        brrs: float = distance(ref_station, sat_ref)
+        rrrs: float = distance(rov_station, sat_ref)
+        brcs: float = distance(ref_station, corresponding_sat)
+        rrcs: float = distance(rov_station, corresponding_sat)
 
         self.X_1A = ref_station[0]
         self.Y_1A = ref_station[1]
