@@ -143,7 +143,6 @@ class Variance:
 
         assert len(sat_coords) == len(receiver_coords)
 
-
         self.l1_std = l1_std
         self.sat_coords = sat_coords
         self.receiver_coords = receiver_coords
@@ -228,6 +227,40 @@ class MatrixOperations:
             print("ATWA failed")
 
 
+def matrix_heatmap(matrix, name: str) -> None:
+    sns.heatmap(matrix,
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False, )
+    plt.title(f"{name} Matrix")
+    plt.savefig(f"Matrices/{name} Matrix")
+    plt.show()
+
+def vector_heatmap(matrix, name: str):
+    sns.heatmap(matrix,
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False, )
+    plt.title(f"{name} Matrix")
+    plt.savefig(f"Vectors/{name} Vector")
+    plt.show()
+
+def flipped_vector_heatmap(data, name: str):
+    vec2 = data.reshape(data.shape[0], 1)
+    ax = sns.heatmap((vec2),
+                annot=True,
+                xticklabels=False,
+                yticklabels=False,
+                cmap="Blues",
+                cbar=False,
+                fmt='g')
+    plt.title(f"{name} Vector")
+    plt.savefig(f"Vectors/{name} Vector")
+    plt.show()
 
 
 

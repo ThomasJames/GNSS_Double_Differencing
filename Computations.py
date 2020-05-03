@@ -1,9 +1,10 @@
 from math import sqrt, cos, sin, degrees, acos
 import numpy as np
 from numpy import transpose, linalg
-from Matrix_Computation_Classes import DD, Variance
+from Matrix_Computation_Classes import DD, Variance, matrix_heatmap, vector_heatmap, flipped_vector_heatmap
 import matplotlib.pyplot as plt
 import seaborn as sns
+from typing import List
 
 """
 GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
@@ -182,35 +183,8 @@ satelltie_names = np.array([["Base to G19"],
                             ["Base to G24"],
                             ["Rover to G24"]])
 
-# Output the elevations in Radians
-vec2 = elevations_radians.reshape(elevations_radians.shape[0], 1)
-ax = sns.heatmap((vec2),
-
-                 annot=True,
-                 xticklabels=False,
-                 yticklabels=False,
-                 cmap="Blues",
-                 cbar=False,
-                 fmt='g')
-plt.title("Elevations in Radians")
-plt.savefig("Matrices/Elevations in Radians")
-plt.show()
-
-# Output the elevations in degrees     
+# Elevations in degrees
 elevations_degrees = np.array([degrees(x) for x in elevations_radians])
-vec2 = elevations_degrees.reshape(elevations_degrees.shape[0], 1)
-ax = sns.heatmap((vec2),
-                 annot=True,
-                 xticklabels=False,
-                 yticklabels=False,
-                 cmap="Blues",
-                 cbar=False,
-                 fmt='g')
-plt.title("Elevations in Degrees")
-plt.savefig("Matrices/Elevations in Degrees")
-plt.show()
-
-
 
 variance_vector = np.array([
                              [G24_base_var.variance()],
@@ -265,35 +239,15 @@ def ATWA(A, W):
 
 if __name__ == "__main__":
 
-    vec2 = variance_vector.reshape(variance_vector.shape[0], 1)
-    ax = sns.heatmap((vec2),
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False,
-                fmt='g')
-    plt.title("Vector of variances")
-    plt.savefig("Matrices/Vector of variances")
-    plt.show()
-
-
+    flipped_vector_heatmap(variance_vector, "Variances")
+    flipped_vector_heatmap(elevations_radians, "Radians")
+    flipped_vector_heatmap(elevations_degrees, "Degrees")
 
     """
     l vector - The vector of raw observations
     """
 
-    vec2 = l.reshape(l.shape[0], 1)
-    ax = sns.heatmap((vec2),
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False,
-                fmt='g')
-    plt.title("Vector of observations (l) Matrix")
-    plt.savefig("Matrices/Vector of observations (l) Matrix")
-    plt.show()
+    flipped_vector_heatmap(l, "Vector of observations (l)")
 
     """
     For purposes of single differencing and double differencing.
@@ -302,25 +256,9 @@ if __name__ == "__main__":
     S DIM: 8 X 16
     """
 
-    ax = sns.heatmap(S,
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("Single Differencing (S) Matrix")
-    plt.savefig("Matrices/Single Differencing (S) Matrix")
-    plt.show()
+    matrix_heatmap(S, "Single Differencing (S)")
 
-    sns.heatmap(D,
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("Double Differencing (D) Matrix")
-    plt.savefig("Matrices/Double Differencing (D) Matrix")
-    plt.show()
+    matrix_heatmap(D, "Double Differencing (D)")
 
 
     """
@@ -333,16 +271,8 @@ if __name__ == "__main__":
     """
 
     sl = S.dot(l)
-    vec2 = sl.reshape(sl.shape[0], 1)
-    ax = sns.heatmap((vec2),
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("Vector of single differences (sl) Matrix")
-    plt.savefig("Matrices/Vector of single differences (sl) Matrix")
-    plt.show()
+
+    flipped_vector_heatmap(sl, "Vector of single differences (sl)")
 
     """
     DOUBLE DIFFERENCING 
@@ -363,33 +293,7 @@ if __name__ == "__main__":
     for i in range(len(Dsl)):
         DD_s_p_a.append(Dsl[i] - a_a_r[i])
 
-    print("Observed:", DD_s_p_a)
-
-
-    vec2 = Dsl.reshape(Dsl.shape[0], 1)
-    ax = sns.heatmap((vec2),
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("Vector of Double differences (Dsl) Matrix")
-    plt.savefig("Matrices/Vector of Double differences (Dsl) Matrix")
-    plt.show()
-
-
-    vec2 = Dsl.reshape(Dsl.shape[0], 1)
-    ax = sns.heatmap((vec2),
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("Vector of Double differences (Dsl) Matrix")
-    plt.savefig("Matrices/Vector of Double differences (Dsl) Matrix")
-    plt.show()
-
-
+    flipped_vector_heatmap(Dsl, "Double differences (Dsl)")
 
 
     """
@@ -402,16 +306,7 @@ if __name__ == "__main__":
     """
 
     cl = np.eye(16, 16) * (1/wl * variance_vector)   # back to cycles
-    ax = sns.heatmap((cl),
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("Covariance matrix of observations (cl) Matrix")
-    plt.savefig("Matrices/Covariance matrix of observations (cl) Matrix")
-    plt.show()
-
+    matrix_heatmap(cl, "Covariance matrix of observations (cl)")
 
     """
     Obtain the covariance matrix of the double differences.
@@ -431,18 +326,7 @@ if __name__ == "__main__":
     """
 
     Cd = (Cd_calculator(D, S, cl))
-    ax = sns.heatmap((Cd),
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("covariance matrix of the double differences (Cd) Matrix")
-    plt.savefig("Matrices/covariance matrix of the double differences (Cd) Matrix")
-    plt.show()
-
-    print(Cd)
-
+    matrix_heatmap(Cd, "covariance matrix of the double differences (Cd)")
 
     """
     Calculate the weight matrix of the double differences. 
@@ -452,19 +336,9 @@ if __name__ == "__main__":
     """
 
     Wd = linalg.inv(Cd)
+    matrix_heatmap(Wd, "Weight (Wd)")
 
-    print(Wd)
 
-    # Wd = np.around(Wd, decimals=4)
-    heat_map = sns.heatmap(Wd,
-                           annot=True,
-                           xticklabels=False,
-                           yticklabels=False,
-                           cmap="Blues",
-                           cbar=False, )
-    plt.title("Weight (Wd) Matrix")
-    plt.savefig("Matrices/Weight (Wd) Matrix")
-    plt.show()
 
     """
     3 methods for calculating the partial differentials of the design matrix - (X Y and Z)
@@ -481,11 +355,8 @@ if __name__ == "__main__":
     sat_ref: Cartesian [X, Y, Z] coordinates <-- Must be in this order
     DD_s_p_a: DD_s_p_a - Vector of double differences, after phase ambiguity term subtracted.
     """
-    G24G19 = DD(L1=True,
-                ref_station=pillar_1A_base,
-                rov_station=pillar_3A_rover,
-                corresponding_sat=G19,
-                sat_ref=G24,
+    G24G19 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover,
+                corresponding_sat=G19, sat_ref=G24,
                 observed=DD_s_p_a[0])
 
     G24G18 = DD(L1=True,
@@ -544,16 +415,7 @@ if __name__ == "__main__":
                   [G24G12.calc_b_vector()],
                   [G24G10.calc_b_vector()]])
 
-
-    ax = sns.heatmap((b),
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("Observed - Computed (b) Vector")
-    plt.savefig("Matrices/Observed - Computed (b) Vector")
-    plt.show()
+    vector_heatmap(b, "Observed - Computed")
 
 
     # Populate the design matrix
@@ -565,54 +427,26 @@ if __name__ == "__main__":
                   [G24G12.x_diff(), G24G12.y_diff(), G24G12.z_diff()],
                   [G24G10.x_diff(), G24G10.y_diff(), G24G10.z_diff()]])
 
-    A = np.around(A, decimals=4)
-    sns.heatmap(A,
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("Design (A) Matrix")
-    plt.savefig("Matrices/Design (A) Matrix")
-    plt.show()
+    matrix_heatmap(A, "Design (A)")
+
 
     """
     Output the ATWA matrix 
     """
     atwa = ATWA(A, Wd)
-    sns.heatmap(atwa,
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("ATWA Matrix")
-    plt.savefig("Matrices/ATWA Matrix")
-    plt.show()
-
-    print(atwa)
+    matrix_heatmap(atwa, "ATWA")
 
     """
     Output the (ATWA)^-1 matrix 
     """
     inverse_atwa = linalg.inv(atwa)
-    sns.heatmap(inverse_atwa,
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False)
-    plt.title("(ATWA)^-1 Matrix")
-    plt.savefig("Matrices/(ATWA)^-1 Matrix")
-    plt.show()
+    matrix_heatmap(inverse_atwa, "(ATWA)^-1")
 
     ATWb = (transpose(A).dot(Wd)).dot(b)
 
     x_hat = inverse_atwa.dot(ATWb)
 
-    x = x_hat[0]
-    y = x_hat[1] 
-    z = x_hat[2] 
+    x, y, z = x_hat
     print(x)
     print(y)
     print(z)
@@ -620,6 +454,20 @@ if __name__ == "__main__":
     print(f"Updated Cooridnates: {pillar_3A_rover[0] + x} actual coordinates: {after_ambiguity_resolution[0]}")
     print(f"Updated Cooridnates: {pillar_3A_rover[1] + y} actual coordinates: {after_ambiguity_resolution[1]}")
     print(f"Updated Cooridnates: {pillar_3A_rover[2] + z} actual coordinates: {after_ambiguity_resolution[2]}")
+
+
+    # Quality Assessment
+    # Distance between nominal reciever and reference receiver
+    def distance(point_1: List[float], point_2: List[float]) -> float:
+        """""
+        Find the difference between two points given sets of [X, Y, Z] coordinates.
+        """""
+        return sqrt((point_2[0] - point_1[0]) ** 2 +
+                    (point_2[1] - point_1[1]) ** 2 +
+                    (point_2[2] - point_1[2]) ** 2)
+
+    print(distance(pillar_1A_base, pillar_3A_rover))
+    print(distance(pillar_1A_base, pillar_3A_rover + x_hat))
 
 
 
