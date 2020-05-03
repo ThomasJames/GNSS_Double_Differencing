@@ -115,7 +115,7 @@ returns the variance as a float
 
 ```
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Elevations%20in%20Degrees.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Elevations%20in%20Radians.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Degrees%20Vector.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Radians%20Vector.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Variances%20Vector.png" width="300">
 
 (Elevation angles depicted here are to scale) 
 
@@ -203,7 +203,7 @@ def calc_b_vector(wl: float, DD_s_p_a: float, brrs: float, rrrs: float, brcs: fl
                                                                              
 ``` 
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Observed%20-%20Computed%20(b)%20Vector.png" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Observed%20-%20Computed%20Vector.png" width="500">
 
 ### Cl (Observations covariance) Matrix
 
