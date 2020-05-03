@@ -234,9 +234,13 @@ def calculate_x_hat(A, W, b):
 def ATWA(A, W):
     return ((transpose(A)).dot(W)).dot(A)
 
-
-
 if __name__ == "__main__":
+
+    a = np.array([["s"], [2], [3]])
+    b = np.array([[2], [3], [4]])
+    c = np.hstack((a,b))
+    print(c)
+
 
     flipped_vector_heatmap(variance_vector, "Variances")
     flipped_vector_heatmap(elevations_radians, "Radians")
@@ -364,8 +368,7 @@ if __name__ == "__main__":
 
     """
     Calculate the b vector:
-    This is the observed double differencing measurements - the computed.
-     
+    This is the observed double differencing measurements - the computed.  
     """
     b = np.array([[G24G19.calc_b_vector()],
                   [G24G18.calc_b_vector()],
