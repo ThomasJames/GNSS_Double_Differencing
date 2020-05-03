@@ -7,24 +7,18 @@ import seaborn as sns
 from typing import List
 
 """
-GOAL: Calculate the coordinates of the reference antenna (ARP) of the roving receiver 
-
-Try to get your answer close to the figures for 3A. The nominal coordinates given mean you do not need to iterate the 
-least squares solution, you should converge on the answer with on round of matrix inversion
-The data contains 1 of the three epochs of phase and pseudorange observations measured on a calibration baseline in 
-valencia, spain.
 The sensors used are geodetic quality receivers using choke ring antennas.
 Pillar 1A is treated as the reference receiver.
 Pillar 3A is treated as the monument.
 """
 
 # X, Y, Z ECEF coordinates for the phase center of the receiver
-pillar_1A_base = np.array([[4929635.440], [-29041.877], [4033567.846]])  # Reference receiver
+pillar_1A_base = np.array([[4929635.440], [-29041.877], [4033567.846]])
 
 # Trying to reproduce these coordinates
-pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])  # Monument
+pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])
 distance_between_receivers = 94.4  # Measured in meters / Approximate
-l1_SD = 0.003
+l1_SD = 0.003 # L1 Standard deviation
 
 """
 ECEF coordinates (m) of the satellite phase centers when they transmitted the signals measured at each epoch.
@@ -47,13 +41,11 @@ G24 = [15569244.807, -1039249.482, 21443791.252]
 
 """
 Use double differenced phase measurements, from the first epoch of data only 2016_11_15_22_19_5
-TO compute the precise coordinates of the pillar 3A sensor phase center. 
+To compute the precise coordinates of the pillar 3A sensor phase center. 
 These are pseudo range measurements 
 """
 
 # BASE OBSERVATIONS (Pillar 1A) C1C (metres), L1C (L1 cycles)
-# 2016_11_15_22_19_5
-
 G24_base_obs = [20436699.926, 107395596.426]
 G19_base_obs = [22181729.713, 116565751.296]
 G18_base_obs = [23217805.737, 122010370.583]
@@ -64,9 +56,6 @@ G12_base_obs = [20647534.024, 108503516.027]
 G10_base_obs = [23726969.123, 124686036.295]
 
 # ROVER OBSERVATIONS (Pillar 3A) C1C (metres), L1C (L1 cycles)
-# 2016 11 15 22 19  5 (First Epoch)
-# meters, cycles
-
 G24_rover_obs = [20436682.002, 107395502.123]
 G19_rover_obs = [22181785.598, 116566080.299]
 G18_rover_obs = [23217736.821, 122010019.631]
@@ -99,7 +88,7 @@ l = np.transpose([
 Phase Ambiguity terms (N) for each measurement, before and after ambiguity resolution 
 Use integer terms in computations
 2016 11 15 22 19  5
-G24 is a reference satellite - and has the highest 
+G24 is a reference satellite
 """
 
 # Phase ambiguities for each epoch and each phase measurement:
@@ -112,6 +101,7 @@ G24toG13_before = -3.838
 G24toG12_before = 34.873
 G24toG10_before = 12.564
 
+# Noise term removed
 after_ambiguity_resolution = np.array([[4929605.542], [-29123.828], [4033603.932]])
 G24toG19_after = 34.000
 G24toG18_after = 11.000
@@ -121,6 +111,7 @@ G24toG13_after = -4.000
 G24toG12_after = 35.000
 G24toG10_after = 12.000
 
+# After ambiguity resolution list()
 a_a_r = [G24toG19_after,
          G24toG18_after,
          G24toG17_after,
@@ -129,6 +120,7 @@ a_a_r = [G24toG19_after,
          G24toG12_after,
          G24toG10_after]
 
+# Calculate variances
 G24_base_var = Variance(sat_coords=G24, receiver_coords=pillar_1A_base, L1=True)
 G24_rover_var = Variance(sat_coords=G24, receiver_coords=pillar_3A_rover, L1=True)
 G19_base_var = Variance(sat_coords=G19, receiver_coords=pillar_1A_base, L1=True)
@@ -146,6 +138,7 @@ G12_rover_var = Variance(sat_coords=G12, receiver_coords=pillar_3A_rover, L1=Tru
 G10_base_var = Variance(sat_coords=G10, receiver_coords=pillar_1A_base, L1=True)
 G10_rover_var = Variance(sat_coords=G10, receiver_coords=pillar_3A_rover, L1=True)
 
+# Create a vector of elevations (in radians)
 elevations_radians = np.array([
     [G24_base_var.elevation_calculator()],
     [G24_rover_var.elevation_calculator()],
@@ -184,6 +177,7 @@ satelltie_names = np.array([["Base to G19"],
 # Elevations in degrees
 elevations_degrees = np.array([degrees(x) for x in elevations_radians])
 
+# Create a vector of variances
 variance_vector = np.array([
     [G24_base_var.variance()],
     [G24_rover_var.variance()],
@@ -202,7 +196,7 @@ variance_vector = np.array([
     [G10_base_var.variance()],
     [G10_rover_var.variance()]])
 
-# 16 x 8:  Differencing matrix
+# 16 x 8:  Single Differencing matrix
 S = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -212,6 +206,7 @@ S = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0],
               [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1]])
 
+# 8 x 7:  Double Differencing matrix
 D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
               [1, 0, -1, 0, 0, 0, 0, 0],
               [1, 0, 0, -1, 0, 0, 0, 0],
@@ -253,8 +248,10 @@ if __name__ == "__main__":
     S DIM: 8 X 16
     """
 
+    # Output the S matrix
     matrix_heatmap(S, "Single Differencing (S)")
 
+    # Output the D matrix
     matrix_heatmap(D, "Double Differencing (D)")
 
     """
@@ -268,6 +265,7 @@ if __name__ == "__main__":
 
     sl = S.dot(l)
 
+    # Output the vector of single differences
     flipped_vector_heatmap(sl, "Vector of single differences (sl)")
 
     """
@@ -289,6 +287,7 @@ if __name__ == "__main__":
     for i in range(len(Dsl)):
         DD_s_p_a.append(Dsl[i] - a_a_r[i])
 
+    # Output the vector of double differencing vector
     flipped_vector_heatmap(Dsl, "Double differences (Dsl)")
 
     """
@@ -301,6 +300,8 @@ if __name__ == "__main__":
     """
 
     cl = np.eye(16, 16) * (1 / wl * variance_vector)  # back to cycles
+    
+    # Output Covariance matrix of observations
     matrix_heatmap(cl, "Covariance matrix of observations (cl)")
 
     """
@@ -311,7 +312,7 @@ if __name__ == "__main__":
     Where x is stochastic quantity
     Where y is stochastic
     Where Cx is the covariance matrix of x and is known
-    
+
     d = DSl 
     Cl Exists and is known.
     
@@ -334,7 +335,7 @@ if __name__ == "__main__":
     matrix_heatmap(Wd, "Weight (Wd)")
 
     """
-
+    Load data into the DD class.. 
     """
     G24G19 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover, corresponding_sat=G19, sat_ref=G24,
                 observed=DD_s_p_a[0])
@@ -369,6 +370,7 @@ if __name__ == "__main__":
                   [G24G12.calc_b_vector()],
                   [G24G10.calc_b_vector()]])
 
+    # Output the b vector
     vector_heatmap(b, "Observed - Computed")
 
     # Populate the design matrix
@@ -380,6 +382,7 @@ if __name__ == "__main__":
                   [G24G12.x_diff(), G24G12.y_diff(), G24G12.z_diff()],
                   [G24G10.x_diff(), G24G10.y_diff(), G24G10.z_diff()]])
 
+    # Output the design matrix
     matrix_heatmap(A, "Design (A)")
 
     """
