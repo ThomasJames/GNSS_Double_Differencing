@@ -4,8 +4,8 @@ import seaborn as sns
 from math import sqrt, sin, degrees, acos, radians
 from typing import List
 
+
 class DD:
-    
     """"
     ref_station - Earth centric Cartesian Coordinates of the reference station [X, Y, Z]
     corresponding_sat - Earth centric cartesian Coordinates of the corresponding station [X, Y, Z]
@@ -20,18 +20,18 @@ class DD:
     """""
 
     def __init__(self, ref_station: List[float] = None,
-                       rov_station: List[float] = None,
-                       corresponding_sat: List[float] = None,
-                       sat_ref: List[float] = None,
-                       L1: bool = True,
-                       L2: bool = False,
-                       observed: float = None):
+                 rov_station: List[float] = None,
+                 corresponding_sat: List[float] = None,
+                 sat_ref: List[float] = None,
+                 L1: bool = True,
+                 L2: bool = False,
+                 observed: float = None):
 
         # Speed of light m/s
         c: float = 299792458.0
 
         # Signal frequency of L1 (MHz)
-        L1_f: float= 1575.42 * 1000000
+        L1_f: float = 1575.42 * 1000000
 
         # Signal frequency of L2
         L2_f: float = 1227.6 * 1000000
@@ -46,7 +46,6 @@ class DD:
         # Error check the arguments
         assert len(ref_station) == len(rov_station) == len(corresponding_sat) == len(sat_ref)
         assert L1 != L2
-
 
         # Compute ranges from satellite coordinates
         brrs: float = self.distance(ref_station, sat_ref)
@@ -73,7 +72,6 @@ class DD:
         self.brcs = brcs
         self.rrcs = rrcs
         self.observed = observed
-
 
     def x_diff(self) -> float:
         return float(1 / self.wl * \
@@ -131,13 +129,11 @@ class DD:
                     (point_2[2] - point_1[2]) ** 2)
 
 
-
 class Variance:
 
     def __init__(self, sat_coords: List[float],
-                       receiver_coords: List[float],
-                       L1: bool == True):
-
+                 receiver_coords: List[float],
+                 L1: bool == True):
         if L1:
             l1_std = 0.003
 
@@ -148,7 +144,6 @@ class Variance:
         self.receiver_coords = receiver_coords
 
     def elevation_calculator(self) -> float:
-
         """"
         This method calculates the satellite angle of elevation in the following stages:
         Calculates the distance of receiver to the satellite (m) using pythagoras theorem.
@@ -164,7 +159,7 @@ class Variance:
         x_r, y_r, z_r = self.receiver_coords[0], self.receiver_coords[1], self.receiver_coords[2]
 
         # Distance from receiver to satellite (m)
-        r_s = sqrt((x_s - x_r)**2 + (y_s - y_r)**2 + (z_s - z_r)**2)
+        r_s = sqrt((x_s - x_r) ** 2 + (y_s - y_r) ** 2 + (z_s - z_r) ** 2)
 
         # Distance from earth center to satellite (m)
         ec_s = sqrt((sqrt(x_s ** 2 + y_s ** 2)) ** 2 + z_s ** 2)
@@ -176,7 +171,7 @@ class Variance:
         angle_radians = radians((degrees(acos((ec_r ** 2 + r_s ** 2 - ec_s ** 2) / (2 * ec_r * r_s)))) - 90)
 
         return angle_radians
-    
+
     def variance(self):
         """""
         This method then calculates the variance of the satellite at the calculated angle.
@@ -184,7 +179,7 @@ class Variance:
         """""
         # Variance (uncertainty associated with the satellite) (m)
         variance = (self.l1_std ** 2) / (sin(self.elevation_calculator()))
-        
+
         return variance
 
 
@@ -199,6 +194,7 @@ class MatrixOperations:
     W - Weight matrix
     b - B (innovation vector?)
     """""
+
     def __init__(self, D=None, S=None, Cl=None, A=None, W=None, b=None):
         self.D = D
         self.S = S
@@ -216,7 +212,8 @@ class MatrixOperations:
     def calculate_x_hat(self):
         try:
             return \
-                ((linalg.inv((transpose(self.A).dot(self.W)).dot(self.A))).dot(transpose(self.A).dot(self.W))).dot(self.b)
+                ((linalg.inv((transpose(self.A).dot(self.W)).dot(self.A))).dot(transpose(self.A).dot(self.W))).dot(
+                    self.b)
         except IOError:
             print("Calculate_x_hat failed")
 
@@ -238,6 +235,7 @@ def matrix_heatmap(matrix, name: str) -> None:
     plt.savefig(f"Matrices/{name} Matrix")
     plt.show()
 
+
 def vector_heatmap(matrix, name: str):
     sns.heatmap(matrix,
                 annot=True,
@@ -249,18 +247,16 @@ def vector_heatmap(matrix, name: str):
     plt.savefig(f"Vectors/{name} Vector")
     plt.show()
 
+
 def flipped_vector_heatmap(data, name: str):
     vec2 = data.reshape(data.shape[0], 1)
     ax = sns.heatmap((vec2),
-                annot=True,
-                xticklabels=False,
-                yticklabels=False,
-                cmap="Blues",
-                cbar=False,
-                fmt='g')
+                     annot=True,
+                     xticklabels=False,
+                     yticklabels=False,
+                     cmap="Blues",
+                     cbar=False,
+                     fmt='g')
     plt.title(f"{name} Vector")
     plt.savefig(f"Vectors/{name} Vector")
     plt.show()
-
-
-

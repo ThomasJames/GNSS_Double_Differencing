@@ -19,7 +19,7 @@ Pillar 3A is treated as the monument.
 """
 
 # X, Y, Z ECEF coordinates for the phase center of the receiver
-pillar_1A_base = np.array([[4929635.400], [-29041.877], [4033567.846]])  # Reference receiver
+pillar_1A_base = np.array([[4929635.440], [-29041.877], [4033567.846]])  # Reference receiver
 
 # Trying to reproduce these coordinates
 pillar_3A_rover = np.array([[4929605.400], [-29123.700], [4033603.800]])  # Monument
@@ -44,7 +44,6 @@ G17 = [5785091.956, 16827408.400, 20125597.869]
 G18 = [13564948.214, -21357948.777, 8232124.013]
 G19 = [12262838.101, 17165601.305, 15682863.092]
 G24 = [15569244.807, -1039249.482, 21443791.252]
-
 
 """
 Use double differenced phase measurements, from the first epoch of data only 2016_11_15_22_19_5
@@ -137,33 +136,33 @@ G19_rover_var = Variance(sat_coords=G19, receiver_coords=pillar_3A_rover, L1=Tru
 G18_base_var = Variance(sat_coords=G18, receiver_coords=pillar_1A_base, L1=True)
 G18_rover_var = Variance(sat_coords=G18, receiver_coords=pillar_3A_rover, L1=True)
 G17_base_var = Variance(sat_coords=G17, receiver_coords=pillar_1A_base, L1=True)
-G17_rover_var = Variance(sat_coords=G17, receiver_coords=pillar_3A_rover,  L1=True)
-G15_base_var = Variance(sat_coords=G15, receiver_coords=pillar_1A_base,  L1=True)
+G17_rover_var = Variance(sat_coords=G17, receiver_coords=pillar_3A_rover, L1=True)
+G15_base_var = Variance(sat_coords=G15, receiver_coords=pillar_1A_base, L1=True)
 G15_rover_var = Variance(sat_coords=G15, receiver_coords=pillar_3A_rover, L1=True)
-G13_base_var = Variance(sat_coords=G13, receiver_coords=pillar_1A_base,  L1=True)
+G13_base_var = Variance(sat_coords=G13, receiver_coords=pillar_1A_base, L1=True)
 G13_rover_var = Variance(sat_coords=G13, receiver_coords=pillar_3A_rover, L1=True)
-G12_base_var = Variance(sat_coords=G12, receiver_coords=pillar_1A_base,  L1=True)
+G12_base_var = Variance(sat_coords=G12, receiver_coords=pillar_1A_base, L1=True)
 G12_rover_var = Variance(sat_coords=G12, receiver_coords=pillar_3A_rover, L1=True)
 G10_base_var = Variance(sat_coords=G10, receiver_coords=pillar_1A_base, L1=True)
 G10_rover_var = Variance(sat_coords=G10, receiver_coords=pillar_3A_rover, L1=True)
 
 elevations_radians = np.array([
-                             [G24_base_var .elevation_calculator()],
-                             [G24_rover_var.elevation_calculator()],
-                             [G19_base_var .elevation_calculator()],
-                             [G19_rover_var.elevation_calculator()],
-                             [G18_base_var .elevation_calculator()],
-                             [G18_rover_var.elevation_calculator()],
-                             [G17_base_var .elevation_calculator()],
-                             [G17_rover_var.elevation_calculator()],
-                             [G15_base_var .elevation_calculator()],
-                             [G15_rover_var.elevation_calculator()],
-                             [G13_base_var .elevation_calculator()],
-                             [G13_rover_var.elevation_calculator()],
-                             [G12_base_var .elevation_calculator()],
-                             [G12_rover_var.elevation_calculator()],
-                             [G10_base_var .elevation_calculator()],
-                             [G10_rover_var.elevation_calculator()]])
+    [G24_base_var.elevation_calculator()],
+    [G24_rover_var.elevation_calculator()],
+    [G19_base_var.elevation_calculator()],
+    [G19_rover_var.elevation_calculator()],
+    [G18_base_var.elevation_calculator()],
+    [G18_rover_var.elevation_calculator()],
+    [G17_base_var.elevation_calculator()],
+    [G17_rover_var.elevation_calculator()],
+    [G15_base_var.elevation_calculator()],
+    [G15_rover_var.elevation_calculator()],
+    [G13_base_var.elevation_calculator()],
+    [G13_rover_var.elevation_calculator()],
+    [G12_base_var.elevation_calculator()],
+    [G12_rover_var.elevation_calculator()],
+    [G10_base_var.elevation_calculator()],
+    [G10_rover_var.elevation_calculator()]])
 
 satelltie_names = np.array([["Base to G19"],
                             ["Rover to G19"],
@@ -186,23 +185,22 @@ satelltie_names = np.array([["Base to G19"],
 elevations_degrees = np.array([degrees(x) for x in elevations_radians])
 
 variance_vector = np.array([
-                             [G24_base_var.variance()],
-                             [G24_rover_var.variance()],
-                             [G19_base_var .variance()],
-                             [G19_rover_var.variance()],
-                             [G18_base_var .variance()],
-                             [G18_rover_var.variance()],
-                             [G17_base_var .variance()],
-                             [G17_rover_var.variance()],
-                             [G15_base_var .variance()],
-                             [G15_rover_var.variance()],
-                             [G13_base_var .variance()],
-                             [G13_rover_var.variance()],
-                             [G12_base_var .variance()],
-                             [G12_rover_var.variance()],
-                             [G10_base_var .variance()],
-                             [G10_rover_var.variance()]])
-
+    [G24_base_var.variance()],
+    [G24_rover_var.variance()],
+    [G19_base_var.variance()],
+    [G19_rover_var.variance()],
+    [G18_base_var.variance()],
+    [G18_rover_var.variance()],
+    [G17_base_var.variance()],
+    [G17_rover_var.variance()],
+    [G15_base_var.variance()],
+    [G15_rover_var.variance()],
+    [G13_base_var.variance()],
+    [G13_rover_var.variance()],
+    [G12_base_var.variance()],
+    [G12_rover_var.variance()],
+    [G10_base_var.variance()],
+    [G10_rover_var.variance()]])
 
 # 16 x 8:  Differencing matrix
 S = np.array([[1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -222,6 +220,7 @@ D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
               [1, 0, 0, 0, 0, 0, -1, 0],
               [1, 0, 0, 0, 0, 0, 0, -1]])
 
+
 # DSCl(DS)^T
 def Cd_calculator(D, S, Cl):
     return (((D.dot(S)).dot(Cl)).dot(transpose((D.dot(S)))))
@@ -234,13 +233,8 @@ def calculate_x_hat(A, W, b):
 def ATWA(A, W):
     return ((transpose(A)).dot(W)).dot(A)
 
+
 if __name__ == "__main__":
-
-    a = np.array([["s"], [2], [3]])
-    b = np.array([[2], [3], [4]])
-    c = np.hstack((a,b))
-    print(c)
-
 
     flipped_vector_heatmap(variance_vector, "Variances")
     flipped_vector_heatmap(elevations_radians, "Radians")
@@ -262,7 +256,6 @@ if __name__ == "__main__":
     matrix_heatmap(S, "Single Differencing (S)")
 
     matrix_heatmap(D, "Double Differencing (D)")
-
 
     """
     SINGLE DIFFERENCING
@@ -298,7 +291,6 @@ if __name__ == "__main__":
 
     flipped_vector_heatmap(Dsl, "Double differences (Dsl)")
 
-
     """
     Covariance matrix of the observation vector.
     This is an identity matrix scaled by the variance.
@@ -308,7 +300,7 @@ if __name__ == "__main__":
     DIM: 16 x 16 
     """
 
-    cl = np.eye(16, 16) * (1/wl * variance_vector)   # back to cycles
+    cl = np.eye(16, 16) * (1 / wl * variance_vector)  # back to cycles
     matrix_heatmap(cl, "Covariance matrix of observations (cl)")
 
     """
@@ -365,7 +357,6 @@ if __name__ == "__main__":
     G24G10 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover, corresponding_sat=G10, sat_ref=G24,
                 observed=DD_s_p_a[6])
 
-
     """
     Calculate the b vector:
     This is the observed double differencing measurements - the computed.  
@@ -380,7 +371,6 @@ if __name__ == "__main__":
 
     vector_heatmap(b, "Observed - Computed")
 
-
     # Populate the design matrix
     A = np.array([[G24G19.x_diff(), G24G19.y_diff(), G24G19.z_diff()],
                   [G24G18.x_diff(), G24G18.y_diff(), G24G18.z_diff()],
@@ -391,7 +381,6 @@ if __name__ == "__main__":
                   [G24G10.x_diff(), G24G10.y_diff(), G24G10.z_diff()]])
 
     matrix_heatmap(A, "Design (A)")
-
 
     """
     Output the ATWA matrix 
@@ -429,15 +418,6 @@ if __name__ == "__main__":
                     (point_2[1] - point_1[1]) ** 2 +
                     (point_2[2] - point_1[2]) ** 2)
 
+
     print(distance(pillar_1A_base, pillar_3A_rover))
     print(distance(pillar_1A_base, pillar_3A_rover + x_hat))
-
-
-
-
-
-
-
-
-
-
