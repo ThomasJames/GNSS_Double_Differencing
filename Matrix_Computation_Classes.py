@@ -36,7 +36,7 @@ class DD:
         # Signal frequency of L2
         L2_f: float = 1227.6 * 1000000
 
-        # Set to true by default
+        # Set to True by default
         if L1:
             wl = c / L1_f
 

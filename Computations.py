@@ -78,7 +78,6 @@ G12_rover_obs = [20647514.655, 108503447.644]
 G10_rover_obs = [23726881.094, 124685588.685]
 
 # At the first epoch we have 16 raw phase observations in cycles.
-
 l = np.transpose([
     G24_base_obs[1],
     G24_rover_obs[1],
@@ -338,67 +337,28 @@ if __name__ == "__main__":
     Wd = linalg.inv(Cd)
     matrix_heatmap(Wd, "Weight (Wd)")
 
-
+    """
 
     """
-    3 methods for calculating the partial differentials of the design matrix - (X Y and Z)
-    1 method for calculating the b vector i.e The observed - computed measurements. 
-    
-    ATTRIBUTES: 
-    L1: - If L1 is True, then the wavelength for this 
-    brrs: Base Receiver to Reference Satellite geometric range (m)
-    rrrs: Roving Receiver to Reference Satellite geometric range (m)
-    brcs: Base Receiver to Corresponding Satellite  geometric range (m)
-    rrcs: Roving Receiver to Corresponding Satellite geometric range (m)
-    ref_station: Cartesian [X, Y, Z] coordinates <-- Must be in this order
-    Corresponding_sat: Cartesian [X, Y, Z] coordinates <-- Must be in this order
-    sat_ref: Cartesian [X, Y, Z] coordinates <-- Must be in this order
-    DD_s_p_a: DD_s_p_a - Vector of double differences, after phase ambiguity term subtracted.
-    """
-    G24G19 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover,
-                corresponding_sat=G19, sat_ref=G24,
+    G24G19 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover, corresponding_sat=G19, sat_ref=G24,
                 observed=DD_s_p_a[0])
 
-    G24G18 = DD(L1=True,
-                ref_station=pillar_1A_base,
-                rov_station=pillar_3A_rover,
-                corresponding_sat=G18,
-                sat_ref=G24,
+    G24G18 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover, corresponding_sat=G18, sat_ref=G24,
                 observed=DD_s_p_a[1])
 
-    G24G17 = DD(L1=True,
-                ref_station=pillar_1A_base,
-                rov_station=pillar_3A_rover,
-                corresponding_sat=G17,
-                sat_ref=G24,
+    G24G17 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover, corresponding_sat=G17, sat_ref=G24,
                 observed=DD_s_p_a[2])
 
-    G24G15 = DD(L1=True,
-                ref_station=pillar_1A_base,
-                rov_station=pillar_3A_rover,
-                corresponding_sat=G15,
-                sat_ref=G24,
+    G24G15 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover, corresponding_sat=G15, sat_ref=G24,
                 observed=DD_s_p_a[3])
 
-    G24G13 = DD(L1=True,
-                ref_station=pillar_1A_base,
-                rov_station=pillar_3A_rover,
-                corresponding_sat=G13,
-                sat_ref=G24,
+    G24G13 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover, corresponding_sat=G13, sat_ref=G24,
                 observed=DD_s_p_a[4])
 
-    G24G12 = DD(L1=True,
-                ref_station=pillar_1A_base,
-                rov_station=pillar_3A_rover,
-                corresponding_sat=G12,
-                sat_ref=G24,
+    G24G12 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover, corresponding_sat=G12, sat_ref=G24,
                 observed=DD_s_p_a[5])
 
-    G24G10 = DD(L1=True,
-                ref_station=pillar_1A_base,
-                rov_station=pillar_3A_rover,
-                corresponding_sat=G10,
-                sat_ref=G24,
+    G24G10 = DD(ref_station=pillar_1A_base, rov_station=pillar_3A_rover, corresponding_sat=G10, sat_ref=G24,
                 observed=DD_s_p_a[6])
 
 
