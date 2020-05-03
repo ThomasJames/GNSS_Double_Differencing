@@ -59,11 +59,6 @@ It is important to initially calculate the elevation angles of each satelite. Th
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Elevation.png" width="600">
 
-(Elevation angles depicted here are to scale) 
-
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Angles.png" width="600">
-
-
 ### Computations of elevations and variances:
 
 This method calculates the satellite angle of elevation in the following stages:                     
@@ -122,6 +117,9 @@ returns the variance as a float
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Elevations%20in%20Degrees.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Elevations%20in%20Radians.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20variances.png" width="300">
 
+(Elevation angles depicted here are to scale) 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Angles.png" width="600">
 
 ### l (Observations) vector 
 
