@@ -125,7 +125,7 @@ returns the variance as a float
 
 This is the vector of raw observations.
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20observations%20(l)%20Matrix.png" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Vector%20of%20observations%20(l)%20Vector.png" width="500">
 
 
 ### S (Single differencing) Matrix 
@@ -143,7 +143,7 @@ The following code was used compute this:
 sl = S.dot(l)   
 ```
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20single%20differences%20(sl)%20Matrix.png" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Vector%20of%20single%20differences%20(sl)%20Vector.png" width="500">
 
 ### D (Doube differencing) Matrix 
 
@@ -160,7 +160,7 @@ The following code was used to compute this.
 Dsl = D.dot(sl)     
 ```
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Vector%20of%20Double%20differences%20(Dsl)%20Matrix.png" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Double%20differences%20(Dsl)%20Vector.png" width="500">
 
 ### b (Observed - Computed)
 
@@ -241,15 +241,15 @@ Wd = linalg.inv(Cd)
 
 The design matrix was populated with the partial derivitives of the double difference observation equations with respect to the unknowns. 
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Partial%20Derivitives%20Hand%20calculation.jpg" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Hand%20Calculations/Partial%20Derivitives%20Hand%20calculation.jpg" width="500">
 
 Where:
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Denominator%20(Hand%20calculation).JPG" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Hand%20Calculations/Denominator%20(Hand%20calculation).JPG" width="500">
 
 The Design matrix was then populated with these values 
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Populated%20Design%20Matrix%20(hand%20drawn).jpg" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Hand%20Calculations/Populated%20Design%20Matrix%20(hand%20drawn).jpg" width="500">
 
 NOTE: Phase ambiguity terms are not included.
 
@@ -357,8 +357,6 @@ linalg.inv(atwa)
 
 ### RESULT
 
-Table of parameters:
-<img src=https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Nominal%20and%20Updated%20Coords.png width="500">
 
 
 ## Quality Assessment:
@@ -366,4 +364,4 @@ Table of parameters:
 The distance between the two pillars is approximatley 94.4m 
 This is used to quantify accuracty.
 
-<img src=https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Nominal%20Vs%20Updated%20Distances.png width="500">
+
