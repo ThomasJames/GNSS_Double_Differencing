@@ -429,7 +429,7 @@ This shows a 0.116 change in range.
 
 #### Residuals:
 
-Observed - Computed residuals are all within 99% confidence intervals. 
+Observed - Computed residuals are all within 99% confidence intervals for all three epochs. 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Graphs/Z%20Scores%20of%20Observed%20-%20Computed.png" width="500">
 
