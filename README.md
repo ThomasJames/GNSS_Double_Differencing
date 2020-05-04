@@ -427,5 +427,10 @@ Distance between Pillar 1A and updated coordinates for Pillar 3A
 
 This shows a 0.116 change in range.
 
+## Observed - Computed residuals are all within 99% confidence intervals. 
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Graphs/Z%20Scores%20of%20Observed%20-%20Computed.png" width="500">
+
+
 
 
