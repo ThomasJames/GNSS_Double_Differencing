@@ -373,11 +373,24 @@ linalg.inv(atwa)
 
 ### RESULT
 
+X update = 0.14130538
+Y update = -0.12730074
+Z update = 0.13206799
 
+Updated Cooridnates: 4929605.54130538 
+Updated Cooridnates: -29123.82730074 
+Updated Cooridnates: 4033603.93206799 
 
 ## Quality Assessment:
 
-The distance between the two pillars is approximatley 94.4m 
-This is used to quantify accuracty.
+The distance between the two pillars is approximatley 94.4m. 
+
+Distance between Pillar 1A and Nominal coordinates for Pillar 3A: 
+94.28730054994608
+
+Distance between Pillar 1A and updated coordinates for Pillar 3A
+94.40332639974088
+
+
 
 
