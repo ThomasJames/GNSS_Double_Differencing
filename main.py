@@ -1,7 +1,7 @@
 from math import sqrt, cos, sin, degrees, acos
 import numpy as np
 from numpy import transpose, linalg
-from Computations import DD, Variance, matrix_heatmap, vector_heatmap, flipped_vector_heatmap
+from Computations import DD, Variance, matrix_heatmap, vector_heatmap, flipped_vector_heatmap, MatrixOperations
 import matplotlib.pyplot as plt
 import seaborn as sns
 from typing import List
@@ -221,19 +221,6 @@ D = np.array([[1, -1, 0, 0, 0, 0, 0, 0],
               [1, 0, 0, 0, 0, 0, 0, -1]])
 
 
-# DSCl(DS)^T
-def Cd_calculator(D, S, Cl):
-    return (((D.dot(S)).dot(Cl)).dot(transpose((D.dot(S)))))
-
-
-def calculate_x_hat(A, W, b):
-    return (((linalg.inv((transpose(A).dot(W)).dot(A))).dot(transpose(A)).dot(W))).dot(b)
-
-
-def ATWA(A, W):
-    return ((transpose(A)).dot(W)).dot(A)
-
-
 if __name__ == "__main__":
 
     flipped_vector_heatmap(variance_vector, "Variances")
@@ -320,7 +307,8 @@ if __name__ == "__main__":
     DIM: 7 x 7 
     """
 
-    Cd = (Cd_calculator(D, S, cl))
+    Cd = MatrixOperations(D=D, S=S, Cl=cl)
+    Cd = Cd.Cd_calculator()
     matrix_heatmap(Cd, "covariance matrix of the double differences (Cd)")
 
     """
@@ -385,13 +373,15 @@ if __name__ == "__main__":
     """
     Output the ATWA matrix 
     """
-    atwa = ATWA(A, Wd)
+    atwa = MatrixOperations(A=A, W=Wd)
+    atwa = atwa.ATWA()
     matrix_heatmap(atwa, "ATWA")
 
     """
     Output the (ATWA)^-1 matrix 
     """
     inverse_atwa = linalg.inv(atwa)
+
     matrix_heatmap(inverse_atwa, "(ATWA)^-1")
 
     ATWb = (transpose(A).dot(Wd)).dot(b)

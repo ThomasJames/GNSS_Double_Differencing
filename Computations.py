@@ -212,8 +212,8 @@ class MatrixOperations:
     def calculate_x_hat(self):
         try:
             return \
-                ((linalg.inv((transpose(self.A).dot(self.W)).dot(self.A))).dot(transpose(self.A).dot(self.W))).dot(
-                    self.b)
+                ((linalg.inv((transpose(self.A).dot(self.W)).dot(self.A))).dot(transpose(self.A))
+                 .dot(self.W)).dot(self.b)
         except IOError:
             print("Calculate_x_hat failed")
 
