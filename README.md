@@ -65,7 +65,7 @@ This method calculates the satellite angle of elevation in the following stages:
 Calculates the distance of receiver to the satellite (m) using pythagoras theorem.                   
 Calculates the distance between the earth center and the satellite (m) using pythagoras theorem.     
 Calculates the distance between the earth center and the receiver (m) using pythagoras theorem.      
-These ranges make up a scalene triangle, where all ranges are known.                                 
+These ranges make up a scalene triangle, where all ranges/sides are known.                                 
 The low of cosines is used to calculate the angle about the receiver in degrees.                     
 90 is subtracted from this angle to get the local elevation angle.                                   
 The method then calculates the variance of the satellite at the calculated angle.                    
@@ -114,16 +114,18 @@ returns the variance as a float
         
 
 ```
+Satellites ordered top to bottom: G24, G19, G18, G7, G15, G13, G12, G10
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Degrees%20Vector.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Radians%20Vector.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Variances%20Vector.png" width="300">
 
-(Elevation angles depicted here are to scale) 
+(Elevation angles are representative) 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Angles.png" width="600">
 
 ### l (Observations) vector 
 
 This is the vector of raw observations.
+UNITS: L1C (L1 cycles)
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Vector%20of%20observations%20(l)%20Vector.png" width="500">
 
@@ -138,6 +140,8 @@ This matrix is used to generate a vector of single differences.
 
 The dot product of the differencing matrix (S) and the vector of observations (l) generates the vector of single differences.
 The following code was used compute this:
+
+UNITS: L1C (L1 cycles)
 
 ```
 sl = S.dot(l)   
@@ -156,6 +160,8 @@ This matrix is used to generate values for the double differences of the observa
 The dot product of the double differencing matrix (D) and the vector of single differences generates the vector of double differences of the observations. 
 The following code was used to compute this.
 
+UNITS: L1C (L1 cycles)
+
 ```
 Dsl = D.dot(sl)     
 ```
@@ -172,6 +178,8 @@ In the code, this has been stored into the variable ``` DD_s_p_a``` This value i
 2. The range terms are computed from the satellite coordinates. These are then used to generate a value of the computed measurement. These are multiplied by 1/wavelength to convert from meters into cycles.
 
 3. The observed measurement is subtracted from the computed measurement.
+
+UNITS: meteres
 
 ``` 
 # This function is used to compute satelite - receiver ranges.
@@ -391,6 +399,7 @@ Distance between Pillar 1A and Nominal coordinates for Pillar 3A:
 Distance between Pillar 1A and updated coordinates for Pillar 3A
 94.403m
 
+This shows a 0.116 change in range.
 
 
 
