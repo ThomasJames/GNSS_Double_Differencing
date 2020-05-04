@@ -373,13 +373,13 @@ linalg.inv(atwa)
 
 ### RESULT
 
-X update = 0.14130538
-Y update = -0.12730074
-Z update = 0.13206799
+#### X update = 0.14130538
+#### Y update = -0.12730074
+#### Z update = 0.13206799
 
-Updated Cooridnates: 4929605.54130538 
-Updated Cooridnates: -29123.82730074 
-Updated Cooridnates: 4033603.93206799 
+#### Updated Cooridnates: 4929605.54130538 
+#### Updated Cooridnates: -29123.82730074 
+#### Updated Cooridnates: 4033603.93206799 
 
 ## Quality Assessment:
 
