@@ -65,7 +65,7 @@ This method calculates the satellite angle of elevation in the following stages:
 Calculates the distance of receiver to the satellite (m) using pythagoras theorem.                   
 Calculates the distance between the earth center and the satellite (m) using pythagoras theorem.     
 Calculates the distance between the earth center and the receiver (m) using pythagoras theorem.      
-These ranges make up a scalene triangle, where all ranges are known.                                 
+These ranges make up a scalene triangle, where all ranges/sides are known.                                 
 The low of cosines is used to calculate the angle about the receiver in degrees.                     
 90 is subtracted from this angle to get the local elevation angle.                                   
 The method then calculates the variance of the satellite at the calculated angle.                    
@@ -117,7 +117,7 @@ returns the variance as a float
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Degrees%20Vector.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Radians%20Vector.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Variances%20Vector.png" width="300">
 
-(Elevation angles depicted here are to scale) 
+(Elevation angles are representative) 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Satellite_Angles.png" width="600">
 
@@ -391,6 +391,7 @@ Distance between Pillar 1A and Nominal coordinates for Pillar 3A:
 Distance between Pillar 1A and updated coordinates for Pillar 3A
 94.403m
 
+This shows a 0.116 change in range.
 
 
 
