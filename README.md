@@ -114,6 +114,7 @@ returns the variance as a float
         
 
 ```
+Satellites ordered top to bottom: G24, G19, G18, G7, G15, G13, G12, G10
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Degrees%20Vector.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Radians%20Vector.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Variances%20Vector.png" width="300">
 
