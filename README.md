@@ -26,7 +26,7 @@ Use double differenced phase measurements, from the first epoch of data only (20
 
 ## Prerequisites 
 
-Python 3
+``` Python 3``` 
 
 The following libraries must be installed:
 
@@ -371,13 +371,26 @@ linalg.inv(atwa)
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/(ATWA)%5E-1%20Matrix.png" width="500">
 
-### RESULT
+## RESULT
 
+##### X update = 0.14130538m
+##### Y update = -0.12730074m
+##### Z update = 0.13206799m
 
+##### Updated Cooridnates: 4929605.54130538 
+##### Updated Cooridnates: -29123.82730074 
+##### Updated Cooridnates: 4033603.93206799 
 
 ## Quality Assessment:
 
-The distance between the two pillars is approximatley 94.4m 
-This is used to quantify accuracty.
+The distance between the two pillars is approximatley 94.4m. 
+
+Distance between Pillar 1A and Nominal coordinates for Pillar 3A: 
+94.287m
+
+Distance between Pillar 1A and updated coordinates for Pillar 3A
+94.403m
+
+
 
 
