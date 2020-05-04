@@ -125,6 +125,7 @@ Satellites ordered top to bottom: G24, G19, G18, G7, G15, G13, G12, G10
 ### l (Observations) vector 
 
 This is the vector of raw observations.
+UNITS: L1C (L1 cycles)
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Vector%20of%20observations%20(l)%20Vector.png" width="500">
 
@@ -139,6 +140,8 @@ This matrix is used to generate a vector of single differences.
 
 The dot product of the differencing matrix (S) and the vector of observations (l) generates the vector of single differences.
 The following code was used compute this:
+
+UNITS: L1C (L1 cycles)
 
 ```
 sl = S.dot(l)   
@@ -157,6 +160,8 @@ This matrix is used to generate values for the double differences of the observa
 The dot product of the double differencing matrix (D) and the vector of single differences generates the vector of double differences of the observations. 
 The following code was used to compute this.
 
+UNITS: L1C (L1 cycles)
+
 ```
 Dsl = D.dot(sl)     
 ```
@@ -173,6 +178,8 @@ In the code, this has been stored into the variable ``` DD_s_p_a``` This value i
 2. The range terms are computed from the satellite coordinates. These are then used to generate a value of the computed measurement. These are multiplied by 1/wavelength to convert from meters into cycles.
 
 3. The observed measurement is subtracted from the computed measurement.
+
+UNITS: meteres
 
 ``` 
 # This function is used to compute satelite - receiver ranges.
