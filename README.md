@@ -381,13 +381,39 @@ linalg.inv(atwa)
 
 ## RESULT
 
+### EPOCH 1
 ##### X update = 0.14130538m
 ##### Y update = -0.12730074m
 ##### Z update = 0.13206799m
 
-##### Updated Cooridnates: 4929605.54130538 
-##### Updated Cooridnates: -29123.82730074 
-##### Updated Cooridnates: 4033603.93206799 
+##### Updated X Cooridnates: 4929605.54130538 
+##### Updated Y Cooridnates: -29123.82730074 
+##### Updated Z Cooridnates: 4033603.93206799 
+
+### EPOCH 2
+##### X update = 0.1410819m
+##### Y update = -0.12767789m
+##### Z update = 0.13099312m
+
+##### Updated X Cooridnates: 4929605.5410819
+##### Updated Y Cooridnates: -29123.82767789 
+##### Updated Z Cooridnates: 4033603.93099312
+
+### EPOCH 3
+##### X update = 0.13911663m
+##### Y update = -0.12739046m
+##### Z update = 0.13271809m
+
+##### Updated X Cooridnates: 4929605.53911663 
+##### Updated Y Cooridnates: -29123.82739046
+##### Updated Z Cooridnates: 4033603.93271809
+
+## Position Solution as an average of 3 Epochs.
+
+##### Averaged X Cooridnates: 4929605.540501303
+##### Averaged Y Cooridnates: -29123.82745636333
+##### Averaged Z Cooridnates: 4033603.9319264
+
 
 ## Quality Assessment:
 
