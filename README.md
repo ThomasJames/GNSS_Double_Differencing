@@ -371,7 +371,7 @@ linalg.inv(atwa)
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/(ATWA)%5E-1%20Matrix.png" width="500">
 
-### RESULT
+## RESULT
 
 #### X update = 0.14130538
 #### Y update = -0.12730074
