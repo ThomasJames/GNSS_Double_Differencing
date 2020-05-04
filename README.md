@@ -26,7 +26,7 @@ Use double differenced phase measurements, from the first epoch of data only (20
 
 ## Prerequisites 
 
-Python 3
+``` Python 3``` 
 
 The following libraries must be installed:
 
@@ -373,13 +373,13 @@ linalg.inv(atwa)
 
 ## RESULT
 
-#### X update = 0.14130538m
-#### Y update = -0.12730074m
-#### Z update = 0.13206799m
+##### X update = 0.14130538m
+##### Y update = -0.12730074m
+##### Z update = 0.13206799m
 
-#### Updated Cooridnates: 4929605.54130538 
-#### Updated Cooridnates: -29123.82730074 
-#### Updated Cooridnates: 4033603.93206799 
+##### Updated Cooridnates: 4929605.54130538 
+##### Updated Cooridnates: -29123.82730074 
+##### Updated Cooridnates: 4033603.93206799 
 
 ## Quality Assessment:
 
