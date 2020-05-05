@@ -50,7 +50,7 @@ The original [text file](https://github.com/ThomasJames/GNSS_Data_(text).txt) is
 
 ## Method 
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Method_Flowchart.png" width="600">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Diagrams/Method_Flowchart.png" width="700">
 
 Satellite G24 has the highest elevation of apprixmatley 71 degrees. This satellite is used as the reference satellite.
 
@@ -71,7 +71,7 @@ The low of cosines is used to calculate the angle about the receiver in degrees.
 The method then calculates the variance of the satellite at the calculated angle.                    
 returns the variance as a float    
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/Elevations:Variance.png" width="600">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/Elevations:Variance.png" width="800">
 
 The code to achieve this is here:
 ```
