@@ -373,8 +373,8 @@ class DD:
 
 ``` 
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Design%20(A)%20Matrix.png" width="500">
-
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/Design(A).png" width="500">
+ 
 ### Calculating the updates:
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/Xhat.png" width="500">
