@@ -71,7 +71,7 @@ The low of cosines is used to calculate the angle about the receiver in degrees.
 The method then calculates the variance of the satellite at the calculated angle.                    
 returns the variance as a float    
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/Elevations.png" width="600">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/Elevations:Variance.png" width="600">
 
 The code to achieve this is here:
 ```
