@@ -69,8 +69,11 @@ These ranges make up a scalene triangle, where all ranges/sides are known.
 The low of cosines is used to calculate the angle about the receiver in degrees.                     
 90 is subtracted from this angle to get the local elevation angle.                                   
 The method then calculates the variance of the satellite at the calculated angle.                    
-returns the variance as a float                                                                      
+returns the variance as a float    
 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/Elevations.png" width="600">
+
+The code to achieve this is here:
 ```
     def elevation_variance_calculator(self) -> float:
 
@@ -114,7 +117,7 @@ returns the variance as a float
         
 
 ```
-Satellites ordered top to bottom: G24, G19, G18, G7, G15, G13, G12, G10
+Satellites ordered top to bottom: G24, G19, G18, G17, G15, G13, G12, G10
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Degrees%20Vector.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Radians%20Vector.png" width="300"><img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Variances%20Vector.png" width="300">
 
@@ -126,6 +129,8 @@ Satellites ordered top to bottom: G24, G19, G18, G7, G15, G13, G12, G10
 
 This is the vector of raw observations.
 UNITS: L1C (L1 cycles)
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/l.png" width="500">
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Vector%20of%20observations%20(l)%20Vector.png" width="500">
 
@@ -139,14 +144,14 @@ This matrix is used to generate a vector of single differences.
 ### Sl (Vector of single differences)
 
 The dot product of the differencing matrix (S) and the vector of observations (l) generates the vector of single differences.
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/sl.png" width="500">
+
 The following code was used compute this:
-
-UNITS: L1C (L1 cycles)
-
 ```
 sl = S.dot(l)   
 ```
-
+UNITS: L1C (L1 cycles)
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Vector%20of%20single%20differences%20(sl)%20Vector.png" width="500">
 
 ### D (Doube differencing) Matrix 
@@ -162,6 +167,9 @@ The following code was used to compute this.
 
 UNITS: L1C (L1 cycles)
 
+
+
+Code:
 ```
 Dsl = D.dot(sl)     
 ```
@@ -179,8 +187,11 @@ In the code, this has been stored into the variable ``` DD_s_p_a``` This value i
 
 3. The observed measurement is subtracted from the computed measurement.
 
-UNITS: meteres
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/b.png" width="500">
 
+UNITS: meters
+
+The code to achieve this is here:
 ``` 
 # This function is used to compute satelite - receiver ranges.
 def distance(point_1: List[float], point_2: List[float]) -> float:
@@ -230,6 +241,8 @@ cl = np.eye(16, 16) * variance_vector
 
 ### Cd (Covariance) Matrix 
 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/Cd.png" width="500">
+
 ``` 
 def Cd_calculator(D, S, Cl):                                              
     return (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))      
@@ -239,6 +252,9 @@ def Cd_calculator(D, S, Cl):
 
 ### Wd (Weight) Matrix 
 
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/W.png" width="500">
+
+The code to compute this is here:
 ``` 
 Wd = linalg.inv(Cd)      
 ``` 
@@ -249,15 +265,11 @@ Wd = linalg.inv(Cd)
 
 The design matrix was populated with the partial derivitives of the double difference observation equations with respect to the unknowns. 
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Hand%20Calculations/Partial%20Derivitives%20Hand%20calculation.jpg" width="500">
 
-Where:
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/A.1.png" width="500">
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Hand%20Calculations/Denominator%20(Hand%20calculation).JPG" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/A.2.png" width="500">
 
-The Design matrix was then populated with these values 
-
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Hand%20Calculations/Populated%20Design%20Matrix%20(hand%20drawn).jpg" width="500">
 
 NOTE: Phase ambiguity terms are not included.
 
@@ -361,6 +373,10 @@ class DD:
 ``` 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Design%20(A)%20Matrix.png" width="500">
+
+### Calculating the updates:
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/Xhat.png" width="500">
 
 ### ATWA Matrix 
 
