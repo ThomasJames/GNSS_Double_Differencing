@@ -269,9 +269,7 @@ Wd = linalg.inv(Cd)
 The design matrix was populated with the partial derivitives of the double difference observation equations with respect to the unknowns. 
 
 
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/A.1.png" width="500">
-
-<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/A.2.png" width="500">
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/A.png" width="500">
 
 
 NOTE: Phase ambiguity terms are not included.
