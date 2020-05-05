@@ -162,7 +162,10 @@ This matrix is used to generate values for the double differences of the observa
 
 ### DSl (Vector of Double Differences of Observations)
 
-The dot product of the double differencing matrix (D) and the vector of single differences generates the vector of double differences of the observations. 
+The dot product of the double differencing matrix (D) and the vector of single differences generates the vector of double differences of the observations
+
+<img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/DSl.png" width="500">
+
 The following code was used to compute this.
 
 UNITS: L1C (L1 cycles)
