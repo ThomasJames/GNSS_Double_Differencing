@@ -237,8 +237,10 @@ Step 2: This matrix is multiplied by the vector of variances (Computed from sate
 
 This following code was used to make this computations: 
 ``` 
-cl = np.eye(16, 16) * variance_vector  
+cl = np.eye(16, 16) * (1 / wl * variance_vector) # Convert to meters
 ``` 
+
+UNITS: Meters 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Covariance%20matrix%20of%20observations%20(cl)%20Matrix.png" width="500">
 
@@ -262,12 +264,15 @@ The code to compute this is here:
 Wd = linalg.inv(Cd)      
 ``` 
 
+UNITS: Meters 
+
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/Weight%20(Wd)%20Matrix.png" width="500">
 
 ### A (Design) Martix
 
 The design matrix was populated with the partial derivitives of the double difference observation equations with respect to the unknowns. 
 
+UNITS: Meters 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/A.png" width="500">
 
@@ -381,6 +386,8 @@ class DD:
 
 ### ATWA Matrix 
 
+UNITS: Meters 
+
 ``` 
 def ATWA(A, W):                            
     return ((transpose(A)).dot(W)).dot(A)      
@@ -389,6 +396,8 @@ def ATWA(A, W):
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/ATWA%20Matrix.png" width="500">
 
 ### (ATWA)^-1 Matrix
+
+UNITS: Meters 
 
 ``` 
 linalg.inv(atwa)   
