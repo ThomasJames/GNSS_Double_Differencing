@@ -252,6 +252,7 @@ UNITS: Meters
 def Cd_calculator(D, S, Cl):                                              
     return (((D.dot(S)).dot(Cl)).dot(transpose(S))).dot(transpose(D))      
 ``` 
+UNITS: Meters 
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Matrices/covariance%20matrix%20of%20the%20double%20differences%20(Cd)%20Matrix.png" width="500">
 
