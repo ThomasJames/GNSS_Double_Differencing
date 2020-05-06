@@ -286,8 +286,8 @@ if __name__ == "__main__":
     UNITS: Cycles
     DIM: 16 x 16 
     """
-
-    cl = np.eye(16, 16) * (1 / wl * variance_vector)  # back to cycles
+                               
+    cl = np.eye(16, 16) * (1 / wl * variance_vector)  # (1/wl to convert from cycles to meters)
     matrix_heatmap(cl, "Covariance matrix of observations (cl)")
 
     """
