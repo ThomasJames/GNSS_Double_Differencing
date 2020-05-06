@@ -192,8 +192,6 @@ In the code, this has been stored into the variable ``` DD_s_p_a``` This value i
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Calculations/b.png" width="500">
 
-UNITS: meters
-
 The code to achieve this is here:
 ``` 
 # This function is used to compute satelite - receiver ranges.
@@ -224,6 +222,8 @@ def calc_b_vector(wl: float, DD_s_p_a: float, brrs: float, rrrs: float, brcs: fl
     return o - c                                                         
                                                                              
 ``` 
+
+UNITS: meters
 
 <img src="https://github.com/ThomasJames/GNSS_Double_Differencing/blob/master/Vectors/Observed%20-%20Computed%20Vector.png" width="500">
 
